@@ -150,6 +150,7 @@ export default function RootLayout({ children }) {
       className={`${instrumentSerif.variable} ${geist.variable} ${jetbrainsMono.variable}`}
     >
       <head>
+        <meta name="google-site-verification" content="g3j4qIYK5RN1nqklATUZCV3vDYOfM1P60ONW2QA7mKc" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
