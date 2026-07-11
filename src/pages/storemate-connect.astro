@@ -32,6 +32,54 @@ const features = [
   },
 ];
 
+const featureGroups = [
+  {
+    title: 'Comment & DM automation',
+    items: [
+      'Trigger on any comment, or only on specific keywords',
+      'Reply via public comment, DM, or both at once',
+      'Up to 3 buttons per DM reply — open a link, or send a scripted follow-up',
+      'Follow-to-unlock gating — require a follow before the DM content unlocks',
+      'Per-rule enable/disable toggle, no need to delete and rebuild',
+    ],
+  },
+  {
+    title: 'DM automation tools',
+    items: [
+      'Ice-breaker quick-reply buttons for new conversations',
+      'Keyword-triggered DM replies',
+      'Story-reply automation — reply automatically when someone reacts to your story',
+      'Welcome message for a customer\u2019s very first DM',
+      'Default fallback reply for anything that doesn\u2019t match a keyword',
+      'Away message scheduling, set by day of week and time',
+    ],
+  },
+  {
+    title: 'Content & media',
+    items: [
+      'Grid view of all your Reels and posts, pulled directly from Instagram',
+      'Filter by all / posts / reels, with adjustable page size',
+      'Assign or edit automation rules directly from the grid',
+    ],
+  },
+  {
+    title: 'Activity & reporting',
+    items: [
+      'Unified activity feed — every automated comment and DM reply in one place',
+      'Summary stats at a glance',
+      'Filter by comments or DMs',
+    ],
+  },
+  {
+    title: 'WhatsApp automation',
+    items: [
+      'Broadcast messaging to your customer list',
+      'New-arrival and offer announcements sent in one message',
+    ],
+    soon: true,
+  },
+];
+
 const faqs = [
   {
     q: 'Is this against Instagram\u2019s rules?',
@@ -87,6 +135,41 @@ const faqs = [
             </div>
             <h3>{f.title}</h3>
             <p>{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="breakdown-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow eyebrow--violet">The full picture</span>
+        <h2 id="breakdown-heading" class="h3">Every feature, by category.</h2>
+        <p class="lede" style="margin-top: 1rem;">
+          A closer look at what's inside StoreMate Connect — organized the way you'd actually use it.
+        </p>
+      </div>
+
+      <div class="breakdown-grid">
+        {featureGroups.map((group, i) => (
+          <div class:list={['breakdown-card', 'corner-frame', 'corner-frame--connect', 'reveal', { 'breakdown-card--soon': group.soon }]}>
+            <CornerMarks />
+            <div class="breakdown-card__top">
+              <span class="breakdown-card__index">{String(i + 1).padStart(2, '0')}</span>
+              {group.soon && <span class="badge badge--soon">Coming soon</span>}
+            </div>
+            <h3>{group.title}</h3>
+            <ul class="breakdown-card__list">
+              {group.items.map((item) => (
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
@@ -174,6 +257,62 @@ const faqs = [
   }
 
   .feature-card__mark { width: 2rem; height: 2rem; }
+
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-5;
+
+    @media (max-width: 780px) { grid-template-columns: 1fr; }
+  }
+
+  .breakdown-card {
+    padding: $space-6;
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &:hover { transform: translateY(-3px); box-shadow: $shadow-soft; }
+
+    h3 { margin-top: $space-3; font-size: $fs-h6; }
+  }
+
+  .breakdown-card--soon { background: $paper-alt; }
+
+  .breakdown-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .breakdown-card__index {
+    font-weight: $fw-black;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: $secondary;
+  }
+
+  .breakdown-card__list {
+    margin-top: $space-4;
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $space-3;
+      color: $ink-soft;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 4px;
+      color: $secondary;
+    }
+  }
 
   .pair { display: flex; justify-content: center; }
 

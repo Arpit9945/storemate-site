@@ -1,279 +1,638 @@
 ---
-import { site } from '../config/site';
+import { site } from "../config/site";
 
 interface Props {
-  active?: 'home' | 'products' | 'crm' | 'connect' | 'services' | 'about' | 'contact';
+  active?:
+    "home" | "products" | "crm" | "connect" | "services" | "about" | "contact";
 }
 const { active } = Astro.props;
-const productsActive = active === 'products' || active === 'crm' || active === 'connect';
+const productsActive =
+  active === "products" || active === "crm" || active === "connect";
+
+const navLinks = [
+  { href: "/services", label: "Services", key: "services" },
+  { href: "/about", label: "About", key: "about" },
+  { href: "/contact", label: "Contact", key: "contact" },
+];
 ---
 
-<header class="site-header">
-  <div class="container site-header__inner">
-    <a href="/" class="brand" aria-label={`${site.name} home`}>
-      <img src="/images/logo.png" alt="" width="36" height="36" class="brand__mark" />
-      <span class="brand__name">{site.name}</span>
+<div class="hdr-gradient-bar" aria-hidden="true"></div>
+<header class="site-header" id="siteHeader">
+  <div class="hdr-container">
+    <a href="/" class="hdr-brand" aria-label={`${site.name} home`}>
+      <img
+        src="/images/logo.png"
+        alt=""
+        width="34"
+        height="34"
+        class="hdr-brand__img"
+      />
+      <span class="hdr-brand__name">{site.name}</span>
     </a>
 
-    <nav class="nav" aria-label="Primary">
-      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
-        <span class="sr-only">Toggle menu</span>
-        <span class="nav__toggle-bar"></span>
-        <span class="nav__toggle-bar"></span>
-        <span class="nav__toggle-bar"></span>
-      </button>
+    <!-- Desktop nav -->
+    <nav class="hdr-nav" aria-label="Primary">
+      <div class="hdr-nav__dropdown" id="desktopDropdown">
+        <button
+          type="button"
+          class:list={["hdr-nav__link", { "is-active": productsActive }]}
+          id="desktopDropdownTrigger"
+          aria-expanded="false"
+        >
+          Products
+          <svg class="hdr-caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="hdr-dropdown-panel" id="desktopPanel">
+          <a href="/storemate-crm" class:list={["hdr-dd-item", { "is-active": active === "crm" }]}>
+            <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
+            <span class="hdr-dd-text">
+              <span class="hdr-dd-title">StoreMate CRM</span>
+              <span class="hdr-dd-sub">Jewellery business management</span>
+            </span>
+          </a>
+          <a href="/storemate-connect" class:list={["hdr-dd-item", { "is-active": active === "connect" }]}>
+            <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
+            <span class="hdr-dd-text">
+              <span class="hdr-dd-title">StoreMate Connect</span>
+              <span class="hdr-dd-sub">Instagram & WhatsApp automation</span>
+            </span>
+          </a>
+          <a href="/products" class="hdr-dd-all">View all products <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
 
-      <ul class="nav__menu" id="navMenu">
-        <li class="nav__dropdown">
-          <button
-            type="button"
-            class="nav__dropdown-trigger"
-            class:list={{ 'is-active': productsActive }}
-            aria-expanded="false"
-            aria-controls="productsDropdown"
-          >
-            Products
-            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <div class="nav__dropdown-panel" id="productsDropdown">
-            <a href="/storemate-crm" class:list={{ 'is-active': active === 'crm' }}>
-              <span class="nav__dropdown-item-title">StoreMate CRM</span>
-              <span class="nav__dropdown-item-sub">Jewellery business management</span>
-            </a>
-            <a href="/storemate-connect" class:list={{ 'is-active': active === 'connect' }}>
-              <span class="nav__dropdown-item-title">StoreMate Connect</span>
-              <span class="nav__dropdown-item-sub">Instagram & WhatsApp automation</span>
-            </a>
-            <a href="/products" class="nav__dropdown-item-all">View all products &rarr;</a>
-          </div>
-        </li>
-        <li><a href="/services" class:list={{ 'is-active': active === 'services' }}>Services</a></li>
-        <li><a href="/about" class:list={{ 'is-active': active === 'about' }}>About</a></li>
-        <li><a href="/contact" class:list={{ 'is-active': active === 'contact' }}>Contact</a></li>
-        <li class="nav__cta-mobile">
-          <a href={site.products.crm.url} class="btn btn--primary btn--sm">Open CRM</a>
-        </li>
-      </ul>
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={["hdr-nav__link", { "is-active": active === link.key }]}
+        >
+          {link.label}
+        </a>
+      ))}
     </nav>
 
-    <a href={site.products.crm.url} class="btn btn--primary btn--sm nav__cta-desktop">Open CRM</a>
+    <div class="hdr-right">
+      <a href={site.products.crm.url} class="btn btn--primary btn--sm hdr-cta-desktop">Open CRM</a>
+
+      <button
+        class="hdr-burger"
+        id="burgerBtn"
+        type="button"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        <span class="hdr-burger__line"></span>
+        <span class="hdr-burger__line"></span>
+        <span class="hdr-burger__line"></span>
+      </button>
+    </div>
   </div>
 </header>
 
-<style lang="scss">
-  @use '../styles/tokens' as *;
+<!-- Mobile fullscreen nav -->
+<div class="mob" id="mobNav" aria-hidden="true">
+  <div class="mob__overlay" id="mobOverlay"></div>
+  <div class="mob__sheet">
+    <div class="mob__head">
+      <a href="/" class="hdr-brand">
+        <img src="/images/logo.png" alt="" width="30" height="30" class="hdr-brand__img" />
+        <span class="hdr-brand__name">{site.name}</span>
+      </a>
+      <button class="mob__x" id="mobClose" type="button" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
 
-  .site-header {
+    <nav class="mob__links">
+      <div class="mob__accordion">
+        <button type="button" class="mob__link mob__acc-trigger" id="mobAccTrigger">
+          Products
+          <svg class="hdr-caret" width="12" height="7" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <div class="mob__acc-body" id="mobAccBody">
+          <a href="/storemate-crm" class="hdr-dd-item">
+            <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
+            <span class="hdr-dd-text">
+              <span class="hdr-dd-title">StoreMate CRM</span>
+              <span class="hdr-dd-sub">Jewellery business management</span>
+            </span>
+          </a>
+          <a href="/storemate-connect" class="hdr-dd-item">
+            <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
+            <span class="hdr-dd-text">
+              <span class="hdr-dd-title">StoreMate Connect</span>
+              <span class="hdr-dd-sub">Instagram & WhatsApp automation</span>
+            </span>
+          </a>
+          <a href="/products" class="hdr-dd-all">View all products <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={["mob__link", { "is-active": active === link.key }]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <a href={site.products.crm.url} class="btn btn--primary mob__cta">Open StoreMate CRM</a>
+  </div>
+</div>
+
+<style lang="scss">
+  @use "../styles/tokens" as *;
+
+  /* ===== Gradient bar ===== */
+  .hdr-gradient-bar {
+    height: 3px;
+    background: $brand-gradient;
     position: sticky;
     top: 0;
-    z-index: 50;
-    background: rgba($paper, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid $line;
+    z-index: 51;
+    flex-shrink: 0;
   }
 
-  .site-header__inner {
+  /* ===== Header ===== */
+  .site-header {
+    position: sticky;
+    top: 3px;                   /* sits below the gradient bar */
+    z-index: 50;
+    background: rgba($paper, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid $line;
+    overflow: visible;          /* allow dropdown to escape */
+  }
+
+  .hdr-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 76px;
+    gap: $space-4;
+    max-width: $container-max;
+    margin: 0 auto;
+    padding: 0 $space-5;
+    height: 68px;
+
+    @media (min-width: 640px) { padding: 0 $space-6; }
   }
 
-  .brand {
+  /* ===== Brand ===== */
+  .hdr-brand {
     display: flex;
     align-items: center;
     gap: $space-2;
+    flex-shrink: 0;
   }
 
-  .brand__mark {
-    border-radius: 9px;
+  .hdr-brand__img {
+    border-radius: 8px;
+    flex-shrink: 0;
+    transition: transform $dur-base $ease-out;
   }
 
-  .brand__name {
+  .hdr-brand:hover .hdr-brand__img {
+    transform: rotate(-6deg) scale(1.06);
+  }
+
+  .hdr-brand__name {
     font-weight: $fw-black;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     letter-spacing: -0.02em;
     color: $ink;
+    white-space: nowrap;
   }
 
-  .nav__menu {
+  /* ===== Desktop nav ===== */
+  .hdr-nav {
     display: flex;
     align-items: center;
-    gap: $space-6;
-    font-weight: $fw-medium;
-    font-size: 0.95rem;
-
-    > li > a {
-      color: $ink-soft;
-      transition: color $dur-fast $ease-out;
-
-      &:hover, &.is-active { color: $primary; }
-    }
+    gap: $space-1;
   }
 
-  // ---- Products dropdown ------------------------------------------------
-  .nav__dropdown {
-    position: relative;
-
-    &:hover .nav__dropdown-panel,
-    &:focus-within .nav__dropdown-panel {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    &:hover .nav__dropdown-trigger svg,
-    &:focus-within .nav__dropdown-trigger svg {
-      transform: rotate(180deg);
-    }
-  }
-
-  .nav__dropdown-trigger {
+  .hdr-nav__link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+    padding: 8px 14px;
+    border-radius: $radius-pill;
     color: $ink-soft;
-    font: inherit;
-    transition: color $dur-fast $ease-out;
+    font-family: inherit;
+    font-weight: $fw-medium;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color $dur-fast $ease-out, background $dur-fast $ease-out;
 
-    svg { transition: transform $dur-base $ease-out; }
-
-    &:hover, &.is-active { color: $primary; }
+    &:hover { color: $ink; background: $paper-alt; }
+    &.is-active { color: $primary; background: $primary-tint; }
   }
 
-  .nav__dropdown-panel {
+  .hdr-caret {
+    flex-shrink: 0;
+    transition: transform $dur-base $ease-out;
+  }
+
+  /* --- Dropdown --- */
+  .hdr-nav__dropdown {
+    position: relative;
+  }
+
+  .hdr-dropdown-panel {
     position: absolute;
-    top: calc(100% + 14px);
-    left: 50%;
-    transform: translate(-50%, 6px);
-    width: 280px;
+    top: calc(100% + 10px);
+    left: 0;                    /* anchor left — never overflows right */
+    width: 300px;
     background: $paper;
     border: 1px solid $line;
     border-radius: $radius-md;
-    box-shadow: $shadow-lift;
+    box-shadow: 0 12px 40px -8px rgba($ink, 0.14);
     padding: $space-3;
     opacity: 0;
     visibility: hidden;
+    transform: translateY(6px);
     transition: opacity $dur-base $ease-out, transform $dur-base $ease-out, visibility $dur-base;
     z-index: 60;
+    pointer-events: none;
+  }
 
-    a {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      padding: $space-3 $space-4;
-      border-radius: $radius-sm;
-      transition: background $dur-fast $ease-out;
+  .hdr-nav__dropdown.is-open .hdr-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 
-      &:hover { background: $paper-alt; }
+  .hdr-nav__dropdown.is-open .hdr-caret {
+    transform: rotate(180deg);
+  }
+
+  /* --- Dropdown items (shared desktop + mobile) --- */
+  .hdr-dd-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-3;
+    padding: $space-3;
+    border-radius: $radius-sm;
+    transition: background $dur-fast $ease-out;
+
+    &:hover { background: $paper-alt; }
+    &.is-active { background: $paper-alt; }
+  }
+
+  .hdr-dd-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 3px;
     }
   }
 
-  .nav__dropdown-item-title {
+  .hdr-dd-icon--crm {
+    background: $primary-tint;
+    &::after { background: $primary; }
+  }
+
+  .hdr-dd-icon--connect {
+    background: $secondary-tint;
+    &::after { background: $secondary; border-radius: 50%; }
+  }
+
+  .hdr-dd-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .hdr-dd-title {
     font-weight: $fw-semibold;
     font-size: 0.9375rem;
     color: $ink;
   }
 
-  .nav__dropdown-item-sub {
+  .hdr-dd-sub {
     font-size: 0.8125rem;
     color: $muted;
   }
 
-  .nav__dropdown-item-all {
+  .hdr-dd-all {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: $space-1;
-    padding-top: $space-3 !important;
-    border-top: 1px solid $line;
+    padding: $space-3;
     font-size: 0.8125rem;
     font-weight: $fw-semibold;
-    color: $primary !important;
+    color: $primary;
+    border-top: 1px solid $line;
 
-    &:hover { background: transparent !important; }
+    span { transition: transform $dur-fast $ease-out; }
+    &:hover span { transform: translateX(3px); }
   }
 
-  .nav__cta-mobile { display: none; }
+  /* ===== Right side ===== */
+  .hdr-right {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    flex-shrink: 0;
+  }
 
-  .nav__toggle {
-    display: none;
+  .hdr-cta-desktop { flex-shrink: 0; }
+
+  /* ===== Burger ===== */
+  .hdr-burger {
+    display: none;              /* hidden on desktop */
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 5px;
-    padding: 8px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .nav__toggle-bar {
+  .hdr-burger__line {
+    display: block;
     width: 22px;
     height: 2px;
     background: $ink;
     border-radius: 2px;
+    transition: transform $dur-base $ease-out, opacity $dur-fast $ease-out;
+    transform-origin: center;
   }
 
-  @media (max-width: 860px) {
-    .nav__cta-desktop { display: none; }
+  .hdr-burger.is-active .hdr-burger__line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hdr-burger.is-active .hdr-burger__line:nth-child(2) { opacity: 0; }
+  .hdr-burger.is-active .hdr-burger__line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .nav__toggle { display: flex; }
+  /* ===== Responsive: show burger, hide desktop nav ===== */
+  @media (max-width: 900px) {
+    .hdr-nav { display: none; }
+    .hdr-cta-desktop { display: none; }
+    .hdr-burger { display: flex; }
+  }
 
-    .nav__menu {
-      position: fixed;
-      inset: 76px 0 0 0;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: $space-5;
-      padding: $space-6 $space-5;
-      background: $paper;
-      transform: translateX(100%);
-      transition: transform $dur-base $ease-out;
-      font-size: 1.1rem;
-      overflow-y: auto;
+  /* ========================================================
+     MOBILE NAV — full-screen slide-over sheet
+     ======================================================== */
+  .mob {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: flex-end;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .mob.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* backdrop */
+  .mob__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba($ink, 0.4);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity $dur-base $ease-out;
+  }
+
+  .mob.is-open .mob__overlay { opacity: 1; }
+
+  /* sheet */
+  .mob__sheet {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    height: 100%;
+    background: $paper;
+    box-shadow: -16px 0 48px rgba($ink, 0.15);
+    display: flex;
+    flex-direction: column;
+    padding: $space-5;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: translateX(100%);
+    transition: transform 0.35s $ease-out;
+  }
+
+  .mob.is-open .mob__sheet { transform: translateX(0); }
+
+  /* head */
+  .mob__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: $space-4;
+    margin-bottom: $space-4;
+    border-bottom: 1px solid $line;
+    flex-shrink: 0;
+  }
+
+  .mob__x {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: $ink;
+    border-radius: 50%;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: background $dur-fast $ease-out;
+
+    &:hover { background: $paper-alt; }
+  }
+
+  /* links */
+  .mob__links {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .mob__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-4 $space-2;
+    font-size: 1.05rem;
+    font-weight: $fw-medium;
+    color: $ink-soft;
+    border-bottom: 1px solid $line;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid $line;
+
+    &.is-active { color: $primary; }
+  }
+
+  /* accordion */
+  .mob__accordion {
+    border-bottom: 1px solid $line;
+  }
+
+  .mob__acc-trigger {
+    // inherits .mob__link styles via class combo
+    border-bottom: none !important;
+  }
+
+  .mob__acc-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s $ease-out;
+    overflow: hidden;
+  }
+
+  .mob__acc-body > :first-child {
+    /* This doesn't apply since we don't have an inner wrapper,
+       but we need the direct children to have min-height: 0 */
+  }
+
+  /* We need an inner wrapper for the grid trick. Let me use a different approach: max-height */
+  .mob__acc-body {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s $ease-out;
+  }
+
+  .mob__accordion.is-open .mob__acc-body {
+    max-height: 400px;          /* large enough to fit content */
+  }
+
+  .mob__accordion.is-open .hdr-caret {
+    transform: rotate(180deg);
+  }
+
+  .mob__acc-body .hdr-dd-item {
+    padding: $space-3 $space-2;
+  }
+
+  .mob__acc-body .hdr-dd-all {
+    padding: $space-3 $space-2;
+    margin-top: 0;
+  }
+
+  /* CTA */
+  .mob__cta {
+    margin-top: auto;
+    padding-top: $space-5;
+    text-align: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .mob__sheet,
+    .mob__overlay,
+    .hdr-dropdown-panel,
+    .hdr-burger__line,
+    .mob__acc-body {
+      transition: none !important;
     }
-
-    .nav__menu.is-open { transform: translateX(0); }
-
-    .nav__cta-mobile { display: block; margin-top: $space-4; }
-
-    .nav__dropdown { width: 100%; }
-
-    .nav__dropdown-trigger {
-      width: 100%;
-      justify-content: space-between;
-      font-size: 1.1rem;
-    }
-
-    .nav__dropdown-panel {
-      position: static;
-      opacity: 1;
-      visibility: visible;
-      transform: none;
-      display: none;
-      width: 100%;
-      box-shadow: none;
-      border: none;
-      background: $paper-alt;
-      margin-top: $space-2;
-      transition: none;
-    }
-
-    .nav__dropdown.is-open .nav__dropdown-panel { display: flex; flex-direction: column; }
-
-    .nav__dropdown.is-open .nav__dropdown-trigger svg { transform: rotate(180deg); }
   }
 </style>
 
 <script>
-  const toggle = document.getElementById('navToggle');
-  const menu = document.getElementById('navMenu');
-  toggle?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(!!isOpen));
+  // ---- Mobile nav ----
+  const burger = document.getElementById("burgerBtn");
+  const mobNav = document.getElementById("mobNav");
+  const mobOverlay = document.getElementById("mobOverlay");
+  const mobClose = document.getElementById("mobClose");
+
+  function openMob() {
+    mobNav?.classList.add("is-open");
+    mobNav?.setAttribute("aria-hidden", "false");
+    burger?.classList.add("is-active");
+    burger?.setAttribute("aria-expanded", "true");
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMob() {
+    mobNav?.classList.remove("is-open");
+    mobNav?.setAttribute("aria-hidden", "true");
+    burger?.classList.remove("is-active");
+    burger?.setAttribute("aria-expanded", "false");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    // reset accordion
+    document.getElementById("mobAccTrigger")?.closest(".mob__accordion")?.classList.remove("is-open");
+  }
+
+  burger?.addEventListener("click", () => {
+    burger.getAttribute("aria-expanded") === "true" ? closeMob() : openMob();
   });
 
-  // Mobile: tap "Products" to expand the dropdown inline instead of hover
-  const dropdownTrigger = document.querySelector('.nav__dropdown-trigger');
-  const dropdown = document.querySelector('.nav__dropdown');
-  dropdownTrigger?.addEventListener('click', (e) => {
-    if (window.innerWidth <= 860) {
-      e.preventDefault();
-      const isOpen = dropdown?.classList.toggle('is-open');
-      dropdownTrigger.setAttribute('aria-expanded', String(!!isOpen));
-    }
+  mobClose?.addEventListener("click", closeMob);
+  mobOverlay?.addEventListener("click", closeMob);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMob();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) closeMob();
+  });
+
+  // auto-close on link click
+  mobNav?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMob));
+
+  // ---- Mobile accordion ----
+  const accTrigger = document.getElementById("mobAccTrigger");
+  accTrigger?.addEventListener("click", () => {
+    accTrigger.closest(".mob__accordion")?.classList.toggle("is-open");
+  });
+
+  // ---- Desktop dropdown (hover + focus) ----
+  const ddWrap = document.getElementById("desktopDropdown");
+  const ddTrigger = document.getElementById("desktopDropdownTrigger");
+
+  function openDD() { ddWrap?.classList.add("is-open"); }
+  function closeDD() { ddWrap?.classList.remove("is-open"); }
+
+  ddWrap?.addEventListener("mouseenter", openDD);
+  ddWrap?.addEventListener("mouseleave", closeDD);
+  ddTrigger?.addEventListener("focus", openDD);
+  ddWrap?.addEventListener("focusout", (e) => {
+    if (!ddWrap.contains((e as FocusEvent).relatedTarget as Node)) closeDD();
   });
 </script>

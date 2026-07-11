@@ -5,20 +5,29 @@ import { site } from '../config/site';
 ---
 
 <BaseLayout
-  title="Software for jewellery businesses"
-  description="StoreMate is a registered software company building products for jewellery businesses — StoreMate CRM and StoreMate Connect — and taking on custom software services."
+  title="Software that feels like yours"
+  description="StoreMate is the studio behind StoreMate CRM and StoreMate Connect — purpose-built products and custom software services for businesses that refuse to settle for generic."
   active="home"
 >
   <!-- HERO -->
   <section class="hero grid-bg">
+    <div class="hero__particles" aria-hidden="true">
+      <span class="particle particle--1"></span>
+      <span class="particle particle--2"></span>
+      <span class="particle particle--3"></span>
+      <span class="particle particle--4"></span>
+      <span class="particle particle--5"></span>
+      <span class="particle particle--6"></span>
+    </div>
     <div class="container hero__inner">
-      <span class="eyebrow reveal">Registered software company · India</span>
+      <span class="eyebrow reveal">Software studio · India</span>
       <h1 class="h1 hero__title reveal">
-        Software built the way <span class="gradient-text">jewellers</span> actually work.
+        We build software that <span class="gradient-text">feels like yours.</span>
       </h1>
       <p class="lede hero__lede reveal">
-        StoreMate builds products for jewellery businesses — and builds custom software for
-        anyone who needs more than off-the-shelf. Two ways to work with one team.
+        Your business isn't generic — your software shouldn't be either.
+        From ready-to-use products to fully custom builds, StoreMate crafts
+        tools that fit the way you actually work.
       </p>
       <div class="hero__actions reveal">
         <a href="/products" class="btn btn--primary">Explore products</a>
@@ -173,6 +182,67 @@ import { site } from '../config/site';
     padding-block: $space-9 $space-8;
 
     @media (max-width: 640px) { padding-block: $space-7 $space-6; }
+  }
+
+  // ---- Floating particles (subtle ambient animation) ----------------------
+  .hero__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 12s infinite ease-in-out;
+  }
+
+  .particle--1 {
+    width: 6px; height: 6px;
+    background: $primary;
+    top: 20%; left: 10%;
+    animation-delay: 0s;
+  }
+  .particle--2 {
+    width: 4px; height: 4px;
+    background: $secondary;
+    top: 60%; left: 80%;
+    animation-delay: 2s;
+  }
+  .particle--3 {
+    width: 8px; height: 8px;
+    background: rgba($primary, 0.4);
+    top: 40%; left: 55%;
+    animation-delay: 4s;
+  }
+  .particle--4 {
+    width: 5px; height: 5px;
+    background: rgba($secondary, 0.5);
+    top: 75%; left: 25%;
+    animation-delay: 6s;
+  }
+  .particle--5 {
+    width: 3px; height: 3px;
+    background: $primary;
+    top: 15%; left: 70%;
+    animation-delay: 8s;
+  }
+  .particle--6 {
+    width: 7px; height: 7px;
+    background: rgba($secondary, 0.3);
+    top: 50%; left: 40%;
+    animation-delay: 10s;
+  }
+
+  @keyframes particleFloat {
+    0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+    15%  { opacity: 0.6; }
+    50%  { opacity: 0.3; transform: translateY(-40px) scale(1); }
+    85%  { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-80px) scale(0.5); }
   }
 
   .hero__inner {

@@ -31,6 +31,69 @@ const features = [
   },
 ];
 
+const featureGroups = [
+  {
+    title: 'Dashboard & insights',
+    items: [
+      'Time-range filtered business stats — today, or any custom date range',
+      'Live overview of orders, pending payments, and stock at a glance',
+      'Order and payment trend charts',
+      'Product-wise and payment-wise breakdowns',
+    ],
+  },
+  {
+    title: 'Customer management',
+    items: [
+      'Searchable customer directory',
+      'Full purchase, order, and loan history in one profile',
+      'Quick customer add during billing — no separate screen needed',
+    ],
+  },
+  {
+    title: 'Orders & billing',
+    items: [
+      'Multi-item order builder — pick from stock or enter manually',
+      'Gross/net weight, purity, HUID, and making charges (percentage or flat)',
+      'Old jewellery exchange (trade-in) built into the same order',
+      'Auto-calculated totals with discount and tax applied per item',
+      'Partial or full payment collection against any order',
+      'Downloadable, GST-ready PDF invoices',
+    ],
+  },
+  {
+    title: 'Inventory & stock',
+    items: [
+      'Category-based stock organization',
+      'Item-level weight, purity, making charge, and photos',
+      'Stock stats to see what\u2019s moving and what isn\u2019t',
+    ],
+  },
+  {
+    title: 'Loans (Jama / Girvi)',
+    items: [
+      'Loan creation against pledged jewellery, linked to a customer',
+      'Automatic monthly interest calculation from the loan start date',
+      'Due-date tracking with overdue flags',
+      'Partial repayment collection against interest or principal',
+    ],
+  },
+  {
+    title: 'Staff & access',
+    items: [
+      'Separate owner and staff login',
+      'Staff accounts scoped to what they need — counter, workshop, or full access',
+    ],
+  },
+  {
+    title: 'Store settings',
+    items: [
+      'General store profile — name, address, GST details',
+      'Offers and promotions management',
+      'Multiple invoice bill layout designs to choose from',
+    ],
+  },
+];
+
 const faqs = [
   {
     q: 'Do I need to change how I currently track inventory?',
@@ -82,6 +145,38 @@ const faqs = [
             <span class="facet-item__mark feature-card__mark" aria-hidden="true"></span>
             <h3>{f.title}</h3>
             <p>{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="breakdown-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The full picture</span>
+        <h2 id="breakdown-heading" class="h3">Every feature, by category.</h2>
+        <p class="lede" style="margin-top: 1rem;">
+          A closer look at what's inside StoreMate CRM — organized the way you'd actually use it.
+        </p>
+      </div>
+
+      <div class="breakdown-grid">
+        {featureGroups.map((group, i) => (
+          <div class="breakdown-card corner-frame reveal">
+            <CornerMarks />
+            <span class="breakdown-card__index">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{group.title}</h3>
+            <ul class="breakdown-card__list">
+              {group.items.map((item) => (
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
@@ -163,6 +258,54 @@ const faqs = [
   }
 
   .feature-card__mark { width: 2rem; height: 2rem; }
+
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-5;
+
+    @media (max-width: 780px) { grid-template-columns: 1fr; }
+  }
+
+  .breakdown-card {
+    padding: $space-6;
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &:hover { transform: translateY(-3px); box-shadow: $shadow-soft; }
+
+    h3 { margin-top: $space-2; font-size: $fs-h6; }
+  }
+
+  .breakdown-card__index {
+    font-weight: $fw-black;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: $primary;
+  }
+
+  .breakdown-card__list {
+    margin-top: $space-4;
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $space-3;
+      color: $ink-soft;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 4px;
+      color: $primary;
+    }
+  }
 
   .pair {
     display: flex;

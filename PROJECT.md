@@ -163,3 +163,19 @@ Changelog below after the change is made.
   professional/agency register. Updated Header with a Products dropdown + Services nav item,
   updated Footer with Products/Services columns, refreshed About/Home copy to reflect
   StoreMate as a registered company offering both products and services.
+- **2026-07-11 (later)** — Domain finalized to **storematehq.com** (`app.` / `connect.`
+  subdomains, `support@storematehq.com`, `+91 99092 83562`) — updated in `site.ts`,
+  `astro.config.mjs`, and `public/robots.txt`. **Repositioning:** StoreMate is NOT a
+  registered company — it's the parent studio/brand behind StoreMate CRM and StoreMate
+  Connect, which also takes on freelance/custom software services. Removed all "registered
+  company" language (Home, About, FAQ) in favor of "studio" / "team" framing. Rebuilt
+  `Header.astro` with a full-screen slide-in mobile nav (accordion for Products, smooth
+  transforms, backdrop, escape-to-close) and a more polished desktop dropdown (product icons,
+  hover-lift, better spacing) — replacing the earlier plain dropdown. Fixed a footer
+  consistency issue where dark CTA banners visually merged into the dark footer with no
+  separation — added a permanent `border-top` on `.site-footer`. Simplified Contact page
+  channels (Email / WhatsApp / Call, since only one email/number exists) instead of showing
+  a duplicate "Support" email card. Added a full categorized **feature breakdown** section to
+  both `/storemate-crm` and `/storemate-connect` (7 and 5 categories respectively, covering
+  every feature — not just headline highlights), making both product pages significantly
+  more thorough per request.

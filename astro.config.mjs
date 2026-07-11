@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://storemate.com', // 🔧 placeholder — update when domain is purchased (src/config/site.ts too)
+  site: 'https://storematehq.com',
   integrations: [sitemap()],
   compressHTML: true,
   build: {

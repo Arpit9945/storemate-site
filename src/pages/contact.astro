@@ -4,24 +4,29 @@ import PageHero from '../components/PageHero.astro';
 import CornerMarks from '../components/CornerMarks.astro';
 import { site } from '../config/site';
 
+const whatsappNumber = site.contact.whatsapp.replace(/[^0-9]/g, '');
+
 const channels = [
   {
     label: 'Email',
     value: site.contact.email,
     href: `mailto:${site.contact.email}`,
-    note: 'For general questions about StoreMate CRM or Connect.',
-  },
-  {
-    label: 'Support',
-    value: site.contact.supportEmail,
-    href: `mailto:${site.contact.supportEmail}`,
-    note: 'Already using StoreMate? Reach our support team directly.',
+    note: 'For questions about StoreMate CRM, Connect, or a custom service enquiry.',
+    icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
   },
   {
     label: 'WhatsApp',
     value: site.contact.whatsapp,
-    href: `https://wa.me/${site.contact.whatsapp.replace(/[^0-9]/g, '')}`,
-    note: 'Message us for a quick reply during business hours.',
+    href: `https://wa.me/${whatsappNumber}`,
+    note: 'Message us for the fastest reply during business hours.',
+    icon: 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z',
+  },
+  {
+    label: 'Call',
+    value: site.contact.phone,
+    href: `tel:${site.contact.phone.replace(/[^0-9+]/g, '')}`,
+    note: 'Prefer to talk it through? Give us a call directly.',
+    icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
   },
 ];
 ---
@@ -43,7 +48,11 @@ const channels = [
         {channels.map((c) => (
           <a href={c.href} class="channel-card corner-frame reveal">
             <CornerMarks />
-            <span class="facet-item__mark channel-card__mark" aria-hidden="true"></span>
+            <span class="channel-card__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={c.icon}></path>
+              </svg>
+            </span>
             <span class="channel-card__label">{c.label}</span>
             <span class="channel-card__value">{c.value}</span>
             <span class="channel-card__note">{c.note}</span>
@@ -53,7 +62,66 @@ const channels = [
     </div>
   </section>
 
-  <section class="section section--alt">
+  <!-- CONTACT FORM -->
+  <section class="section section--alt contact-form-section" id="contact-form">
+    <div class="contact-form-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="contact-form-wrapper reveal">
+        <div class="contact-form-header">
+          <span class="eyebrow">Send a message</span>
+          <h2 class="h3" style="margin-top: 0.75rem;">Tell us what you need.</h2>
+          <p class="lede" style="margin-top: 0.75rem;">
+            Fill in the form and we'll get back to you on WhatsApp — quick and personal.
+          </p>
+        </div>
+
+        <form id="contactForm" class="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cf-name" class="form-label">Your name</label>
+              <input type="text" id="cf-name" name="name" class="form-input" placeholder="e.g. Arpit Patel" required />
+            </div>
+            <div class="form-group">
+              <label for="cf-business" class="form-label">Business name <span class="form-optional">(optional)</span></label>
+              <input type="text" id="cf-business" name="business" class="form-input" placeholder="e.g. Patel Jewellers" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cf-phone" class="form-label">Phone / WhatsApp number</label>
+              <input type="tel" id="cf-phone" name="phone" class="form-input" placeholder="e.g. +91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label for="cf-interest" class="form-label">Interested in</label>
+              <select id="cf-interest" name="interest" class="form-input form-select" required>
+                <option value="" disabled selected>Choose one…</option>
+                <option value="StoreMate CRM">StoreMate CRM</option>
+                <option value="StoreMate Connect">StoreMate Connect</option>
+                <option value="Custom Software">Custom software / services</option>
+                <option value="General Enquiry">General enquiry</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cf-message" class="form-label">Your message</label>
+            <textarea id="cf-message" name="message" class="form-input form-textarea" rows="4" placeholder="Tell us briefly what you're looking for…" required></textarea>
+          </div>
+
+          <button type="submit" id="cf-submit" class="btn btn--primary contact-form__submit">
+            <svg class="wa-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.1-1.127l-.29-.174-3.01.79.8-2.927-.19-.301A8 8 0 1112 20z"/>
+            </svg>
+            Send via WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container container--narrow" style="text-align: center;">
       <span class="eyebrow">Before you write in</span>
       <h2 class="h3" style="margin-top: 0.75rem;">Have a quick question?</h2>
@@ -84,18 +152,31 @@ const channels = [
     padding: $space-7;
     border: 1px solid $line;
     border-radius: $radius-lg;
-    transition: border-color $dur-base $ease-out, transform $dur-base $ease-out;
+    transition: border-color $dur-base $ease-out, transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
 
     &:hover {
       border-color: $primary;
       transform: translateY(-4px);
+      box-shadow: $shadow-soft;
     }
   }
 
-  .channel-card__mark {
-    width: 2rem;
-    height: 2rem;
+  .channel-card__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: $primary-tint;
+    color: $primary;
     margin-bottom: $space-2;
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    .channel-card:hover & {
+      background: $primary;
+      color: $paper;
+    }
   }
 
   .channel-card__label {
@@ -117,9 +198,191 @@ const channels = [
     font-size: 0.9375rem;
   }
 
+  // ---- Contact form section -------------------------------------------------
+  .contact-form-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-form-glow {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($primary, 0.08) 0%, transparent 70%);
+    top: -80px;
+    right: -100px;
+    animation: glowPulse 6s ease-in-out infinite;
+    pointer-events: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba($secondary, 0.06) 0%, transparent 70%);
+      bottom: -120px;
+      left: -160px;
+      animation: glowPulse 8s ease-in-out infinite 3s;
+    }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50%      { transform: scale(1.15); opacity: 1; }
+  }
+
+  .contact-form-wrapper {
+    max-width: 720px;
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-form-header {
+    margin-bottom: $space-7;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-5;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-5;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+  }
+
+  .form-label {
+    font-size: 0.9375rem;
+    font-weight: $fw-semibold;
+    color: $ink;
+  }
+
+  .form-optional {
+    font-weight: $fw-regular;
+    color: $muted;
+    font-size: 0.8125rem;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid $line;
+    border-radius: $radius-sm;
+    background: $paper;
+    color: $ink;
+    font-size: 1rem;
+    transition: border-color $dur-fast $ease-out, box-shadow $dur-fast $ease-out;
+
+    &::placeholder {
+      color: $muted;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+
+    &.is-invalid {
+      border-color: #e53e3e;
+      box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+    }
+  }
+
+  .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238A7A82' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .contact-form__submit {
+    align-self: flex-start;
+    gap: $space-2;
+    margin-top: $space-3;
+
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+
+  .wa-icon {
+    flex-shrink: 0;
+  }
+
   .contact-faq-note a {
     color: $primary;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 </style>
+
+<script define:vars={{ whatsappNumber }}>
+  const form = document.getElementById('contactForm');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('cf-name');
+    const phone = document.getElementById('cf-phone');
+    const interest = document.getElementById('cf-interest');
+    const message = document.getElementById('cf-message');
+    const business = document.getElementById('cf-business');
+
+    // Reset validation
+    [name, phone, interest, message].forEach((el) => el?.classList.remove('is-invalid'));
+
+    // Validate required fields
+    let valid = true;
+    [name, phone, interest, message].forEach((el) => {
+      if (!el?.value?.trim()) {
+        el?.classList.add('is-invalid');
+        valid = false;
+      }
+    });
+
+    if (!valid) return;
+
+    // Build WhatsApp message
+    const lines = [
+      `Hi, I'm *${name.value.trim()}*`,
+      business?.value?.trim() ? `from *${business.value.trim()}*` : '',
+      ``,
+      `📞 Phone: ${phone.value.trim()}`,
+      `📌 Interested in: ${interest.value}`,
+      ``,
+      `💬 ${message.value.trim()}`,
+    ].filter(Boolean);
+
+    const text = encodeURIComponent(lines.join('\n'));
+    window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+  });
+
+  // Remove invalid state on input
+  document.querySelectorAll('.form-input').forEach((input) => {
+    input.addEventListener('input', () => input.classList.remove('is-invalid'));
+    input.addEventListener('change', () => input.classList.remove('is-invalid'));
+  });
+</script>
