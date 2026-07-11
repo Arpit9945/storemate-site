@@ -1,0 +1,388 @@
+@use 'tokens' as *;
+
+// ---- Font loading (Kumbh Sans) ---------------------------------------------
+// Loaded via <link> in BaseLayout head for best perf (preconnect + swap).
+
+// ---- Reset ------------------------------------------------------------------
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  font-family: $font-body;
+  font-weight: $fw-regular;
+  font-size: $fs-body;
+  line-height: 1.6;
+  color: $ink;
+  background: $paper;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol { list-style: none; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $fw-bold;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+// ---- Focus visibility (accessibility floor) --------------------------------
+:focus-visible {
+  outline: 2.5px solid $secondary;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+// ---- Layout utilities --------------------------------------------------------
+.container {
+  width: 100%;
+  max-width: $container-max;
+  margin-inline: auto;
+  padding-inline: $space-5;
+
+  @media (min-width: 640px) { padding-inline: $space-6; }
+}
+
+.container--narrow {
+  max-width: $container-narrow;
+}
+
+.section {
+  padding-block: $space-9;
+
+  @media (max-width: 640px) {
+    padding-block: $space-7;
+  }
+}
+
+.section--alt { background: $paper-alt; }
+.section--blush { background: $primary-tint; }
+.section--lilac { background: $secondary-tint; }
+
+.section--ink {
+  background: $ink;
+  color: $paper;
+}
+
+// ---- Grid texture (signature background motif) -----------------------------
+// Fine technical grid, faded at the edges via radial mask. Applied to hero
+// and section backgrounds for a structured, precision-engineered feel —
+// echoing both "SaaS platform" and cut-facet jewellery precision.
+.grid-bg {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(to right, $grid-line-light 1px, transparent 1px),
+      linear-gradient(to bottom, $grid-line-light 1px, transparent 1px);
+    background-size: $grid-size $grid-size;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+}
+
+.grid-bg--dark::before {
+  background-image:
+    linear-gradient(to right, $grid-line-dark 1px, transparent 1px),
+    linear-gradient(to bottom, $grid-line-dark 1px, transparent 1px);
+}
+
+.grid-bg--full::before {
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 30%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 30%, black 30%, transparent 100%);
+}
+
+// ---- Corner frame (signature precision marks) -------------------------------
+// Four small brackets at a card's corners — a blueprint/registration-mark
+// motif that reinforces "precision" without adding visual weight.
+.corner-frame {
+  position: relative;
+}
+
+.corner-frame__mark {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  transition: border-color $dur-base $ease-out;
+}
+
+.corner-frame__mark--tl { top: -1px; left: -1px; border-top: 2px solid $line; border-left: 2px solid $line; border-top-left-radius: 4px; }
+.corner-frame__mark--tr { top: -1px; right: -1px; border-top: 2px solid $line; border-right: 2px solid $line; border-top-right-radius: 4px; }
+.corner-frame__mark--bl { bottom: -1px; left: -1px; border-bottom: 2px solid $line; border-left: 2px solid $line; border-bottom-left-radius: 4px; }
+.corner-frame__mark--br { bottom: -1px; right: -1px; border-bottom: 2px solid $line; border-right: 2px solid $line; border-bottom-right-radius: 4px; }
+
+.corner-frame:hover .corner-frame__mark,
+.corner-frame--active .corner-frame__mark {
+  border-color: $primary;
+}
+
+.corner-frame--connect:hover .corner-frame__mark,
+.corner-frame--connect.corner-frame--active .corner-frame__mark {
+  border-color: $secondary;
+}
+
+// ---- Scroll reveal ------------------------------------------------------------
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity $dur-slow $ease-out, transform $dur-slow $ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+// ---- Typography helpers ------------------------------------------------------
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $fs-eyebrow;
+  font-weight: $fw-semibold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $primary;
+}
+
+.eyebrow--violet { color: $secondary; }
+
+.h1 { font-size: $fs-h1; }
+.h2 { font-size: $fs-h2; }
+.h3 { font-size: $fs-h3; }
+.h4 { font-size: $fs-h4; }
+
+.lede {
+  font-size: $fs-body-lg;
+  color: $ink-soft;
+  font-weight: $fw-regular;
+  max-width: 46ch;
+}
+
+.text-muted { color: $muted; }
+
+.gradient-text {
+  background: $brand-gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+// ---- Buttons -----------------------------------------------------------------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: 0.9rem 1.75rem;
+  border-radius: $radius-pill;
+  font-weight: $fw-semibold;
+  font-size: 1rem;
+  white-space: nowrap;
+  transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out, background $dur-fast $ease-out;
+
+  &:active { transform: translateY(1px); }
+}
+
+.btn--primary {
+  background: $brand-gradient;
+  color: $paper;
+  box-shadow: $shadow-lift;
+
+  &:hover { transform: translateY(-2px); }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: $ink;
+  border: 1.5px solid $line;
+
+  &:hover { border-color: $primary; color: $primary; }
+}
+
+.btn--on-dark {
+  background: $paper;
+  color: $ink;
+
+  &:hover { transform: translateY(-2px); }
+}
+
+.btn--sm {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9375rem;
+}
+
+// ---- Signature motif: facet bullet (derived from the logo's petal mark) ----
+// Used wherever a list needs a mark; encodes the "cut facet" identity.
+.facet-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.facet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-4;
+
+  &__mark {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.2rem;
+    background: $brand-gradient;
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+  }
+
+  &__body {
+    font-size: 1rem;
+    color: $ink-soft;
+
+    strong {
+      display: block;
+      color: $ink;
+      font-weight: $fw-semibold;
+      margin-bottom: 0.15rem;
+    }
+  }
+}
+
+// ---- Signature motif: faceted section divider ------------------------------
+.facet-divider {
+  height: 14px;
+  width: 100%;
+  background:
+    linear-gradient(135deg, transparent 45%, $paper 45%, $paper 55%, transparent 55%),
+    $brand-gradient;
+  background-size: 28px 28px, 100% 100%;
+  opacity: 0.9;
+}
+
+// ---- Cards --------------------------------------------------------------------
+.card {
+  background: $paper;
+  border: 1px solid $line;
+  border-radius: $radius-lg;
+  padding: $space-6;
+  box-shadow: $shadow-soft;
+}
+
+// ---- Badge ---------------------------------------------------------------------
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: 0.3rem 0.8rem;
+  border-radius: $radius-pill;
+  font-size: 0.8125rem;
+  font-weight: $fw-semibold;
+  letter-spacing: 0.02em;
+}
+
+.badge--live {
+  background: rgba(#1A9E5C, 0.1);
+  color: #1A9E5C;
+}
+
+.badge--soon {
+  background: $secondary-tint;
+  color: $secondary-dark;
+}
+
+// ---- Prose (legal / long-form text pages) --------------------------------------
+.prose {
+  max-width: 720px;
+
+  h2 {
+    font-size: $fs-h5;
+    margin-top: $space-8;
+    margin-bottom: $space-4;
+  }
+
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-size: $fs-h6;
+    margin-top: $space-6;
+    margin-bottom: $space-3;
+  }
+
+  p { margin-bottom: $space-4; color: $ink-soft; }
+
+  ul, ol {
+    margin-bottom: $space-4;
+    padding-left: $space-5;
+    color: $ink-soft;
+
+    li { margin-bottom: $space-2; }
+  }
+
+  ul { list-style: disc; }
+  ol { list-style: decimal; }
+
+  a { color: $primary; text-decoration: underline; text-underline-offset: 2px; }
+
+  strong { color: $ink; font-weight: $fw-semibold; }
+
+  .prose__updated {
+    color: $muted;
+    font-size: 0.9rem;
+    margin-bottom: $space-7;
+  }
+}
+
+// ---- Visually hidden (skip link, sr-only) --------------------------------------
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

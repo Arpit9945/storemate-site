@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+}
+const { title, description, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section legal">
+    <div class="container container--narrow">
+      <span class="eyebrow">Legal</span>
+      <h1 class="h3 legal__title">{title}</h1>
+      <p class="prose__updated">Last updated: {updated}</p>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .legal { padding-block: $space-8 $space-9; }
+  .legal__title { margin-top: $space-3; margin-bottom: $space-4; }
+</style>

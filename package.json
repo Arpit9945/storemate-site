@@ -1,25 +1,21 @@
 {
-  "name": "storemate",
-  "version": "1.0.0",
-  "private": true,
+  "name": "storemate-site",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "framer-motion": "^11.0.0",
-    "lucide-react": "^0.400.0",
-    "next": "^16.2.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.0.7"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.5",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.4"
+    "sass": "^1.101.0"
   }
 }

@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const groups = [
+  {
+    title: 'General',
+    items: [
+      {
+        q: 'What is StoreMate?',
+        a: 'StoreMate is a company that builds software for jewellery businesses. We make two products: StoreMate CRM, for running day-to-day store operations, and StoreMate Connect, for automating Instagram and WhatsApp.',
+      },
+      {
+        q: 'Do I need both products?',
+        a: 'No. Each product works on its own. Many businesses start with one and add the other later — they\u2019re designed to work well together, but neither depends on the other.',
+      },
+      {
+        q: 'Is my data safe with StoreMate?',
+        a: 'Yes. Your data is stored securely and backed up automatically. We don\u2019t sell or share your business or customer data with third parties.',
+      },
+      {
+        q: 'Do I need technical knowledge to use StoreMate?',
+        a: 'No. Both products are built for everyday use by store owners and staff — no coding, no IT team required.',
+      },
+    ],
+  },
+  {
+    title: 'StoreMate CRM',
+    items: [
+      {
+        q: 'Can StoreMate CRM handle weight and purity-based inventory?',
+        a: 'Yes — this is exactly what StoreMate CRM is built for. Track stock by gross/net weight, purity, and design, the way jewellery is actually sold.',
+      },
+      {
+        q: 'Can I generate GST-compliant invoices?',
+        a: 'Yes. Invoices include HSN codes, making charges, and tax breakup, so you don\u2019t need a separate billing tool.',
+      },
+    ],
+  },
+  {
+    title: 'StoreMate Connect',
+    items: [
+      {
+        q: 'Which platforms does StoreMate Connect support today?',
+        a: 'Instagram automation — comments, DMs, and story replies — is live today. WhatsApp broadcast automation is coming soon.',
+      },
+      {
+        q: 'Does StoreMate Connect use Instagram\u2019s official API?',
+        a: 'Yes. We connect through Instagram\u2019s official API, so there\u2019s no password sharing or risk of your account being flagged for unauthorized access.',
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Frequently asked questions"
+  description="Answers to common questions about StoreMate CRM and StoreMate Connect."
+  active="home"
+>
+  <PageHero
+    eyebrow="FAQ"
+    title="Frequently asked questions"
+    lede="Can't find what you're looking for? Reach out on our contact page."
+  />
+
+  <section class="section">
+    <div class="container container--narrow">
+      {groups.map((group) => (
+        <div class="faq-group reveal">
+          <h2 class="faq-group__title">{group.title}</h2>
+          <div class="faq-list">
+            {group.items.map((item) => (
+              <details class="faq-item">
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <p class="faq-footer">
+        Still have a question? <a href="/contact">Contact us</a> and we'll get back to you.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .faq-group {
+    margin-bottom: $space-8;
+    &:last-of-type { margin-bottom: $space-7; }
+  }
+
+  .faq-group__title {
+    font-size: $fs-h6;
+    color: $primary;
+    margin-bottom: $space-4;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .faq-item {
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    padding: $space-5;
+
+    summary {
+      cursor: pointer;
+      font-weight: $fw-semibold;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &::-webkit-details-marker { display: none; }
+
+      &::after {
+        content: '+';
+        font-size: 1.25rem;
+        color: $primary;
+        flex-shrink: 0;
+        margin-left: $space-4;
+      }
+    }
+
+    &[open] summary::after { content: '\2212'; }
+
+    p { margin-top: $space-4; color: $ink-soft; }
+  }
+
+  .faq-footer {
+    text-align: center;
+    color: $ink-soft;
+
+    a { color: $primary; text-decoration: underline; text-underline-offset: 2px; }
+  }
+</style>

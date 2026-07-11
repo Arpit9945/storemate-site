@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CornerMarks from '../components/CornerMarks.astro';
+import { site } from '../config/site';
+
+const features = [
+  {
+    title: 'Comment & DM automation',
+    body: "Set a keyword or reply to every comment on a post or reel — the moment someone asks about a piece, they get an instant reply in their DMs.",
+    status: 'live',
+  },
+  {
+    title: 'Story reply automation',
+    body: 'Turn every story reaction into a conversation automatically, without opening Instagram.',
+    status: 'live',
+  },
+  {
+    title: 'Ice-breakers & keyword replies',
+    body: 'Quick-reply buttons greet new conversations, and keyword triggers answer common questions instantly — pricing, availability, store hours.',
+    status: 'live',
+  },
+  {
+    title: 'Away messages',
+    body: 'Set store hours once, and customers get an automatic reply outside them — so no one is left waiting until morning.',
+    status: 'live',
+  },
+  {
+    title: 'WhatsApp broadcast',
+    body: 'Send new-arrival updates and offers straight to your customers\u2019 WhatsApp, in one message to your whole list.',
+    status: 'soon',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is this against Instagram\u2019s rules?',
+    a: 'No. StoreMate Connect uses Instagram\u2019s official API to send replies, the same access Meta provides to approved partners — no password sharing, no workarounds.',
+  },
+  {
+    q: 'Will my replies sound robotic?',
+    a: 'You write every message yourself, in your own words — StoreMate Connect just sends it at the right moment. Nothing is generated automatically unless you choose to.',
+  },
+  {
+    q: 'What happens to a question my automation doesn\u2019t cover?',
+    a: 'You can set a default reply for anything that doesn\u2019t match a keyword, so a customer always gets a response, and you can follow up personally later.',
+  },
+  {
+    q: 'When is WhatsApp automation launching?',
+    a: 'It\u2019s in active development. If you\u2019re using StoreMate Connect for Instagram already, you\u2019ll be the first to know when WhatsApp broadcast is ready.',
+  },
+];
+---
+
+<BaseLayout
+  title="StoreMate Connect — Instagram & WhatsApp automation"
+  description="StoreMate Connect auto-replies to Instagram comments, DMs, and story replies so no customer question goes unanswered. WhatsApp broadcast is coming soon."
+  active="connect"
+>
+  <PageHero
+    eyebrow="StoreMate Connect"
+    tone="connect"
+    title="Never miss a customer on Instagram again."
+    lede="Auto-reply to comments, DMs, and story replies the moment someone asks — even after closing time."
+  >
+    <div class="hero__actions">
+      <a href={site.products.connect.url} class="btn btn--primary">Open StoreMate Connect</a>
+      <a href="#features" class="btn btn--ghost">See what's inside</a>
+    </div>
+  </PageHero>
+
+  <section class="section" id="features" aria-labelledby="features-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow eyebrow--violet">What's inside</span>
+        <h2 id="features-heading" class="h3">Every Instagram interaction, covered.</h2>
+      </div>
+
+      <div class="feature-grid">
+        {features.map((f) => (
+          <div class="feature-card corner-frame corner-frame--connect reveal">
+            <CornerMarks />
+            <div class="feature-card__top">
+              <span class="facet-item__mark feature-card__mark" aria-hidden="true"></span>
+              {f.status === 'soon' && <span class="badge badge--soon">Coming soon</span>}
+              {f.status === 'live' && <span class="badge badge--live">Live</span>}
+            </div>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="pair-heading">
+    <div class="container pair reveal">
+      <div class="pair__text">
+        <span class="eyebrow eyebrow--violet">Works better together</span>
+        <h2 id="pair-heading" class="h3">Pair it with StoreMate CRM</h2>
+        <p class="lede">
+          Every conversation Connect handles on Instagram can carry straight into your customer's
+          record in StoreMate CRM — so your store and your Instagram feel like one system.
+        </p>
+        <a href="/storemate-crm" class="btn btn--ghost">Explore StoreMate CRM</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-heading">
+    <div class="container container--narrow">
+      <div class="section-head reveal">
+        <span class="eyebrow eyebrow--violet">Common questions</span>
+        <h2 id="faq-heading" class="h3">Frequently asked</h2>
+      </div>
+
+      <div class="faq-list reveal">
+        {faqs.map((item) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
+    <div class="container cta-banner__inner reveal">
+      <h2 class="h3">Ready to automate your Instagram inbox?</h2>
+      <p class="lede">Connect your account and set up your first automation in minutes.</p>
+      <div class="hero__actions">
+        <a href={site.products.connect.url} class="btn btn--on-dark">Open StoreMate Connect</a>
+        <a href="/contact" class="btn" style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;">Talk to us first</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-4;
+    margin-top: $space-6;
+  }
+
+  .section-head {
+    max-width: 560px;
+    margin-bottom: $space-7;
+    .h3 { margin-top: $space-3; }
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-6;
+
+    @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { grid-template-columns: 1fr; }
+  }
+
+  .feature-card {
+    h3 { margin-top: $space-4; font-size: $fs-h6; }
+    p { margin-top: $space-3; color: $ink-soft; }
+  }
+
+  .feature-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .feature-card__mark { width: 2rem; height: 2rem; }
+
+  .pair { display: flex; justify-content: center; }
+
+  .pair__text {
+    max-width: 620px;
+    text-align: center;
+    .h3 { margin-top: $space-3; }
+    .lede { margin: $space-4 auto $space-6; }
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .faq-item {
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    padding: $space-5;
+
+    summary {
+      cursor: pointer;
+      font-weight: $fw-semibold;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &::-webkit-details-marker { display: none; }
+
+      &::after {
+        content: '+';
+        font-size: 1.25rem;
+        color: $secondary;
+        flex-shrink: 0;
+        margin-left: $space-4;
+      }
+    }
+
+    &[open] summary::after { content: '\2212'; }
+
+    p { margin-top: $space-4; color: $ink-soft; }
+  }
+
+  .cta-banner {
+    background: $ink;
+    color: $paper;
+  }
+
+  .cta-banner__inner {
+    text-align: center;
+    max-width: 620px;
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+
+    .lede { color: rgba($paper, 0.7); margin-inline: auto; margin-top: $space-4; }
+    .hero__actions { justify-content: center; }
+  }
+</style>

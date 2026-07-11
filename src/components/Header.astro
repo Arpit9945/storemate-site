@@ -1,0 +1,279 @@
+---
+import { site } from '../config/site';
+
+interface Props {
+  active?: 'home' | 'products' | 'crm' | 'connect' | 'services' | 'about' | 'contact';
+}
+const { active } = Astro.props;
+const productsActive = active === 'products' || active === 'crm' || active === 'connect';
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand" aria-label={`${site.name} home`}>
+      <img src="/images/logo.png" alt="" width="36" height="36" class="brand__mark" />
+      <span class="brand__name">{site.name}</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+        <span class="sr-only">Toggle menu</span>
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+
+      <ul class="nav__menu" id="navMenu">
+        <li class="nav__dropdown">
+          <button
+            type="button"
+            class="nav__dropdown-trigger"
+            class:list={{ 'is-active': productsActive }}
+            aria-expanded="false"
+            aria-controls="productsDropdown"
+          >
+            Products
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__dropdown-panel" id="productsDropdown">
+            <a href="/storemate-crm" class:list={{ 'is-active': active === 'crm' }}>
+              <span class="nav__dropdown-item-title">StoreMate CRM</span>
+              <span class="nav__dropdown-item-sub">Jewellery business management</span>
+            </a>
+            <a href="/storemate-connect" class:list={{ 'is-active': active === 'connect' }}>
+              <span class="nav__dropdown-item-title">StoreMate Connect</span>
+              <span class="nav__dropdown-item-sub">Instagram & WhatsApp automation</span>
+            </a>
+            <a href="/products" class="nav__dropdown-item-all">View all products &rarr;</a>
+          </div>
+        </li>
+        <li><a href="/services" class:list={{ 'is-active': active === 'services' }}>Services</a></li>
+        <li><a href="/about" class:list={{ 'is-active': active === 'about' }}>About</a></li>
+        <li><a href="/contact" class:list={{ 'is-active': active === 'contact' }}>Contact</a></li>
+        <li class="nav__cta-mobile">
+          <a href={site.products.crm.url} class="btn btn--primary btn--sm">Open CRM</a>
+        </li>
+      </ul>
+    </nav>
+
+    <a href={site.products.crm.url} class="btn btn--primary btn--sm nav__cta-desktop">Open CRM</a>
+  </div>
+</header>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba($paper, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid $line;
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+  }
+
+  .brand__mark {
+    border-radius: 9px;
+  }
+
+  .brand__name {
+    font-weight: $fw-black;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: $ink;
+  }
+
+  .nav__menu {
+    display: flex;
+    align-items: center;
+    gap: $space-6;
+    font-weight: $fw-medium;
+    font-size: 0.95rem;
+
+    > li > a {
+      color: $ink-soft;
+      transition: color $dur-fast $ease-out;
+
+      &:hover, &.is-active { color: $primary; }
+    }
+  }
+
+  // ---- Products dropdown ------------------------------------------------
+  .nav__dropdown {
+    position: relative;
+
+    &:hover .nav__dropdown-panel,
+    &:focus-within .nav__dropdown-panel {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    &:hover .nav__dropdown-trigger svg,
+    &:focus-within .nav__dropdown-trigger svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  .nav__dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: $ink-soft;
+    font: inherit;
+    transition: color $dur-fast $ease-out;
+
+    svg { transition: transform $dur-base $ease-out; }
+
+    &:hover, &.is-active { color: $primary; }
+  }
+
+  .nav__dropdown-panel {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translate(-50%, 6px);
+    width: 280px;
+    background: $paper;
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    box-shadow: $shadow-lift;
+    padding: $space-3;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity $dur-base $ease-out, transform $dur-base $ease-out, visibility $dur-base;
+    z-index: 60;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: $space-3 $space-4;
+      border-radius: $radius-sm;
+      transition: background $dur-fast $ease-out;
+
+      &:hover { background: $paper-alt; }
+    }
+  }
+
+  .nav__dropdown-item-title {
+    font-weight: $fw-semibold;
+    font-size: 0.9375rem;
+    color: $ink;
+  }
+
+  .nav__dropdown-item-sub {
+    font-size: 0.8125rem;
+    color: $muted;
+  }
+
+  .nav__dropdown-item-all {
+    margin-top: $space-1;
+    padding-top: $space-3 !important;
+    border-top: 1px solid $line;
+    font-size: 0.8125rem;
+    font-weight: $fw-semibold;
+    color: $primary !important;
+
+    &:hover { background: transparent !important; }
+  }
+
+  .nav__cta-mobile { display: none; }
+
+  .nav__toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .nav__toggle-bar {
+    width: 22px;
+    height: 2px;
+    background: $ink;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 860px) {
+    .nav__cta-desktop { display: none; }
+
+    .nav__toggle { display: flex; }
+
+    .nav__menu {
+      position: fixed;
+      inset: 76px 0 0 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $space-5;
+      padding: $space-6 $space-5;
+      background: $paper;
+      transform: translateX(100%);
+      transition: transform $dur-base $ease-out;
+      font-size: 1.1rem;
+      overflow-y: auto;
+    }
+
+    .nav__menu.is-open { transform: translateX(0); }
+
+    .nav__cta-mobile { display: block; margin-top: $space-4; }
+
+    .nav__dropdown { width: 100%; }
+
+    .nav__dropdown-trigger {
+      width: 100%;
+      justify-content: space-between;
+      font-size: 1.1rem;
+    }
+
+    .nav__dropdown-panel {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      display: none;
+      width: 100%;
+      box-shadow: none;
+      border: none;
+      background: $paper-alt;
+      margin-top: $space-2;
+      transition: none;
+    }
+
+    .nav__dropdown.is-open .nav__dropdown-panel { display: flex; flex-direction: column; }
+
+    .nav__dropdown.is-open .nav__dropdown-trigger svg { transform: rotate(180deg); }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!isOpen));
+  });
+
+  // Mobile: tap "Products" to expand the dropdown inline instead of hover
+  const dropdownTrigger = document.querySelector('.nav__dropdown-trigger');
+  const dropdown = document.querySelector('.nav__dropdown');
+  dropdownTrigger?.addEventListener('click', (e) => {
+    if (window.innerWidth <= 860) {
+      e.preventDefault();
+      const isOpen = dropdown?.classList.toggle('is-open');
+      dropdownTrigger.setAttribute('aria-expanded', String(!!isOpen));
+    }
+  });
+</script>

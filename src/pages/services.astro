@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CornerMarks from '../components/CornerMarks.astro';
+
+const services = [
+  {
+    title: 'Custom web applications',
+    desc: 'Full-stack web apps built with Next.js, React, and Node.js — dashboards, internal tools, and customer-facing platforms built around your workflow.',
+  },
+  {
+    title: 'E-commerce & business websites',
+    desc: 'Fast, SEO-ready websites and storefronts, built to represent your business properly and convert visitors into customers.',
+  },
+  {
+    title: 'WordPress plugin & site development',
+    desc: 'Custom WordPress plugins and site builds for businesses already running on WordPress who need something off-the-shelf plugins can\u2019t do.',
+  },
+  {
+    title: 'Database design & management',
+    desc: 'Structured, reliable data models using MongoDB or MySQL — designed to scale with your business instead of slowing it down.',
+  },
+  {
+    title: 'API development & integrations',
+    desc: 'REST and GraphQL APIs that connect your systems together — payment gateways, third-party tools, or your own internal services.',
+  },
+  {
+    title: 'AI-powered feature integration',
+    desc: 'Add AI capabilities to an existing product — smart replies, content generation, or automation — integrated cleanly into your current stack.',
+  },
+  {
+    title: 'Software maintenance & support',
+    desc: 'Ongoing updates, bug fixes, and improvements for software you already have — yours or built elsewhere.',
+  },
+];
+
+const process = [
+  { step: '01', title: 'Enquire', desc: 'Tell us what you need built, roughly — no formal spec required to start the conversation.' },
+  { step: '02', title: 'Scope', desc: 'We discuss requirements, timeline, and cost, and confirm scope before any work begins.' },
+  { step: '03', title: 'Build', desc: 'We build in stages, with regular check-ins so you always know where things stand.' },
+  { step: '04', title: 'Support', desc: 'Once delivered, we stay available for fixes, updates, and future additions.' },
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Custom software services from StoreMate — web applications, e-commerce, WordPress development, API integrations, and AI-powered features."
+  active="services"
+>
+  <PageHero
+    eyebrow="Services"
+    title="Need something built specifically for your business?"
+    lede="Beyond our own products, StoreMate takes on custom software work — scoped around what your business actually needs."
+  >
+    <div class="hero__actions">
+      <a href="/contact" class="btn btn--primary">Get a quote</a>
+      <a href="#services-list" class="btn btn--ghost">See what we build</a>
+    </div>
+  </PageHero>
+
+  <section class="section" id="services-list" aria-labelledby="services-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What we build</span>
+        <h2 id="services-heading" class="h3">Service categories</h2>
+      </div>
+
+      <div class="services-grid">
+        {services.map((s, i) => (
+          <div class="service-card corner-frame reveal">
+            <CornerMarks />
+            <span class="service-card__index">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2 id="process-heading" class="h3">From enquiry to a working build.</h2>
+      </div>
+
+      <div class="process-grid">
+        {process.map((p) => (
+          <div class="process-card reveal">
+            <span class="process-card__step">{p.step}</span>
+            <h3>{p.title}</h3>
+            <p>{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
+    <div class="container cta-banner__inner reveal">
+      <h2 class="h3">Have something in mind?</h2>
+      <p class="lede">Tell us what you're trying to build — we'll tell you honestly if we're the right fit.</p>
+      <a href="/contact" class="btn btn--on-dark">Get a quote</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-4;
+    margin-top: $space-6;
+  }
+
+  .section-head {
+    max-width: 560px;
+    margin-bottom: $space-7;
+    .h3 { margin-top: $space-3; }
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-5;
+
+    @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { grid-template-columns: 1fr; }
+  }
+
+  .service-card {
+    padding: $space-6;
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: $shadow-soft;
+    }
+
+    h3 { margin-top: $space-4; font-size: $fs-h6; }
+    p { margin-top: $space-3; color: $ink-soft; }
+  }
+
+  .service-card__index {
+    font-weight: $fw-black;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: $primary;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-6;
+
+    @media (max-width: 860px) { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 520px) { grid-template-columns: 1fr; }
+  }
+
+  .process-card {
+    position: relative;
+    padding-top: $space-5;
+    border-top: 2px solid $line;
+
+    h3 { margin-top: $space-3; font-size: $fs-h6; }
+    p { margin-top: $space-3; color: $ink-soft; }
+  }
+
+  .process-card__step {
+    font-weight: $fw-black;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    color: $muted;
+  }
+
+  .cta-banner { background: $ink; color: $paper; }
+
+  .cta-banner__inner {
+    text-align: center;
+    max-width: 560px;
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+
+    .lede { color: rgba($paper, 0.7); margin: $space-4 auto $space-6; }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="The page you're looking for doesn't exist."
+  noindex={true}
+>
+  <section class="not-found">
+    <div class="container not-found__inner">
+      <span class="facet-item__mark not-found__mark" aria-hidden="true"></span>
+      <span class="eyebrow">404</span>
+      <h1 class="h2">This page took a wrong turn.</h1>
+      <p class="lede">
+        The page you're looking for doesn't exist, or may have moved. Here are a few places to go
+        instead.
+      </p>
+      <div class="not-found__links">
+        <a href="/" class="btn btn--primary">Back to home</a>
+        <a href="/storemate-crm" class="btn btn--ghost">StoreMate CRM</a>
+        <a href="/storemate-connect" class="btn btn--ghost">StoreMate Connect</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .not-found {
+    padding-block: $space-10 $space-9;
+
+    @media (max-width: 640px) { padding-block: $space-8 $space-7; }
+  }
+
+  .not-found__inner {
+    max-width: 560px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-found__mark {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: $space-4;
+  }
+
+  .lede { margin: $space-4 auto $space-6; }
+
+  .not-found__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    justify-content: center;
+  }
+</style>

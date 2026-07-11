@@ -1,0 +1,60 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { site } from '../config/site';
+---
+
+<LegalLayout
+  title="Refund & Cancellation Policy"
+  description="Our refund, cancellation, and subscription policy for StoreMate CRM and StoreMate Connect."
+  updated="10 July 2026"
+>
+  <h2>1. Free trial</h2>
+  <p>
+    Where a free trial is offered on StoreMate CRM or StoreMate Connect, you will not be charged
+    during the trial period. If you choose not to subscribe, your access simply ends at the close
+    of the trial — no payment is collected unless you actively select a paid plan.
+  </p>
+
+  <h2>2. Subscription cancellation</h2>
+  <ul>
+    <li>You may cancel your subscription at any time from your account settings, or by contacting us at <a href={`mailto:${site.contact.supportEmail}`}>{site.contact.supportEmail}</a>.</li>
+    <li>Cancellation stops future billing but does not automatically refund the current billing period.</li>
+    <li>You will continue to have access to the Services until the end of the period you've already paid for.</li>
+  </ul>
+
+  <h2>3. Refund eligibility</h2>
+  <p>We offer refunds in the following situations:</p>
+  <ul>
+    <li><strong>Billing errors</strong> — if you were charged incorrectly (for example, charged twice, or charged after a valid cancellation), we will issue a full refund of the erroneous amount.</li>
+    <li><strong>Service unavailability</strong> — if the Services were unavailable for an extended period due to a fault on our end, we will assess and may offer a prorated refund or service credit.</li>
+    <li><strong>First-time subscribers</strong> — if you are within the first 7 days of your first paid subscription and are not satisfied with the Services, you may request a full refund.</li>
+  </ul>
+
+  <h2>4. Situations not eligible for refund</h2>
+  <ul>
+    <li>Partial months or unused time after voluntarily cancelling beyond the 7-day window in Section 3.</li>
+    <li>Change of mind after extended use of a paid plan.</li>
+    <li>Issues caused by third-party platforms (such as Instagram or Meta) that are outside our control.</li>
+    <li>Suspension or termination of your account due to a violation of our <a href="/terms-and-conditions">Terms & Conditions</a>.</li>
+  </ul>
+
+  <h2>5. How to request a refund</h2>
+  <p>
+    To request a refund, email us at <a href={`mailto:${site.contact.supportEmail}`}>{site.contact.supportEmail}</a> with
+    your account details and the reason for your request. We aim to respond within 3–5 business
+    days and, where approved, process refunds within 7–10 business days to your original payment
+    method.
+  </p>
+
+  <h2>6. Plan changes (upgrade/downgrade)</h2>
+  <p>
+    If you upgrade your plan, the new plan takes effect immediately and billing is adjusted on a
+    prorated basis. If you downgrade, the change takes effect at the start of your next billing
+    cycle, and you retain access to your current plan's features until then.
+  </p>
+
+  <h2>7. Contact us</h2>
+  <p>
+    Questions about this policy? Reach us at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+  </p>
+</LegalLayout>

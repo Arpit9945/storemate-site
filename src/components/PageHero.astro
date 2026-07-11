@@ -1,0 +1,32 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  tone?: 'default' | 'crm' | 'connect';
+}
+const { eyebrow, title, lede, tone = 'default' } = Astro.props;
+---
+
+<section class:list={['page-hero', 'grid-bg', `page-hero--${tone}`]}>
+  <div class="container page-hero__inner">
+    <span class="eyebrow reveal" class:list={{ 'eyebrow--violet': tone === 'connect' }}>{eyebrow}</span>
+    <h1 class="h2 page-hero__title reveal">{title}</h1>
+    {lede && <p class="lede page-hero__lede reveal">{lede}</p>}
+    <div class="reveal"><slot /></div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .page-hero {
+    padding-block: $space-8 $space-7;
+
+    @media (max-width: 640px) { padding-block: $space-7 $space-6; }
+  }
+
+  .page-hero__inner { max-width: 720px; position: relative; z-index: 1; }
+  .page-hero__title { margin-top: $space-3; }
+  .page-hero__lede { margin-top: $space-4; }
+</style>

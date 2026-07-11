@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CornerMarks from '../components/CornerMarks.astro';
+import { site } from '../config/site';
+
+const channels = [
+  {
+    label: 'Email',
+    value: site.contact.email,
+    href: `mailto:${site.contact.email}`,
+    note: 'For general questions about StoreMate CRM or Connect.',
+  },
+  {
+    label: 'Support',
+    value: site.contact.supportEmail,
+    href: `mailto:${site.contact.supportEmail}`,
+    note: 'Already using StoreMate? Reach our support team directly.',
+  },
+  {
+    label: 'WhatsApp',
+    value: site.contact.whatsapp,
+    href: `https://wa.me/${site.contact.whatsapp.replace(/[^0-9]/g, '')}`,
+    note: 'Message us for a quick reply during business hours.',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact us"
+  description="Get in touch with the StoreMate team about StoreMate CRM or StoreMate Connect."
+  active="contact"
+>
+  <PageHero
+    eyebrow="Contact"
+    title="We're happy to help you choose."
+    lede="Whether you're deciding between StoreMate CRM and Connect, or already using one and have a question — reach us directly below."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="channels-grid">
+        {channels.map((c) => (
+          <a href={c.href} class="channel-card corner-frame reveal">
+            <CornerMarks />
+            <span class="facet-item__mark channel-card__mark" aria-hidden="true"></span>
+            <span class="channel-card__label">{c.label}</span>
+            <span class="channel-card__value">{c.value}</span>
+            <span class="channel-card__note">{c.note}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow" style="text-align: center;">
+      <span class="eyebrow">Before you write in</span>
+      <h2 class="h3" style="margin-top: 0.75rem;">Have a quick question?</h2>
+      <p class="lede contact-faq-note" style="margin: 1rem auto 2rem;">
+        Check our <a href="/faq">FAQ page</a> — it covers the most common questions about both products.
+      </p>
+      <a href="/faq" class="btn btn--ghost">Visit the FAQ</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-6;
+
+    @media (max-width: 860px) { grid-template-columns: 1fr; }
+  }
+
+  .channel-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-2;
+    padding: $space-7;
+    border: 1px solid $line;
+    border-radius: $radius-lg;
+    transition: border-color $dur-base $ease-out, transform $dur-base $ease-out;
+
+    &:hover {
+      border-color: $primary;
+      transform: translateY(-4px);
+    }
+  }
+
+  .channel-card__mark {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: $space-2;
+  }
+
+  .channel-card__label {
+    font-size: $fs-eyebrow;
+    font-weight: $fw-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $muted;
+  }
+
+  .channel-card__value {
+    font-size: 1.15rem;
+    font-weight: $fw-semibold;
+    color: $ink;
+  }
+
+  .channel-card__note {
+    color: $ink-soft;
+    font-size: 0.9375rem;
+  }
+
+  .contact-faq-note a {
+    color: $primary;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

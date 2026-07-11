@@ -1,0 +1,149 @@
+---
+import { site } from '../config/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a href="/" class="brand" aria-label={`${site.name} home`}>
+          <img src="/images/logo.png" alt="" width="32" height="32" class="brand__mark" />
+          <span class="brand__name">{site.name}</span>
+        </a>
+        <p class="site-footer__tagline">A software company for jewellery businesses — products, and custom services, built by one team.</p>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Products</h3>
+        <ul>
+          <li><a href="/products">All products</a></li>
+          <li><a href="/storemate-crm">StoreMate CRM</a></li>
+          <li><a href="/storemate-connect">StoreMate Connect</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Services</h3>
+        <ul>
+          <li><a href="/services">Custom software services</a></li>
+          <li><a href="/contact">Get a quote</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/privacy-policy">Privacy policy</a></li>
+          <li><a href="/terms-and-conditions">Terms &amp; conditions</a></li>
+          <li><a href="/refund-policy">Refund policy</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Get in touch</h3>
+        <ul>
+          <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+          <li><a href={`tel:${site.contact.phone}`}>{site.contact.phone}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>&copy; {year} {site.name}. All rights reserved.</p>
+      <div class="site-footer__socials">
+        <a href={site.socials.instagram} aria-label="StoreMate on Instagram">Instagram</a>
+        <a href={site.socials.linkedin} aria-label="StoreMate on LinkedIn">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .site-footer {
+    background: $ink;
+    color: rgba($paper, 0.72);
+    padding-block: $space-8 $space-6;
+  }
+
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1.3fr repeat(5, 1fr);
+    gap: $space-6;
+    padding-bottom: $space-7;
+    border-bottom: 1px solid rgba($paper, 0.12);
+
+    @media (max-width: 1000px) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 420px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .brand { display: flex; align-items: center; gap: $space-2; }
+  .brand__mark { border-radius: 8px; }
+  .brand__name { font-weight: $fw-black; font-size: 1.15rem; color: $paper; }
+
+  .site-footer__tagline {
+    margin-top: $space-4;
+    max-width: 30ch;
+    font-size: 0.9375rem;
+  }
+
+  .site-footer__col {
+    h3 {
+      font-size: 0.8125rem;
+      font-weight: $fw-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba($paper, 0.45);
+      margin-bottom: $space-4;
+    }
+
+    ul { display: flex; flex-direction: column; gap: $space-3; }
+
+    a {
+      font-size: 0.9375rem;
+      transition: color $dur-fast $ease-out;
+      &:hover { color: $paper; }
+    }
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $space-6;
+    font-size: 0.875rem;
+
+    @media (max-width: 520px) {
+      flex-direction: column;
+      gap: $space-4;
+      text-align: center;
+    }
+  }
+
+  .site-footer__socials {
+    display: flex;
+    gap: $space-5;
+
+    a:hover { color: $paper; }
+  }
+</style>

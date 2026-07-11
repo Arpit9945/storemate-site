@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CornerMarks from '../components/CornerMarks.astro';
+import { site } from '../config/site';
+
+const features = [
+  {
+    title: 'Inventory by weight, purity & design',
+    body: "Track every piece the way jewellery actually sells — by gross and net weight, purity (18K/22K/24K, or by hallmark), stone details, and design code. No forcing your stock into a generic 'product' field.",
+  },
+  {
+    title: 'Customer history in one view',
+    body: 'Every purchase, order, repair, and exchange tied to a customer — searchable in seconds, so any staff member can pick up where the last conversation left off.',
+  },
+  {
+    title: 'Orders & repairs tracking',
+    body: 'Log custom orders and repair jobs with status, expected delivery date, and customer notifications — nothing falls through the cracks.',
+  },
+  {
+    title: 'GST-ready billing',
+    body: 'Generate compliant invoices with HSN codes, making charges, and tax breakup built in — no separate billing software needed.',
+  },
+  {
+    title: 'Daily rate updates',
+    body: "Update today's gold and silver rates once, and every quote and invoice reflects it automatically.",
+  },
+  {
+    title: 'Staff access, kept simple',
+    body: 'Give your team access to exactly what they need — the counter, the workshop, or the full store — without handing over everything.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Do I need to change how I currently track inventory?',
+    a: "No. StoreMate CRM is built around how jewellery businesses already track stock — by weight and purity — so the switch feels familiar from day one.",
+  },
+  {
+    q: 'Can I use it on my phone, or only on a computer?',
+    a: 'StoreMate CRM works on both. Use it at the billing counter on a desktop, or check orders and customer history from your phone while you\u2019re away from the store.',
+  },
+  {
+    q: 'Is my data backed up?',
+    a: "Yes. Your inventory, customer records, and billing history are backed up automatically, so nothing is lost if a device is damaged or lost.",
+  },
+  {
+    q: 'Can I try it before paying?',
+    a: 'Yes, StoreMate CRM offers a free trial period so you can set up your store and see it fit your workflow before committing.',
+  },
+];
+---
+
+<BaseLayout
+  title="StoreMate CRM — Jewellery business management"
+  description="StoreMate CRM helps jewellery businesses manage inventory by weight and purity, track customer history, and generate GST-ready invoices — all from one place."
+  active="crm"
+>
+  <PageHero
+    eyebrow="StoreMate CRM"
+    tone="crm"
+    title="Run your jewellery business from one place."
+    lede="Inventory, customer history, orders, and billing — built around how jewellery is actually bought and sold, not bent from generic retail software."
+  >
+    <div class="hero__actions">
+      <a href={site.products.crm.url} class="btn btn--primary">Open StoreMate CRM</a>
+      <a href="#features" class="btn btn--ghost">See what's inside</a>
+    </div>
+  </PageHero>
+
+  <section class="section" id="features" aria-labelledby="features-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What's inside</span>
+        <h2 id="features-heading" class="h3">Everything the counter and the back office need.</h2>
+      </div>
+
+      <div class="feature-grid">
+        {features.map((f) => (
+          <div class="feature-card corner-frame reveal">
+            <CornerMarks />
+            <span class="facet-item__mark feature-card__mark" aria-hidden="true"></span>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="pair-heading">
+    <div class="container pair reveal">
+      <div class="pair__text">
+        <span class="eyebrow">Works better together</span>
+        <h2 id="pair-heading" class="h3">Pair it with StoreMate Connect</h2>
+        <p class="lede">
+          When a customer asks about a piece on Instagram, StoreMate Connect can reply instantly —
+          and once they walk in, StoreMate CRM already has their conversation on record.
+        </p>
+        <a href="/storemate-connect" class="btn btn--ghost">Explore StoreMate Connect</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-heading">
+    <div class="container container--narrow">
+      <div class="section-head reveal">
+        <span class="eyebrow">Common questions</span>
+        <h2 id="faq-heading" class="h3">Frequently asked</h2>
+      </div>
+
+      <div class="faq-list reveal">
+        {faqs.map((item) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
+    <div class="container cta-banner__inner reveal">
+      <h2 class="h3">Ready to bring your store onto StoreMate?</h2>
+      <p class="lede">Start a free trial — your inventory and billing, organised in an afternoon.</p>
+      <div class="hero__actions">
+        <a href={site.products.crm.url} class="btn btn--on-dark">Open StoreMate CRM</a>
+        <a href="/contact" class="btn" style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;">Talk to us first</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  @use '../styles/tokens' as *;
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-4;
+    margin-top: $space-6;
+  }
+
+  .section-head {
+    max-width: 560px;
+    margin-bottom: $space-7;
+    .h3 { margin-top: $space-3; }
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-6;
+
+    @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { grid-template-columns: 1fr; }
+  }
+
+  .feature-card {
+    h3 { margin-top: $space-4; font-size: $fs-h6; }
+    p { margin-top: $space-3; color: $ink-soft; }
+  }
+
+  .feature-card__mark { width: 2rem; height: 2rem; }
+
+  .pair {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pair__text {
+    max-width: 620px;
+    text-align: center;
+
+    .h3 { margin-top: $space-3; }
+    .lede { margin: $space-4 auto $space-6; }
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .faq-item {
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    padding: $space-5;
+
+    summary {
+      cursor: pointer;
+      font-weight: $fw-semibold;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &::-webkit-details-marker { display: none; }
+
+      &::after {
+        content: '+';
+        font-size: 1.25rem;
+        color: $primary;
+        flex-shrink: 0;
+        margin-left: $space-4;
+      }
+    }
+
+    &[open] summary::after { content: '\2212'; }
+
+    p { margin-top: $space-4; color: $ink-soft; }
+  }
+
+  .cta-banner {
+    background: $ink;
+    color: $paper;
+  }
+
+  .cta-banner__inner {
+    text-align: center;
+    max-width: 620px;
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+
+    .lede { color: rgba($paper, 0.7); margin-inline: auto; margin-top: $space-4; }
+    .hero__actions { justify-content: center; }
+  }
+</style>
