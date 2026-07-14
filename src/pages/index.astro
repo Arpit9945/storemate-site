@@ -11,6 +11,13 @@ import { site } from '../config/site';
 >
   <!-- HERO -->
   <section class="hero grid-bg">
+    <div class="hero__ambient" aria-hidden="true">
+      <span class="hero__glow hero__glow--rose"></span>
+      <span class="hero__glow hero__glow--violet"></span>
+      <span class="hero__glow hero__glow--peach"></span>
+      <span class="hero__orbit hero__orbit--one"></span>
+      <span class="hero__orbit hero__orbit--two"></span>
+    </div>
     <div class="hero__particles" aria-hidden="true">
       <span class="particle particle--1"></span>
       <span class="particle particle--2"></span>
@@ -20,16 +27,16 @@ import { site } from '../config/site';
       <span class="particle particle--6"></span>
     </div>
     <div class="container hero__inner">
-      <span class="eyebrow reveal">Software studio · India</span>
-      <h1 class="h1 hero__title reveal">
+      <span class="eyebrow reveal reveal--left" style="--reveal-delay: 80ms;">Software studio · India</span>
+      <h1 class="h1 hero__title reveal reveal--left" style="--reveal-delay: 160ms;">
         We build software that <span class="gradient-text">feels like yours.</span>
       </h1>
-      <p class="lede hero__lede reveal">
+      <p class="lede hero__lede reveal reveal--left" style="--reveal-delay: 240ms;">
         Your business isn't generic — your software shouldn't be either.
         From ready-to-use products to fully custom builds, StoreMate crafts
         tools that fit the way you actually work.
       </p>
-      <div class="hero__actions reveal">
+      <div class="hero__actions reveal reveal--left" style="--reveal-delay: 320ms;">
         <a href="/products" class="btn btn--primary">Explore products</a>
         <a href="/services" class="btn btn--ghost">Explore services</a>
       </div>
@@ -39,13 +46,13 @@ import { site } from '../config/site';
   <!-- TWO PORTIONS: PRODUCTS / SERVICES -->
   <section class="section portions" aria-labelledby="portions-heading">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal reveal--left">
         <span class="eyebrow">How we work</span>
         <h2 id="portions-heading" class="h3">Two ways to work with StoreMate.</h2>
       </div>
 
       <div class="portions__grid">
-        <a href="/products" class="portion-card corner-frame reveal">
+        <a href="/products" class="portion-card corner-frame reveal reveal--scale" style="--reveal-delay: 90ms;">
           <CornerMarks />
           <span class="portion-card__index">01</span>
           <h3 class="h4">Products</h3>
@@ -56,7 +63,7 @@ import { site } from '../config/site';
           <span class="portion-card__link">View our products &rarr;</span>
         </a>
 
-        <a href="/services" class="portion-card corner-frame corner-frame--connect reveal">
+        <a href="/services" class="portion-card corner-frame corner-frame--connect reveal reveal--scale" style="--reveal-delay: 180ms;">
           <CornerMarks />
           <span class="portion-card__index">02</span>
           <h3 class="h4">Services</h3>
@@ -73,13 +80,13 @@ import { site } from '../config/site';
   <!-- PRODUCTS PREVIEW -->
   <section class="section section--alt" aria-labelledby="products-heading">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal reveal--left">
         <span class="eyebrow">The suite</span>
         <h2 id="products-heading" class="h3">Two products. One connected way of working.</h2>
       </div>
 
       <div class="products__grid">
-        <article class="product-card product-card--crm corner-frame reveal">
+        <article class="product-card product-card--crm corner-frame reveal reveal--scale" style="--reveal-delay: 90ms;">
           <CornerMarks />
           <span class="badge badge--live">Live</span>
           <h3 class="h4">StoreMate CRM</h3>
@@ -104,7 +111,7 @@ import { site } from '../config/site';
           <a href="/storemate-crm" class="btn btn--primary">Explore StoreMate CRM</a>
         </article>
 
-        <article class="product-card product-card--connect corner-frame corner-frame--connect reveal">
+        <article class="product-card product-card--connect corner-frame corner-frame--connect reveal reveal--scale" style="--reveal-delay: 180ms;">
           <CornerMarks />
           <span class="badge badge--live">Instagram live</span>
           <h3 class="h4">StoreMate Connect</h3>
@@ -135,23 +142,23 @@ import { site } from '../config/site';
   <!-- WHY -->
   <section class="section why" aria-labelledby="why-heading">
     <div class="container">
-      <div class="section-head reveal">
+      <div class="section-head reveal reveal--left">
         <span class="eyebrow">Why StoreMate</span>
         <h2 id="why-heading" class="h3">Built for jewellery businesses, not adapted for them.</h2>
       </div>
 
       <div class="why__grid">
-        <div class="why__item reveal">
+        <div class="why__item reveal reveal--scale" style="--reveal-delay: 80ms;">
           <span class="facet-item__mark why__mark" aria-hidden="true"></span>
           <h3>Made for one industry</h3>
           <p>Every screen, field, and report is designed around how jewellery is bought, sold, and tracked — not bent from generic retail software.</p>
         </div>
-        <div class="why__item reveal">
+        <div class="why__item reveal reveal--scale" style="--reveal-delay: 160ms;">
           <span class="facet-item__mark why__mark" aria-hidden="true"></span>
           <h3>One connected suite</h3>
           <p>CRM and Connect share the same customer and order data, so your store and your Instagram never feel like two separate systems.</p>
         </div>
-        <div class="why__item reveal">
+        <div class="why__item reveal reveal--scale" style="--reveal-delay: 240ms;">
           <span class="facet-item__mark why__mark" aria-hidden="true"></span>
           <h3>Backed by a services team</h3>
           <p>Need something our products don't cover yet? The same team that builds StoreMate can build it for you, scoped to your business.</p>
@@ -162,7 +169,7 @@ import { site } from '../config/site';
 
   <!-- CTA BANNER -->
   <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
-    <div class="container cta-banner__inner reveal">
+    <div class="container cta-banner__inner reveal reveal--scale">
       <h2 class="h3">Ready to see StoreMate in action?</h2>
       <p class="lede">Pick a product to try today, or tell us what you need built.</p>
       <div class="hero__actions">
@@ -180,11 +187,25 @@ import { site } from '../config/site';
     position: relative;
     overflow: hidden;
     padding-block: $space-9 $space-8;
+    min-height: min(680px, calc(100svh - 72px));
+    display: grid;
+    align-items: center;
 
-    @media (max-width: 640px) { padding-block: $space-7 $space-6; }
+    @media (max-width: 640px) {
+      min-height: 0;
+      padding-block: $space-7 $space-6;
+    }
   }
 
-  // ---- Floating particles (subtle ambient animation) ----------------------
+  // ---- Animated hero atmosphere --------------------------------------------
+  // Transform-only movement keeps the visual light on the GPU while the
+  // content remains on its own readable layer.
+  .hero.grid-bg::before {
+    animation: gridDrift 30s linear infinite;
+    will-change: transform;
+  }
+
+  .hero__ambient,
   .hero__particles {
     position: absolute;
     inset: 0;
@@ -193,11 +214,72 @@ import { site } from '../config/site';
     overflow: hidden;
   }
 
+  .hero__glow {
+    position: absolute;
+    display: block;
+    width: clamp(17rem, 32vw, 32rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    opacity: 0.5;
+    filter: blur(12px);
+    will-change: transform;
+  }
+
+  .hero__glow--rose {
+    top: -28%;
+    right: -7%;
+    background: radial-gradient(circle, rgba($primary, 0.28) 0%, rgba($primary, 0.09) 42%, transparent 70%);
+    animation: glowFloatRose 16s ease-in-out infinite alternate;
+  }
+
+  .hero__glow--violet {
+    bottom: -52%;
+    left: 33%;
+    background: radial-gradient(circle, rgba($secondary, 0.22) 0%, rgba($secondary, 0.08) 45%, transparent 70%);
+    animation: glowFloatViolet 19s ease-in-out infinite alternate;
+  }
+
+  .hero__glow--peach {
+    top: 28%;
+    left: -15%;
+    width: clamp(13rem, 24vw, 24rem);
+    background: radial-gradient(circle, rgba(#F4AB79, 0.18) 0%, transparent 68%);
+    animation: glowFloatPeach 14s ease-in-out infinite alternate;
+  }
+
+  .hero__orbit {
+    position: absolute;
+    display: block;
+    border: 1px solid rgba($secondary, 0.15);
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .hero__orbit--one {
+    width: clamp(19rem, 38vw, 38rem);
+    aspect-ratio: 1;
+    top: -23rem;
+    right: -10rem;
+    border-color: rgba($primary, 0.16);
+    animation: orbitTurn 28s linear infinite;
+  }
+
+  .hero__orbit--two {
+    width: clamp(14rem, 26vw, 25rem);
+    aspect-ratio: 1;
+    right: 12%;
+    bottom: -18rem;
+    border-style: dashed;
+    animation: orbitTurn 22s linear infinite reverse;
+  }
+
   .particle {
     position: absolute;
     border-radius: 50%;
     opacity: 0;
+    box-shadow: 0 0 0 5px rgba($paper, 0.28), 0 0 20px currentColor;
     animation: particleFloat 12s infinite ease-in-out;
+    will-change: transform, opacity;
   }
 
   .particle--1 {
@@ -245,6 +327,29 @@ import { site } from '../config/site';
     100% { opacity: 0; transform: translateY(-80px) scale(0.5); }
   }
 
+  @keyframes gridDrift {
+    to { transform: translate3d(56px, 56px, 0); }
+  }
+
+  @keyframes glowFloatRose {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(-11%, 14%, 0) scale(1.12); }
+  }
+
+  @keyframes glowFloatViolet {
+    from { transform: translate3d(0, 0, 0) scale(0.92); }
+    to { transform: translate3d(14%, -16%, 0) scale(1.12); }
+  }
+
+  @keyframes glowFloatPeach {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(22%, -18%, 0) scale(1.15); }
+  }
+
+  @keyframes orbitTurn {
+    to { transform: rotate(360deg); }
+  }
+
   .hero__inner {
     position: relative;
     z-index: 1;
@@ -259,6 +364,14 @@ import { site } from '../config/site';
     flex-wrap: wrap;
     gap: $space-4;
     margin-top: $space-6;
+
+    @media (max-width: 480px) {
+      gap: $space-3;
+
+      .btn {
+        width: 100%;
+      }
+    }
   }
 
   .section-head {
@@ -385,6 +498,35 @@ import { site } from '../config/site';
     .hero__actions {
       justify-content: center;
       margin-top: $space-6;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero__glow--rose {
+      top: -16%;
+      right: -45%;
+      opacity: 0.42;
+    }
+
+    .hero__glow--violet {
+      bottom: -35%;
+      left: 8%;
+    }
+
+    .hero__glow--peach,
+    .hero__orbit--two,
+    .particle--3,
+    .particle--4 {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero.grid-bg::before,
+    .hero__glow,
+    .hero__orbit,
+    .particle {
+      animation: none !important;
     }
   }
 </style>

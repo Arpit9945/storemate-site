@@ -233,13 +233,25 @@ h6 {
 // ---- Scroll reveal ------------------------------------------------------------
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity $dur-slow $ease-out, transform $dur-slow $ease-out;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity $dur-slow $ease-out var(--reveal-delay, 0ms),
+    transform $dur-slow $ease-out var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal--left {
+  transform: translate3d(-24px, 0, 0);
+}
+
+.reveal--scale {
+  transform: translate3d(0, 20px, 0) scale(0.97);
 }
 
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

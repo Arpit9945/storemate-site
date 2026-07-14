@@ -16,6 +16,7 @@ const { title, description, active, noindex = false } = Astro.props;
 const pageTitle = title === site.name ? title : `${title} | ${site.name}`;
 const canonicalURL = new URL(Astro.url.pathname, site.url);
 const ogImage = new URL("/images/logo.png", site.url);
+const googleAnalyticsId = "G-G1PPWM2MK5";
 ---
 
 <!doctype html>
@@ -24,15 +25,15 @@ const ogImage = new URL("/images/logo.png", site.url);
     <!-- Google Analytics -->
     <script
       async
-      src={`https://www.googletagmanager.com/gtag/js?id=${"G-G1PPWM2MK5"}`}
+      src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
     ></script>
-    <script define:vars={"G-G1PPWM2MK5"}>
+    <script define:vars={{ googleAnalyticsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-G1PPWM2MK5");
+      gtag("config", googleAnalyticsId);
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -100,7 +101,7 @@ const ogImage = new URL("/images/logo.png", site.url);
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
       );
 
       document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
