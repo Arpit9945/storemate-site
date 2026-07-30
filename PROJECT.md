@@ -8,7 +8,7 @@ project. Always read this file before editing, and update the Changelog after ev
 
 ## 1. Overview — brand & domain map
 
-- **StoreMate** — a registered software company. This site (`storemate.com`) is its home,
+- **Storemate** — a registered software company. This site (`storemate.com`) is its home,
   and is built around **two portions**:
   - **Products** (`/products`) — ready-made SaaS: Storemate CRM and Storemate Connect.
   - **Services** (`/services`) — custom software work Storemate takes on for other businesses
@@ -162,11 +162,11 @@ Changelog below after the change is made.
   pastel section backgrounds in favor of a white/grid canvas throughout, for a more
   professional/agency register. Updated Header with a Products dropdown + Services nav item,
   updated Footer with Products/Services columns, refreshed About/Home copy to reflect
-  StoreMate as a registered company offering both products and services.
+  Storemate as a registered company offering both products and services.
 - **2026-07-11 (later)** — Domain finalized to **storematehq.com** (`app.` / `connect.`
   subdomains, `support@storematehq.com`, `+91 99092 83562`) — updated in `site.ts`,
-  `astro.config.mjs`, and `public/robots.txt`. **Repositioning:** StoreMate is NOT a
-  registered company — it's the parent studio/brand behind StoreMate CRM and StoreMate
+  `astro.config.mjs`, and `public/robots.txt`. **Repositioning:** Storemate is NOT a
+  registered company — it's the parent studio/brand behind Storemate CRM and Storemate
   Connect, which also takes on freelance/custom software services. Removed all "registered
   company" language (Home, About, FAQ) in favor of "studio" / "team" framing. Rebuilt
   `Header.astro` with a full-screen slide-in mobile nav (accordion for Products, smooth
