@@ -48,14 +48,14 @@ const navLinks = [
           <a href="/storemate-crm" class:list={["hdr-dd-item", { "is-active": active === "crm" }]}>
             <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
             <span class="hdr-dd-text">
-              <span class="hdr-dd-title">StoreMate CRM</span>
+              <span class="hdr-dd-title">Storemate CRM</span>
               <span class="hdr-dd-sub">Jewellery business management</span>
             </span>
           </a>
           <a href="/storemate-connect" class:list={["hdr-dd-item", { "is-active": active === "connect" }]}>
             <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
             <span class="hdr-dd-text">
-              <span class="hdr-dd-title">StoreMate Connect</span>
+              <span class="hdr-dd-title">Storemate Connect</span>
               <span class="hdr-dd-sub">Instagram & WhatsApp automation</span>
             </span>
           </a>
@@ -116,21 +116,23 @@ const navLinks = [
           </svg>
         </button>
         <div class="mob__acc-body" id="mobAccBody">
-          <a href="/storemate-crm" class="hdr-dd-item">
-            <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
-            <span class="hdr-dd-text">
-              <span class="hdr-dd-title">StoreMate CRM</span>
-              <span class="hdr-dd-sub">Jewellery business management</span>
-            </span>
-          </a>
-          <a href="/storemate-connect" class="hdr-dd-item">
-            <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
-            <span class="hdr-dd-text">
-              <span class="hdr-dd-title">StoreMate Connect</span>
-              <span class="hdr-dd-sub">Instagram & WhatsApp automation</span>
-            </span>
-          </a>
-          <a href="/products" class="hdr-dd-all">View all products <span aria-hidden="true">&rarr;</span></a>
+          <div class="mob__acc-inner">
+            <a href="/storemate-crm" class="hdr-dd-item">
+              <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
+              <span class="hdr-dd-text">
+                <span class="hdr-dd-title">StoreMate CRM</span>
+                <span class="hdr-dd-sub">Jewellery business management</span>
+              </span>
+            </a>
+            <a href="/storemate-connect" class="hdr-dd-item">
+              <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
+              <span class="hdr-dd-text">
+                <span class="hdr-dd-title">StoreMate Connect</span>
+                <span class="hdr-dd-sub">Instagram & WhatsApp automation</span>
+              </span>
+            </a>
+            <a href="/products" class="hdr-dd-all">View all products <span aria-hidden="true">&rarr;</span></a>
+          </div>
         </div>
       </div>
 
@@ -144,7 +146,7 @@ const navLinks = [
       ))}
     </nav>
 
-    <a href={site.products.crm.url} class="btn btn--primary mob__cta">Open StoreMate CRM</a>
+    <a href={site.products.crm.url} class="btn btn--primary mob__cta">Open Storemate CRM</a>
   </div>
 </div>
 
@@ -247,6 +249,16 @@ const navLinks = [
   /* --- Dropdown --- */
   .hdr-nav__dropdown {
     position: relative;
+
+    &.is-open .hdr-nav__link {
+      color: $ink;
+      background: $paper-alt;
+
+      &.is-active {
+        color: $primary;
+        background: $primary-tint;
+      }
+    }
   }
 
   .hdr-dropdown-panel {
@@ -285,9 +297,12 @@ const navLinks = [
     gap: $space-3;
     padding: $space-3;
     border-radius: $radius-sm;
-    transition: background $dur-fast $ease-out;
+    transition: background $dur-fast $ease-out, transform $dur-fast $ease-out;
 
-    &:hover { background: $paper-alt; }
+    &:hover {
+      background: $paper-alt;
+      transform: translateX(4px);
+    }
     &.is-active { background: $paper-alt; }
   }
 
@@ -298,6 +313,7 @@ const navLinks = [
     flex-shrink: 0;
     margin-top: 2px;
     position: relative;
+    transition: transform $dur-fast $ease-out;
 
     &::after {
       content: "";
@@ -305,6 +321,10 @@ const navLinks = [
       inset: 8px;
       border-radius: 3px;
     }
+  }
+
+  .hdr-dd-item:hover .hdr-dd-icon {
+    transform: scale(1.08);
   }
 
   .hdr-dd-icon--crm {
@@ -516,25 +536,16 @@ const navLinks = [
   .mob__acc-body {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.35s $ease-out;
+    transition: grid-template-rows 0.3s $ease-out;
     overflow: hidden;
   }
 
-  .mob__acc-body > :first-child {
-    /* This doesn't apply since we don't have an inner wrapper,
-       but we need the direct children to have min-height: 0 */
-  }
-
-  /* We need an inner wrapper for the grid trick. Let me use a different approach: max-height */
-  .mob__acc-body {
-    display: block;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s $ease-out;
+  .mob__acc-inner {
+    min-height: 0;
   }
 
   .mob__accordion.is-open .mob__acc-body {
-    max-height: 400px;          /* large enough to fit content */
+    grid-template-rows: 1fr;
   }
 
   .mob__accordion.is-open .hdr-caret {

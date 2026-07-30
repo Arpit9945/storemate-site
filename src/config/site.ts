@@ -1,5 +1,5 @@
 /**
- * StoreMate — central site configuration
+ * Storemate — central site configuration
  *
  * This is the ONLY file that should contain the domain, subdomain URLs,
  * and contact details. Every page/component must import from here instead
@@ -9,20 +9,20 @@
 const domain = "storematehq.com";
 
 export const site = {
-  name: "StoreMate",
+  name: "Storemate",
   domain,
   url: `https://${domain}`,
 
   // Product subdomains
   products: {
     crm: {
-      name: "StoreMate CRM",
+      name: "Storemate CRM",
       tagline: "Jewellery business management, simplified.",
       url: `https://app.${domain}`,
       status: "live" as const,
     },
     connect: {
-      name: "StoreMate Connect",
+      name: "Storemate Connect",
       tagline: "Instagram & WhatsApp automation for your store.",
       url: `https://connect.${domain}`,
       status: "live" as const, // Instagram automation is live
@@ -39,9 +39,9 @@ export const site = {
   },
 
   socials: {
-    instagram: "https://instagram.com/storemate",
-    twitter: "https://twitter.com/storemate",
-    linkedin: "https://linkedin.com/company/storemate",
+    instagram: "https://instagram.com/the_storemate",
+    twitter: "https://twitter.com/the_storemate",
+    linkedin: "https://linkedin.com/company/the_storemate",
   },
 };
 

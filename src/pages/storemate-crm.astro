@@ -97,11 +97,11 @@ const featureGroups = [
 const faqs = [
   {
     q: 'Do I need to change how I currently track inventory?',
-    a: "No. StoreMate CRM is built around how jewellery businesses already track stock — by weight and purity — so the switch feels familiar from day one.",
+    a: "No. Storemate CRM is built around how jewellery businesses already track stock — by weight and purity — so the switch feels familiar from day one.",
   },
   {
     q: 'Can I use it on my phone, or only on a computer?',
-    a: 'StoreMate CRM works on both. Use it at the billing counter on a desktop, or check orders and customer history from your phone while you\u2019re away from the store.',
+    a: 'Storemate CRM works on both. Use it at the billing counter on a desktop, or check orders and customer history from your phone while you\u2019re away from the store.',
   },
   {
     q: 'Is my data backed up?',
@@ -109,24 +109,40 @@ const faqs = [
   },
   {
     q: 'Can I try it before paying?',
-    a: 'Yes, StoreMate CRM offers a free trial period so you can set up your store and see it fit your workflow before committing.',
+    a: 'Yes, Storemate CRM offers a free trial period so you can set up your store and see it fit your workflow before committing.',
   },
 ];
 ---
 
 <BaseLayout
-  title="StoreMate CRM — Jewellery business management"
-  description="StoreMate CRM helps jewellery businesses manage inventory by weight and purity, track customer history, and generate GST-ready invoices — all from one place."
+  title="Jewellery CRM Software & GST Billing App | Storemate CRM"
+  description="Best Jewellery CRM software for retail shops. Track inventory by weight & purity, manage customer history, and generate GST-ready invoices easily."
   active="crm"
 >
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Storemate CRM",
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "description": "Storemate CRM helps jewellery businesses manage inventory by weight and purity, track customer history, and generate GST-ready invoices — all from one place.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "INR"
+      }
+    })}
+  />
   <PageHero
-    eyebrow="StoreMate CRM"
+    eyebrow="Storemate CRM"
     tone="crm"
     title="Run your jewellery business from one place."
     lede="Inventory, customer history, orders, and billing — built around how jewellery is actually bought and sold, not bent from generic retail software."
   >
     <div class="hero__actions">
-      <a href={site.products.crm.url} class="btn btn--primary">Open StoreMate CRM</a>
+      <a href={site.products.crm.url} class="btn btn--primary">Open Storemate CRM</a>
       <a href="#features" class="btn btn--ghost">See what's inside</a>
     </div>
   </PageHero>
@@ -157,7 +173,7 @@ const faqs = [
         <span class="eyebrow">The full picture</span>
         <h2 id="breakdown-heading" class="h3">Every feature, by category.</h2>
         <p class="lede" style="margin-top: 1rem;">
-          A closer look at what's inside StoreMate CRM — organized the way you'd actually use it.
+          A closer look at what's inside Storemate CRM — organized the way you'd actually use it.
         </p>
       </div>
 
@@ -187,10 +203,10 @@ const faqs = [
     <div class="container pair reveal">
       <div class="pair__text">
         <span class="eyebrow">Works better together</span>
-        <h2 id="pair-heading" class="h3">Pair it with StoreMate Connect</h2>
+        <h2 id="pair-heading" class="h3">Pair it with Storemate Connect</h2>
         <p class="lede">
-          When a customer asks about a piece on Instagram, StoreMate Connect can reply instantly —
-          and once they walk in, StoreMate CRM already has their conversation on record.
+          When a customer asks about a piece on Instagram, Storemate Connect can reply instantly —
+          and once they walk in, Storemate CRM already has their conversation on record.
         </p>
         <a href="/storemate-connect" class="btn btn--ghost">Explore StoreMate Connect</a>
       </div>
@@ -217,10 +233,10 @@ const faqs = [
 
   <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
     <div class="container cta-banner__inner reveal">
-      <h2 class="h3">Ready to bring your store onto StoreMate?</h2>
+      <h2 class="h3">Ready to bring your store onto Storemate?</h2>
       <p class="lede">Start a free trial — your inventory and billing, organised in an afternoon.</p>
       <div class="hero__actions">
-        <a href={site.products.crm.url} class="btn btn--on-dark">Open StoreMate CRM</a>
+        <a href={site.products.crm.url} class="btn btn--on-dark">Open Storemate CRM</a>
         <a href="/contact" class="btn" style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;">Talk to us first</a>
       </div>
     </div>

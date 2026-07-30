@@ -1,6 +1,6 @@
-# StoreMate — Marketing Site
+# Storemate — Marketing Site
 
-Astro + SCSS static marketing site for **StoreMate**, the parent brand for two products.
+Astro + SCSS static marketing site for **Storemate**, the parent brand for two products.
 This file is the single source of truth for anyone (human or AI) making changes to this
 project. Always read this file before editing, and update the Changelog after every change.
 
@@ -10,12 +10,12 @@ project. Always read this file before editing, and update the Changelog after ev
 
 - **StoreMate** — a registered software company. This site (`storemate.com`) is its home,
   and is built around **two portions**:
-  - **Products** (`/products`) — ready-made SaaS: StoreMate CRM and StoreMate Connect.
-  - **Services** (`/services`) — custom software work StoreMate takes on for other businesses
+  - **Products** (`/products`) — ready-made SaaS: Storemate CRM and Storemate Connect.
+  - **Services** (`/services`) — custom software work Storemate takes on for other businesses
     (web apps, WordPress, integrations, AI features, maintenance).
-- **StoreMate CRM** — jewellery business management (inventory, customers, orders, billing).
-  Lives at `app.storemate.com` (already live).
-- **StoreMate Connect** — Instagram & WhatsApp automation. Lives at `connect.storemate.com`.
+- **Storemate CRM** — jewellery business management (inventory, customers, orders, billing).
+  Lives at `app.Storemate.com` (already live).
+- **Storemate Connect** — Instagram & WhatsApp automation. Lives at `connect.Storemate.com`.
   Instagram automation is live; WhatsApp automation is "coming soon" (shown as a badge, not
   a separate waitlist page).
 
@@ -60,8 +60,8 @@ Nothing else should ever hardcode a URL, email, or phone number — always impor
 **Colors** (`src/styles/_tokens.scss` — the ONLY place colors are defined):
 | Token | Hex | Use |
 |---|---|---|
-| `$primary` | `#E93558` | StoreMate CRM accent, primary brand color |
-| `$secondary` | `#7026ED` | StoreMate Connect accent |
+| `$primary` | `#E93558` | Storemate CRM accent, primary brand color |
+| `$secondary` | `#7026ED` | Storemate Connect accent |
 | `$primary-dark` | `#8F1836` | Deep maroon, from logo core |
 | `$secondary-dark` | `#45148C` | Deep violet |
 | `$ink` | `#1E1420` | Primary text, footer + CTA banner background |

@@ -83,11 +83,11 @@ const featureGroups = [
 const faqs = [
   {
     q: 'Is this against Instagram\u2019s rules?',
-    a: 'No. StoreMate Connect uses Instagram\u2019s official API to send replies, the same access Meta provides to approved partners — no password sharing, no workarounds.',
+    a: 'No. Storemate Connect uses Instagram\u2019s official API to send replies, the same access Meta provides to approved partners — no password sharing, no workarounds.',
   },
   {
     q: 'Will my replies sound robotic?',
-    a: 'You write every message yourself, in your own words — StoreMate Connect just sends it at the right moment. Nothing is generated automatically unless you choose to.',
+    a: 'You write every message yourself, in your own words — Storemate Connect just sends it at the right moment. Nothing is generated automatically unless you choose to.',
   },
   {
     q: 'What happens to a question my automation doesn\u2019t cover?',
@@ -95,24 +95,40 @@ const faqs = [
   },
   {
     q: 'When is WhatsApp automation launching?',
-    a: 'It\u2019s in active development. If you\u2019re using StoreMate Connect for Instagram already, you\u2019ll be the first to know when WhatsApp broadcast is ready.',
+    a: 'It\u2019s in active development. If you\u2019re using Storemate Connect for Instagram already, you\u2019ll be the first to know when WhatsApp broadcast is ready.',
   },
 ];
 ---
 
 <BaseLayout
-  title="StoreMate Connect — Instagram & WhatsApp automation"
-  description="StoreMate Connect auto-replies to Instagram comments, DMs, and story replies so no customer question goes unanswered. WhatsApp broadcast is coming soon."
+  title="Instagram & WhatsApp Marketing Automation Tool | Storemate Connect"
+  description="Automate Instagram comments, DMs, story replies, and WhatsApp broadcasts. Reply to customers instantly, boost engagement, and grow store sales."
   active="connect"
 >
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Storemate Connect",
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "description": "Storemate Connect auto-replies to Instagram comments, DMs, and story replies so no customer question goes unanswered. WhatsApp broadcast is coming soon.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "INR"
+      }
+    })}
+  />
   <PageHero
-    eyebrow="StoreMate Connect"
+    eyebrow="Storemate Connect"
     tone="connect"
     title="Never miss a customer on Instagram again."
     lede="Auto-reply to comments, DMs, and story replies the moment someone asks — even after closing time."
   >
     <div class="hero__actions">
-      <a href={site.products.connect.url} class="btn btn--primary">Open StoreMate Connect</a>
+      <a href={site.products.connect.url} class="btn btn--primary">Open Storemate Connect</a>
       <a href="#features" class="btn btn--ghost">See what's inside</a>
     </div>
   </PageHero>
@@ -147,7 +163,7 @@ const faqs = [
         <span class="eyebrow eyebrow--violet">The full picture</span>
         <h2 id="breakdown-heading" class="h3">Every feature, by category.</h2>
         <p class="lede" style="margin-top: 1rem;">
-          A closer look at what's inside StoreMate Connect — organized the way you'd actually use it.
+          A closer look at what's inside Storemate Connect — organized the way you'd actually use it.
         </p>
       </div>
 
@@ -180,10 +196,10 @@ const faqs = [
     <div class="container pair reveal">
       <div class="pair__text">
         <span class="eyebrow eyebrow--violet">Works better together</span>
-        <h2 id="pair-heading" class="h3">Pair it with StoreMate CRM</h2>
+        <h2 id="pair-heading" class="h3">Pair it with Storemate CRM</h2>
         <p class="lede">
           Every conversation Connect handles on Instagram can carry straight into your customer's
-          record in StoreMate CRM — so your store and your Instagram feel like one system.
+          record in Storemate CRM — so your store and your Instagram feel like one system.
         </p>
         <a href="/storemate-crm" class="btn btn--ghost">Explore StoreMate CRM</a>
       </div>
@@ -213,7 +229,7 @@ const faqs = [
       <h2 class="h3">Ready to automate your Instagram inbox?</h2>
       <p class="lede">Connect your account and set up your first automation in minutes.</p>
       <div class="hero__actions">
-        <a href={site.products.connect.url} class="btn btn--on-dark">Open StoreMate Connect</a>
+        <a href={site.products.connect.url} class="btn btn--on-dark">Open Storemate Connect</a>
         <a href="/contact" class="btn" style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;">Talk to us first</a>
       </div>
     </div>

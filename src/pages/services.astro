@@ -43,14 +43,33 @@ const process = [
 ---
 
 <BaseLayout
-  title="Services"
-  description="Custom software services from StoreMate — web applications, e-commerce, WordPress development, API integrations, and AI-powered features."
+  title="Custom Software & Web Application Development Services | Storemate"
+  description="Get custom web applications, e-commerce storefronts, API integrations, and database designs tailored specifically to your business workflows."
   active="services"
 >
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Storemate Software Services",
+      "url": "https://Storematehq.com/services",
+      "image": "https://Storematehq.com/images/seo/home.png",
+      "description": "Custom web application and software development services, including database design, API integrations, and WordPress development.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ahmedabad",
+        "addressRegion": "Gujarat",
+        "addressCountry": "IN"
+      },
+      "telephone": "+919909283562",
+      "priceRange": "$$"
+    })}
+  />
   <PageHero
     eyebrow="Services"
     title="Need something built specifically for your business?"
-    lede="Beyond our own products, StoreMate takes on custom software work — scoped around what your business actually needs."
+    lede="Beyond our own products, Storemate takes on custom software work — scoped around what your business actually needs."
   >
     <div class="hero__actions">
       <a href="/contact" class="btn btn--primary">Get a quote</a>
