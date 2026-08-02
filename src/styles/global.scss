@@ -19,6 +19,7 @@ html {
   scroll-behavior: smooth;
   color-scheme: light;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
