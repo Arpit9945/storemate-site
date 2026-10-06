@@ -1,21 +1,48 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import CornerMarks from '../components/CornerMarks.astro';
+import EditorialHero from '../components/EditorialHero.astro';
+import { site } from '../config/site';
 
-const values = [
+const facts = [
+  { value: '2', label: 'products live today' },
+  { value: '23', label: 'technologies in our stack' },
+  { value: '1', label: 'team for products & custom work' },
+  { value: 'India', label: 'where we design & build' },
+];
+
+const principles = [
   {
-    title: 'Built for one industry',
-    body: 'We don\u2019t adapt generic retail software for jewellery businesses — every screen is designed around how jewellery is actually bought, sold, and tracked.',
+    title: 'Built around the real workflow',
+    body: 'We don’t bend generic software to fit. Every screen starts from how the business actually works — for jewellery, that means weight, purity and making charges from day one.',
   },
   {
-    title: 'One connected suite',
-    body: 'Your store and your Instagram shouldn\u2019t feel like two separate systems. Our products share the same customer and order data underneath.',
+    title: 'One connected system',
+    body: 'Your store and your Instagram shouldn’t feel like two separate systems. Our products share the same customer and order data underneath.',
   },
   {
     title: 'Simple enough for day one',
     body: 'No training manuals, no long onboarding calls. If you can use WhatsApp, you can run Storemate.',
   },
+  {
+    title: 'Honest scoping',
+    body: 'We tell you honestly if we’re the right fit, and agree scope, timeline and cost before any work begins.',
+  },
+  {
+    title: 'Built in stages',
+    body: 'Custom work ships in stages with regular check-ins, so you always know where things stand.',
+  },
+  {
+    title: 'Here after launch',
+    body: 'Fixes, updates and the next feature — we stay available long after the first version goes live.',
+  },
+];
+
+const customWork = [
+  'Websites & e-commerce stores',
+  'Web apps & dashboards',
+  'APIs & integrations',
+  'AI-powered features',
+  'Maintenance & support',
 ];
 ---
 
@@ -24,63 +51,166 @@ const values = [
   description="Meet Storemate, a software studio crafting industry-specific tools like Storemate CRM and Storemate Connect, alongside bespoke custom software."
   active="about"
 >
-  <PageHero
-    eyebrow="About us"
-    title="One team, two products — and work we take on beyond them."
-    lede="Storemate started with a simple observation: jewellery businesses were being asked to run their stores on tools built for everyone else. So we started building Storemate CRM and Storemate Connect, purpose-built for this industry — and we take on custom software work for other businesses alongside them."
-  />
+  <EditorialHero
+    id="about-heading"
+    kicker="About us"
+    title="We build software that"
+    accent="actually fits."
+    lede="Storemate started with a simple observation: jewellery businesses were being asked to run their stores on tools built for everyone else. So we built our own — and today the same team builds custom software for other businesses too."
+  >
+    <dl class="facts">
+      {facts.map((f) => (
+        <div class="facts__item">
+          <dt>{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </EditorialHero>
 
-  <section class="section" aria-labelledby="values-heading">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">What we believe</span>
-        <h2 id="values-heading" class="h3">How we build</h2>
+  <!-- ================= STORY ================= -->
+  <section class="section story" aria-labelledby="story-heading">
+    <div class="container story__grid">
+      <div class="story__copy">
+        <span class="eyebrow reveal">Our story</span>
+        <h2 id="story-heading" class="story__title reveal">It started at a jewellery counter, not in a spreadsheet.</h2>
+
+        <div class="story__body">
+          <p class="reveal">
+            Jewellery is sold by weight, purity and design — yet most store software treats a
+            22K necklace like any other product. Owners ended up juggling registers,
+            spreadsheets and billing tools that didn’t understand making charges.
+          </p>
+          <p class="reveal">
+            So we built <strong>Storemate CRM</strong> around how jewellery is actually bought,
+            sold and tracked. Then we saw how many sales conversations now start in Instagram
+            DMs — so we built <strong>Storemate Connect</strong> to make sure none of them go
+            unanswered.
+          </p>
+          <p class="reveal">
+            Building two products end to end taught us how to build software properly. Today
+            the same team takes on custom websites, web apps and integrations for businesses
+            of every kind.
+          </p>
+        </div>
+
+        <blockquote class="story__quote reveal">
+          “If you can use WhatsApp, you can run Storemate.”
+          <span>— the bar we hold every screen to</span>
+        </blockquote>
       </div>
 
-      <div class="values-grid">
-        {values.map((v) => (
-          <div class="value-card corner-frame reveal">
-            <CornerMarks />
-            <span class="facet-item__mark value-card__mark" aria-hidden="true"></span>
-            <h3>{v.title}</h3>
-            <p>{v.body}</p>
-          </div>
+      <div class="story__media reveal reveal--scale" aria-hidden="true">
+        <div class="story__frame">
+          <img src="/images/home/crm-dashboard.svg" alt="" width="960" height="620" loading="lazy" />
+        </div>
+        <img class="story__phone" src="/images/home/connect-phone.svg" alt="" width="340" height="690" loading="lazy" />
+        <img class="story__invoice" src="/images/home/gst-invoice.svg" alt="" width="320" height="300" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WHAT WE DO ================= -->
+  <section class="section section--alt work" aria-labelledby="work-heading">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What we do</span>
+        <h2 id="work-heading" class="section-head__title">Two kinds of work, one team.</h2>
+      </div>
+
+      <div class="work__grid">
+        <article class="work-card reveal reveal--scale">
+          <span class="work-card__label">01 · Products</span>
+          <h3 class="work-card__title">Software you can use today</h3>
+          <p class="work-card__text">Ready-made, purpose-built tools for jewellery businesses.</p>
+
+          <ul class="work-card__products">
+            <li>
+              <a href="/storemate-crm">
+                <span class="work-card__dot work-card__dot--crm" aria-hidden="true"></span>
+                <span>
+                  <strong>Storemate CRM</strong>
+                  Inventory, customers, orders and GST billing.
+                </span>
+                <span class="work-card__go" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a href="/storemate-connect">
+                <span class="work-card__dot work-card__dot--connect" aria-hidden="true"></span>
+                <span>
+                  <strong>Storemate Connect</strong>
+                  Instagram & WhatsApp automation.
+                </span>
+                <span class="work-card__go" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          </ul>
+
+          <a href="/products" class="work-card__link">View all products <span aria-hidden="true">&rarr;</span></a>
+        </article>
+
+        <article class="work-card work-card--dark reveal reveal--scale" style="--reveal-delay: 100ms;">
+          <span class="work-card__label">02 · Custom development</span>
+          <h3 class="work-card__title">Software built for you</h3>
+          <p class="work-card__text">Scoped with you, built in stages, supported after launch.</p>
+
+          <ul class="work-card__list">
+            {customWork.map((item) => (
+              <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" /></svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          <a href="/services" class="work-card__link">Explore services <span aria-hidden="true">&rarr;</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRINCIPLES ================= -->
+  <section class="section principles" aria-labelledby="principles-heading">
+    <div class="container principles__grid">
+      <div class="principles__intro reveal">
+        <span class="eyebrow">How we build</span>
+        <h2 id="principles-heading" class="section-head__title">Six things we don’t compromise on.</h2>
+        <p>
+          Whether it’s our own product or your custom project, the same principles decide
+          what we build — and what we leave out.
+        </p>
+      </div>
+
+      <ol class="principles__list">
+        {principles.map((p, i) => (
+          <li class="principle reveal" style={`--reveal-delay: ${i * 60}ms;`}>
+            <span class="principle__num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="portions-heading">
+  <!-- ================= CTA ================= -->
+  <section class="section cta" aria-labelledby="cta-heading">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Two portions, one team</span>
-        <h2 id="portions-heading" class="h3">Products and services</h2>
+      <div class="cta__panel grid-bg grid-bg--dark grid-bg--full reveal reveal--scale">
+        <span class="cta__glow" aria-hidden="true"></span>
+        <div class="cta__copy">
+          <span class="cta__eyebrow">Work with us</span>
+          <h2 id="cta-heading" class="cta__title">Have a question before you get started?</h2>
+          <p>We’re happy to walk you through either product, or scope a custom build with you.</p>
+        </div>
+        <div class="cta__actions">
+          <a href="/contact" class="btn btn--on-dark">Contact us</a>
+          <a href={`https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}`} class="btn cta__ghost" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        </div>
       </div>
-
-      <div class="portions-mini">
-        <a href="/products" class="portions-mini__item corner-frame reveal">
-          <CornerMarks />
-          <span class="portions-mini__index">01</span>
-          <h3>Products</h3>
-          <p>Storemate CRM and Storemate Connect — ready to use today, built for jewellery businesses.</p>
-          <span class="portions-mini__link">View products &rarr;</span>
-        </a>
-        <a href="/services" class="portions-mini__item corner-frame corner-frame--connect reveal">
-          <CornerMarks />
-          <span class="portions-mini__index">02</span>
-          <h3>Services</h3>
-          <p>Custom web apps, integrations, and automation — scoped and built around your business.</p>
-          <span class="portions-mini__link portions-mini__link--violet">View services &rarr;</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
-    <div class="container cta-banner__inner reveal">
-      <h2 class="h3">Have a question before you get started?</h2>
-      <p class="lede">We\u2019re happy to walk you through either product, or scope a custom build.</p>
-      <a href="/contact" class="btn btn--on-dark">Contact us</a>
     </div>
   </section>
 </BaseLayout>
@@ -88,79 +218,442 @@ const values = [
 <style lang="scss">
   @use '../styles/tokens' as *;
 
-  .section-head {
-    max-width: 560px;
-    margin-bottom: $space-7;
-    .h3 { margin-top: $space-3; }
+  /* ---- facts (inside the hero) ---- */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 880px;
+    margin: $space-7 auto 0;
+    border: 1px solid $line;
+    border-radius: 22px;
+    background: rgba(#fff, 0.75);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+
+    @media (max-width: 720px) { grid-template-columns: 1fr 1fr; }
   }
 
-  .values-grid {
+  .facts__item {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+    padding: $space-5 $space-4;
+    border-left: 1px solid $line;
+
+    &:first-child { border-left: 0; }
+
+    dd {
+      font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem);
+      font-weight: $fw-black;
+      letter-spacing: -0.03em;
+      color: $ink;
+      line-height: 1.1;
+    }
+
+    dt {
+      font-size: 0.85rem;
+      color: $muted;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 720px) {
+      &:nth-child(3) { border-left: 0; }
+      &:nth-child(n + 3) { border-top: 1px solid $line; }
+    }
+  }
+
+  /* ---- shared heading ---- */
+  .section-head {
+    max-width: 620px;
+    margin-bottom: $space-7;
+  }
+
+  .section-head__title,
+  .story__title {
+    margin-top: $space-3;
+    font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.9rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* ============================================================
+     STORY
+     ============================================================ */
+  .story__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-6;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: $space-8;
+    align-items: center;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-7;
+    }
+  }
+
+  .story__body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    margin-top: $space-5;
+
+    p { color: $ink-soft; font-size: 1.05rem; line-height: 1.7; }
+    strong { color: $ink; }
+  }
+
+  .story__quote {
+    margin-top: $space-6;
+    padding: $space-4 0 $space-4 $space-5;
+    border-left: 3px solid $primary;
+    font-size: 1.25rem;
+    font-weight: $fw-bold;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    color: $ink;
+
+    span {
+      display: block;
+      margin-top: $space-2;
+      font-size: 0.85rem;
+      font-weight: $fw-medium;
+      color: $muted;
+    }
+  }
+
+  .story__media {
+    position: relative;
+    padding: 0 0 $space-8 $space-7;
+
+    @media (max-width: 640px) { padding: 0 0 $space-7 $space-5; }
+  }
+
+  .story__frame {
+    position: relative;
+    border-radius: 18px;
+    box-shadow: 0 40px 80px -36px rgba($primary-dark, 0.4);
+
+    img { width: 100%; height: auto; border-radius: 18px; }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -16px -16px auto auto;
+      width: 55%;
+      height: 70%;
+      border-radius: 24px;
+      background: $primary-tint;
+      z-index: -1;
+    }
+  }
+
+  .story__phone {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28%;
+    height: auto;
+    filter: drop-shadow(0 28px 36px rgba($ink, 0.3));
+    transform: rotate(-4deg);
+  }
+
+  .story__invoice {
+    position: absolute;
+    right: -2%;
+    bottom: 4%;
+    width: 36%;
+    height: auto;
+    filter: drop-shadow(0 24px 34px rgba($ink, 0.22));
+    transform: rotate(3deg);
+  }
+
+  /* ============================================================
+     WHAT WE DO
+     ============================================================ */
+  .work__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-5;
 
     @media (max-width: 860px) { grid-template-columns: 1fr; }
   }
 
-  .value-card {
-    padding: $space-6;
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    padding: $space-7 $space-6;
+    border-radius: 28px;
+    background: #fff;
     border: 1px solid $line;
-    border-radius: $radius-md;
-    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
 
-    &:hover { transform: translateY(-3px); box-shadow: $shadow-soft; }
-
-    h3 { margin-top: $space-4; font-size: $fs-h6; }
-    p { margin-top: $space-3; color: $ink-soft; }
+    @media (max-width: 640px) { padding: $space-6 $space-5; }
   }
 
-  .value-card__mark { width: 2rem; height: 2rem; }
-
-  .portions-mini {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $space-6;
-
-    @media (max-width: 720px) { grid-template-columns: 1fr; }
+  .work-card--dark {
+    background: $ink;
+    border-color: $ink;
+    color: #fff;
   }
 
-  .portions-mini__item {
-    display: block;
-    background: $paper;
-    border-radius: $radius-lg;
-    padding: $space-7;
-    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
-
-    &:hover { transform: translateY(-4px); box-shadow: $shadow-soft; }
-
-    h3 { font-size: $fs-h5; margin-top: $space-4; }
-    p { margin-top: $space-3; color: $ink-soft; }
-  }
-
-  .portions-mini__index {
-    font-weight: $fw-black;
-    font-size: 0.875rem;
-    letter-spacing: 0.08em;
-    color: $muted;
-  }
-
-  .portions-mini__link {
-    display: inline-block;
-    margin-top: $space-5;
-    font-weight: $fw-semibold;
+  .work-card__label {
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.04em;
     color: $primary;
   }
 
-  .portions-mini__link--violet { color: $secondary; }
+  .work-card--dark .work-card__label { color: #FF8FA6; }
 
-  .cta-banner { background: $ink; color: $paper; }
+  .work-card__title {
+    margin-top: $space-4;
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 1.9rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.025em;
+  }
 
-  .cta-banner__inner {
-    text-align: center;
-    max-width: 560px;
-    margin-inline: auto;
+  .work-card__text {
+    margin-top: $space-2;
+    color: $ink-soft;
+  }
+
+  .work-card--dark .work-card__text { color: rgba(#fff, 0.65); }
+
+  .work-card__products {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    margin: $space-6 0;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: $space-4;
+      padding: $space-4;
+      border-radius: 18px;
+      border: 1px solid $line;
+      background: $paper;
+      font-size: 0.9rem;
+      color: $ink-soft;
+      line-height: 1.45;
+      transition: border-color $dur-base $ease-out, transform $dur-base $ease-out;
+
+      &:hover {
+        border-color: rgba($primary, 0.35);
+        transform: translateX(4px);
+
+        .work-card__go { color: $primary; transform: translateX(3px); }
+      }
+    }
+
+    strong { display: block; color: $ink; font-size: 1rem; }
+  }
+
+  .work-card__dot {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
     position: relative;
-    z-index: 1;
-    .lede { color: rgba($paper, 0.7); margin: $space-4 auto $space-6; }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 11px;
+      border-radius: 4px;
+    }
+  }
+
+  .work-card__dot--crm { background: $primary-tint; &::after { background: $primary; } }
+  .work-card__dot--connect { background: $secondary-tint; &::after { background: $secondary; border-radius: 50%; } }
+
+  .work-card__go {
+    margin-left: auto;
+    color: $muted;
+    transition: transform $dur-base $ease-out, color $dur-base $ease-out;
+  }
+
+  .work-card__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    margin: $space-6 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: $space-3;
+      padding-bottom: $space-3;
+      border-bottom: 1px solid rgba(#fff, 0.08);
+      font-weight: $fw-semibold;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      padding: 4px;
+      border-radius: 50%;
+      background: rgba(#fff, 0.1);
+      fill: none;
+      stroke: #FF8FA6;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .work-card__link {
+    margin-top: auto;
+    align-self: flex-start;
+    display: inline-flex;
+    gap: 6px;
+    font-weight: $fw-bold;
+    color: $primary;
+
+    span { transition: transform $dur-base $ease-out; }
+    &:hover span { transform: translateX(4px); }
+  }
+
+  .work-card--dark .work-card__link { color: #fff; }
+
+  /* ============================================================
+     PRINCIPLES
+     ============================================================ */
+  .principles__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: $space-8;
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-6;
+    }
+  }
+
+  .principles__intro {
+    p { margin-top: $space-4; color: $ink-soft; font-size: 1.05rem; }
+
+    @media (min-width: 961px) {
+      position: sticky;
+      top: 120px;
+    }
+  }
+
+  .principles__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid $line;
+
+    @media (max-width: 640px) { grid-template-columns: 1fr; }
+  }
+
+  .principle {
+    display: flex;
+    gap: $space-4;
+    padding: $space-6 $space-5 $space-6 0;
+    border-bottom: 1px solid $line;
+
+    &:nth-child(even) {
+      padding-left: $space-5;
+      border-left: 1px solid $line;
+    }
+
+    h3 { font-size: 1.12rem; font-weight: $fw-bold; }
+    p { margin-top: $space-2; font-size: 0.95rem; color: $ink-soft; line-height: 1.6; }
+
+    @media (max-width: 640px) {
+      padding: $space-5 0;
+
+      &:nth-child(even) { padding-left: 0; border-left: 0; }
+    }
+  }
+
+  .principle__num {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: $fw-black;
+    color: $primary;
+    font-variant-numeric: tabular-nums;
+    padding-top: 3px;
+  }
+
+  /* ============================================================
+     CTA
+     ============================================================ */
+  .cta { padding-top: 0; }
+
+  .cta__panel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-6;
+    padding: $space-8 $space-7;
+    border-radius: 32px;
+    background: $ink;
+    color: #fff;
+
+    @media (max-width: 860px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: $space-7 $space-5;
+    }
+  }
+
+  .cta__glow {
+    position: absolute;
+    width: 32rem;
+    aspect-ratio: 1;
+    right: -8rem;
+    top: -18rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($secondary, 0.45), rgba($primary, 0.18) 45%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta__copy {
+    position: relative;
+    max-width: 560px;
+
+    p { margin-top: $space-3; color: rgba(#fff, 0.7); font-size: 1.05rem; }
+  }
+
+  .cta__eyebrow {
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FF8FA6;
+  }
+
+  .cta__title {
+    margin-top: $space-3;
+    font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.5rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    color: #fff;
+  }
+
+  .cta__actions {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      .btn { width: 100%; }
+    }
+  }
+
+  .cta__ghost {
+    border: 1.5px solid rgba(#fff, 0.3);
+    color: #fff;
+
+    &:hover { border-color: #fff; }
   }
 </style>
