@@ -1,44 +1,90 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import CornerMarks from '../components/CornerMarks.astro';
+import EditorialHero from '../components/EditorialHero.astro';
+import { site } from '../config/site';
+import { techGroups, techCount } from '../data/techStack';
+
+// Line icons (inner SVG markup, 24×24 viewBox)
+const icons: Record<string, string> = {
+  app: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h3"/><path d="M8 17h6"/>',
+  cart: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  wp: '<circle cx="12" cy="12" r="10"/><path d="m5.5 8.5 3.5 10 2.4-6.6M8.5 8.5H5M10.5 8.5l3.7 10 3.3-9.5M13.5 8.5h-3M16 8.5h2.5"/>',
+  database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+  plug: '<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>',
+  sparkles: '<path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6-4.6-1.9 4.6-1.9Z"/><path d="M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8Z"/>',
+  lifebuoy: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/>',
+  layers: '<path d="m12.83 2.18 8.58 3.9a1 1 0 0 1 0 1.83l-8.58 3.9a2 2 0 0 1-1.66 0L2.6 7.9a1 1 0 0 1 0-1.83l8.58-3.9a2 2 0 0 1 1.66 0Z"/><path d="m22 12-9.17 4.17a2 2 0 0 1-1.66 0L2 12"/><path d="m22 17-9.17 4.17a2 2 0 0 1-1.66 0L2 17"/>',
+  scale: '<path d="M12 3v18"/><path d="M5 21h14"/><path d="M3 7h18"/><path d="m6 7-3 7a3 3 0 0 0 6 0Z"/><path d="m18 7-3 7a3 3 0 0 0 6 0Z"/>',
+  steps: '<path d="M4 20h4v-4h4v-4h4V8h4"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+};
 
 const services = [
   {
+    icon: 'app',
     title: 'Custom web applications',
-    desc: 'Full-stack web apps built with Next.js, React, and Node.js — dashboards, internal tools, and customer-facing platforms built around your workflow.',
+    desc: 'Full-stack web apps built with Next.js, React and Node.js — dashboards, internal tools and customer-facing platforms built around your workflow.',
+    tags: ['Dashboards', 'Internal tools', 'Customer portals'],
+    featured: true,
   },
   {
+    icon: 'cart',
     title: 'E-commerce & business websites',
-    desc: 'Fast, SEO-ready websites and storefronts, built to represent your business properly and convert visitors into customers.',
+    desc: 'Fast, SEO-ready websites and storefronts — on Shopify, WooCommerce or a custom Astro / Next.js build.',
+    tags: ['Shopify', 'WooCommerce', 'Astro'],
   },
   {
-    title: 'WordPress plugin & site development',
-    desc: 'Custom WordPress plugins and site builds for businesses already running on WordPress who need something off-the-shelf plugins can\u2019t do.',
+    icon: 'wp',
+    title: 'WordPress plugins & sites',
+    desc: 'Custom plugins and site builds for businesses on WordPress that need something off-the-shelf plugins can’t do.',
+    tags: ['Custom plugins', 'Themes', 'PHP'],
   },
   {
-    title: 'Database design & management',
-    desc: 'Structured, reliable data models using MongoDB or MySQL — designed to scale with your business instead of slowing it down.',
-  },
-  {
+    icon: 'plug',
     title: 'API development & integrations',
-    desc: 'REST and GraphQL APIs that connect your systems together — payment gateways, third-party tools, or your own internal services.',
+    desc: 'REST and GraphQL APIs that connect your systems — payment gateways, third-party tools or your own services.',
+    tags: ['REST', 'GraphQL', 'Payments'],
   },
   {
-    title: 'AI-powered feature integration',
-    desc: 'Add AI capabilities to an existing product — smart replies, content generation, or automation — integrated cleanly into your current stack.',
+    icon: 'database',
+    title: 'Database design & management',
+    desc: 'Structured, reliable data models in MongoDB, MySQL or PostgreSQL — designed to scale with your business.',
+    tags: ['MongoDB', 'MySQL', 'PostgreSQL'],
   },
   {
-    title: 'Software maintenance & support',
-    desc: 'Ongoing updates, bug fixes, and improvements for software you already have — yours or built elsewhere.',
+    icon: 'sparkles',
+    title: 'AI-powered features',
+    desc: 'Smart replies, content generation or automation — integrated cleanly into the product you already have.',
+    tags: ['Smart replies', 'Automation'],
+  },
+  {
+    icon: 'lifebuoy',
+    title: 'Maintenance & support',
+    desc: 'Ongoing updates, bug fixes and improvements for software you already have — built by us or elsewhere.',
+    tags: ['Bug fixes', 'Updates', 'Performance'],
   },
 ];
 
-const process = [
-  { step: '01', title: 'Enquire', desc: 'Tell us what you need built, roughly — no formal spec required to start the conversation.' },
-  { step: '02', title: 'Scope', desc: 'We discuss requirements, timeline, and cost, and confirm scope before any work begins.' },
-  { step: '03', title: 'Build', desc: 'We build in stages, with regular check-ins so you always know where things stand.' },
-  { step: '04', title: 'Support', desc: 'Once delivered, we stay available for fixes, updates, and future additions.' },
+const steps = [
+  { title: 'Enquire', desc: 'Tell us what you need built, roughly — no formal spec required to start the conversation.', out: 'A quick call or WhatsApp chat' },
+  { title: 'Scope', desc: 'We discuss requirements, timeline and cost, and confirm scope before any work begins.', out: 'Agreed scope, timeline & cost' },
+  { title: 'Build', desc: 'We build in stages, with regular check-ins so you always know where things stand.', out: 'Working builds to review' },
+  { title: 'Support', desc: 'Once delivered, we stay available for fixes, updates and future additions.', out: 'A team that stays on call' },
+];
+
+const reasons = [
+  { icon: 'layers', title: 'We ship our own products', body: 'Storemate CRM and Connect are built and run by the same team that will build yours.' },
+  { icon: 'scale', title: 'Honest scoping', body: 'We tell you honestly if we’re the right fit — and agree cost before any work starts.' },
+  { icon: 'steps', title: 'Built in stages', body: 'You see working progress at every check-in, not just at the end.' },
+  { icon: 'shield', title: 'Here after launch', body: 'Fixes, updates and the next feature — we don’t disappear after delivery.' },
+];
+
+const faqs = [
+  { q: 'Do I need a detailed spec before we start?', a: 'No. Tell us roughly what you need — we’ll work out the details together during scoping, before any work begins.' },
+  { q: 'How is the cost decided?', a: 'After we understand your requirements, we share the scope, timeline and cost. Work only starts once you’ve agreed to it.' },
+  { q: 'Do you only work with jewellery businesses?', a: 'No. Our products are built for jewellery stores, but our services team builds custom software for businesses of every kind.' },
+  { q: 'Can you work on software someone else built?', a: 'Yes. We take on maintenance, fixes and improvements for existing software — whether we built it or not.' },
+  { q: 'What happens after the project is delivered?', a: 'We stay available for fixes, updates and future additions, so your software keeps up as your business grows.' },
 ];
 ---
 
@@ -53,8 +99,8 @@ const process = [
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "Storemate Software Services",
-      "url": "https://Storematehq.com/services",
-      "image": "https://Storematehq.com/images/seo/home.png",
+      "url": new URL('/services', site.url).toString(),
+      "image": new URL('/images/seo/home.png', site.url).toString(),
       "description": "Custom web application and software development services, including database design, API integrations, and WordPress development.",
       "address": {
         "@type": "PostalAddress",
@@ -66,61 +112,194 @@ const process = [
       "priceRange": "$$"
     })}
   />
-  <PageHero
-    eyebrow="Services"
-    title="Need something built specifically for your business?"
-    lede="Beyond our own products, Storemate takes on custom software work — scoped around what your business actually needs."
+
+  <EditorialHero
+    id="services-heading-main"
+    kicker="Services"
+    title="Custom software,"
+    accent="built around you."
+    lede="Beyond our own products, the Storemate team designs and builds websites, web apps and integrations — scoped around what your business actually needs."
   >
-    <div class="hero__actions">
+    <div class="hero-actions">
       <a href="/contact" class="btn btn--primary">Get a quote</a>
       <a href="#services-list" class="btn btn--ghost">See what we build</a>
     </div>
-  </PageHero>
+    <p class="hero-note">Websites · Web apps · E-commerce · Integrations · Support</p>
+  </EditorialHero>
 
-  <section class="section" id="services-list" aria-labelledby="services-heading">
+  <!-- ================= SERVICES ================= -->
+  <section class="section services" id="services-list" aria-labelledby="services-heading">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">What we build</span>
-        <h2 id="services-heading" class="h3">Service categories</h2>
+      <div class="section-head section-head--split">
+        <div class="reveal">
+          <span class="eyebrow">What we build</span>
+          <h2 id="services-heading" class="section-title">Seven ways we can help.</h2>
+        </div>
+        <p class="reveal">
+          From a fast business website to a full internal platform — every project is
+          scoped with you first, then built in stages.
+        </p>
       </div>
 
-      <div class="services-grid">
+      <div class="bento">
         {services.map((s, i) => (
-          <div class="service-card corner-frame reveal">
-            <CornerMarks />
-            <span class="service-card__index">{String(i + 1).padStart(2, '0')}</span>
+          <article
+            class:list={['svc', { 'svc--featured': s.featured }, 'reveal', 'reveal--scale']}
+            style={`--reveal-delay: ${(i % 3) * 80}ms;`}
+          >
+            <div class="svc__top">
+              <span class="svc__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" set:html={icons[s.icon]}></svg>
+              </span>
+              <span class="svc__num">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 class="svc__title">{s.title}</h3>
+            <p class="svc__desc">{s.desc}</p>
+            <ul class="svc__tags">
+              {s.tags.map((t) => <li>{t}</li>)}
+            </ul>
+            {s.featured && (
+              <div class="svc__media" aria-hidden="true">
+                <img src="/images/home/custom-build.svg" alt="" width="600" height="440" loading="lazy" />
+              </div>
+            )}
+          </article>
+        ))}
+
+        <a href="/contact" class="svc svc--cta reveal reveal--scale" style="--reveal-delay: 160ms;">
+          <span class="svc__cta-copy">
+            <span class="svc__cta-label">Something else?</span>
+            <span class="svc__cta-title">Tell us what you’re trying to build.</span>
+          </span>
+          <span class="svc__cta-arrow" aria-hidden="true">
+            <svg viewBox="0 0 12 12"><path d="M3 9 9 3M9 3H4M9 3v5" /></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TECH STACK ================= -->
+  <section class="section section--alt stack" aria-labelledby="stack-heading">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="reveal">
+          <span class="eyebrow">Our stack</span>
+          <h2 id="stack-heading" class="section-title">{techCount} technologies, one team.</h2>
+        </div>
+        <p class="reveal">
+          We pick the tools that suit your project — not the other way round. These are the
+          ones we work with every day.
+        </p>
+      </div>
+
+      <div class="stack__groups">
+        {techGroups.map((g, i) => (
+          <div class="stack__group reveal" style={`--reveal-delay: ${i * 60}ms;`}>
+            <h3 class="stack__group-title">{g.title}</h3>
+            <ul class="stack__items">
+              {g.items.map((t) => (
+                <li>
+                  <svg viewBox="0 0 32 32" aria-hidden="true" set:html={t.logo}></svg>
+                  {t.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCESS ================= -->
+  <section class="section process" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">How it works</span>
+        <h2 id="process-heading" class="section-title">From enquiry to a working build.</h2>
+      </div>
+
+      <ol class="timeline">
+        {steps.map((s, i) => (
+          <li class="timeline__step reveal" style={`--reveal-delay: ${i * 100}ms;`}>
+            <span class="timeline__num">{String(i + 1).padStart(2, '0')}</span>
             <h3>{s.title}</h3>
             <p>{s.desc}</p>
-          </div>
+            <span class="timeline__out">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" /></svg>
+              {s.out}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= WHY US ================= -->
+  <section class="section why grid-bg grid-bg--dark grid-bg--full" aria-labelledby="why-heading">
+    <span class="why__glow" aria-hidden="true"></span>
+    <div class="container why__grid">
+      <div class="why__intro reveal">
+        <span class="why__eyebrow">Why work with us</span>
+        <h2 id="why-heading" class="section-title">The team behind our own products.</h2>
+        <p>
+          We don’t just build for clients — we run our own software every day. That means
+          we care about the same things you will: reliability, speed and support.
+        </p>
+        <a href="/about" class="why__link">More about us <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <ul class="why__list">
+        {reasons.map((r, i) => (
+          <li class="why__item reveal" style={`--reveal-delay: ${i * 80}ms;`}>
+            <span class="why__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" set:html={icons[r.icon]}></svg>
+            </span>
+            <h3>{r.title}</h3>
+            <p>{r.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section faq" aria-labelledby="faq-heading">
+    <div class="container faq__grid">
+      <div class="faq__intro reveal">
+        <span class="eyebrow">Questions</span>
+        <h2 id="faq-heading" class="section-title">Before we start working together.</h2>
+        <p>Anything else on your mind? <a href="/contact">Ask us directly</a>.</p>
+      </div>
+
+      <div class="faq__list">
+        {faqs.map((f, i) => (
+          <details class="faq__item reveal" style={`--reveal-delay: ${i * 60}ms;`} open={i === 0}>
+            <summary>
+              {f.q}
+              <span class="faq__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer"><p>{f.a}</p></div>
+          </details>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="process-heading">
+  <!-- ================= CTA ================= -->
+  <section class="section cta" aria-labelledby="cta-heading">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">How it works</span>
-        <h2 id="process-heading" class="h3">From enquiry to a working build.</h2>
+      <div class="cta__panel reveal reveal--scale">
+        <div class="cta__copy">
+          <span class="eyebrow">Have something in mind?</span>
+          <h2 id="cta-heading" class="cta__title">Tell us what you’re trying to build.</h2>
+          <p>We’ll tell you honestly if we’re the right fit — and if we are, how we’d build it.</p>
+        </div>
+        <div class="cta__actions">
+          <a href="/contact" class="btn btn--primary">Get a quote</a>
+          <a href={`https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}`} class="btn btn--ghost" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        </div>
       </div>
-
-      <div class="process-grid">
-        {process.map((p) => (
-          <div class="process-card reveal">
-            <span class="process-card__step">{p.step}</span>
-            <h3>{p.title}</h3>
-            <p>{p.desc}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
-    <div class="container cta-banner__inner reveal">
-      <h2 class="h3">Have something in mind?</h2>
-      <p class="lede">Tell us what you're trying to build — we'll tell you honestly if we're the right fit.</p>
-      <a href="/contact" class="btn btn--on-dark">Get a quote</a>
     </div>
   </section>
 </BaseLayout>
@@ -128,84 +307,648 @@ const process = [
 <style lang="scss">
   @use '../styles/tokens' as *;
 
-  .hero__actions {
+  /* ---- hero extras ---- */
+  .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: $space-4;
+    justify-content: center;
+    gap: $space-3;
     margin-top: $space-6;
+
+    @media (max-width: 480px) {
+      .btn { width: 100%; }
+    }
   }
 
+  .hero-note {
+    margin-top: $space-5;
+    font-size: 0.875rem;
+    font-weight: $fw-semibold;
+    color: $muted;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- shared headings ---- */
   .section-head {
-    max-width: 560px;
     margin-bottom: $space-7;
-    .h3 { margin-top: $space-3; }
   }
 
-  .services-grid {
+  .section-head--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: end;
+    gap: $space-4 $space-7;
+
+    > p { color: $ink-soft; font-size: 1.05rem; }
+
+    @media (max-width: 860px) { grid-template-columns: 1fr; }
+  }
+
+  .section-head--center {
+    max-width: 640px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-title {
+    margin-top: $space-3;
+    font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.9rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* ============================================================
+     SERVICES BENTO
+     ============================================================ */
+  .bento {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: $space-5;
+    gap: $space-4;
 
     @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
-    @media (max-width: 640px) { grid-template-columns: 1fr; }
+    @media (max-width: 620px) { grid-template-columns: 1fr; }
   }
 
-  .service-card {
+  .svc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     padding: $space-6;
+    border-radius: 24px;
     border: 1px solid $line;
-    border-radius: $radius-md;
-    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
+    background: #fff;
+    overflow: hidden;
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out, border-color $dur-base $ease-out;
 
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: $shadow-soft;
+      transform: translateY(-4px);
+      border-color: rgba($primary, 0.25);
+      box-shadow: 0 26px 50px -30px rgba($primary-dark, 0.4);
+
+      .svc__icon { background: $primary; color: #fff; }
     }
 
-    h3 { margin-top: $space-4; font-size: $fs-h6; }
-    p { margin-top: $space-3; color: $ink-soft; }
+    @media (max-width: 640px) { padding: $space-5; }
   }
 
-  .service-card__index {
+  .svc--featured {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: $ink;
+    border-color: $ink;
+    color: #fff;
+
+    .svc__icon { background: rgba(#fff, 0.1); color: #FF8FA6; }
+    .svc__num { color: rgba(#fff, 0.4); }
+    .svc__title { font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem); color: #fff; }
+    .svc__desc { color: rgba(#fff, 0.7); font-size: 1.05rem; max-width: 46ch; }
+    .svc__tags li { background: rgba(#fff, 0.08); border-color: rgba(#fff, 0.12); color: #fff; }
+
+    &:hover { border-color: $ink; box-shadow: 0 30px 60px -30px rgba($ink, 0.7); }
+
+    @media (max-width: 960px) { grid-row: auto; }
+    @media (max-width: 620px) { grid-column: auto; }
+  }
+
+  .svc__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .svc__icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: $primary-tint;
+    color: $primary;
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .svc__num {
+    font-size: 0.8rem;
     font-weight: $fw-black;
+    color: $muted;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .svc__title {
+    margin-top: $space-5;
+    font-size: 1.2rem;
+    font-weight: $fw-bold;
+    letter-spacing: -0.015em;
+  }
+
+  .svc__desc {
+    margin-top: $space-2;
+    font-size: 0.95rem;
+    color: $ink-soft;
+    line-height: 1.6;
+  }
+
+  .svc__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: $space-5;
+
+    li {
+      padding: 4px 10px;
+      border-radius: $radius-pill;
+      border: 1px solid $line;
+      background: $paper;
+      font-size: 0.75rem;
+      font-weight: $fw-semibold;
+      color: $ink-soft;
+    }
+  }
+
+  .svc--featured .svc__tags { margin-top: $space-5; padding-top: 0; }
+
+  .svc__media {
+    margin: $space-6 (-$space-6) (-$space-6) 14%;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 14px 0 0 0;
+      box-shadow: 0 0 0 1px rgba(#fff, 0.08), 0 -16px 40px -18px #000;
+      transition: transform 0.6s $ease-out;
+    }
+
+    @media (max-width: 640px) { margin: $space-5 (-$space-5) (-$space-5) 10%; }
+  }
+
+  .svc--featured:hover .svc__media img { transform: translate(-8px, -8px); }
+
+  .svc--cta {
+    grid-column: span 2;  /* closes the last bento row at 3 and 2 columns */
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    @media (max-width: 620px) { grid-column: auto; }
+    gap: $space-5;
+    background: $primary-tint;
+    border: 1.5px dashed rgba($primary, 0.35);
+
+    &:hover {
+      border-color: $primary;
+      .svc__cta-arrow { background: $primary; color: #fff; transform: rotate(45deg); }
+    }
+  }
+
+  .svc__cta-copy {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+  }
+
+  .svc__cta-label {
     font-size: 0.8125rem;
-    letter-spacing: 0.08em;
+    font-weight: $fw-bold;
+    letter-spacing: 0.04em;
     color: $primary;
   }
 
-  .process-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: $space-6;
-
-    @media (max-width: 860px) { grid-template-columns: 1fr 1fr; }
-    @media (max-width: 520px) { grid-template-columns: 1fr; }
-  }
-
-  .process-card {
-    position: relative;
-    padding-top: $space-5;
-    border-top: 2px solid $line;
-
-    h3 { margin-top: $space-3; font-size: $fs-h6; }
-    p { margin-top: $space-3; color: $ink-soft; }
-  }
-
-  .process-card__step {
+  .svc__cta-title {
+    font-size: 1.35rem;
     font-weight: $fw-black;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: $ink;
+  }
+
+  .svc__cta-arrow {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    color: $ink;
+    transition: transform 0.5s $ease-out, background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* ============================================================
+     TECH STACK
+     ============================================================ */
+  .stack__groups {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-4;
+
+    @media (max-width: 760px) { grid-template-columns: 1fr; }
+  }
+
+  .stack__group {
+    padding: $space-5 $space-6;
+    border-radius: 22px;
+    border: 1px solid $line;
+    background: #fff;
+
+    &:first-child { grid-column: 1 / -1; }
+
+    @media (max-width: 640px) { padding: $space-5; }
+  }
+
+  .stack__group-title {
     font-size: 0.8125rem;
+    font-weight: $fw-bold;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: $muted;
   }
 
-  .cta-banner { background: $ink; color: $paper; }
+  .stack__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+    margin-top: $space-4;
 
-  .cta-banner__inner {
-    text-align: center;
-    max-width: 560px;
-    margin-inline: auto;
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px 8px 10px;
+      border-radius: 14px;
+      border: 1px solid $line;
+      background: $paper;
+      font-size: 0.92rem;
+      font-weight: $fw-semibold;
+      transition: border-color $dur-base $ease-out, transform $dur-base $ease-out;
+
+      &:hover { border-color: rgba($primary, 0.35); transform: translateY(-2px); }
+    }
+
+    svg { width: 24px; height: 24px; flex-shrink: 0; }
+  }
+
+  /* ============================================================
+     PROCESS TIMELINE
+     ============================================================ */
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-4;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 27px;
+      left: 28px;
+      right: calc(25% - #{$space-4 * 0.75} - 28px); /* stop at the last circle's centre */
+      height: 2px;
+      background: linear-gradient(90deg, $primary, $secondary);
+      opacity: 0.25;
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 0;
+
+      &::before {
+        top: 28px;
+        bottom: 28px;
+        left: 27px;
+        right: auto;
+        width: 2px;
+        height: auto;
+        background: linear-gradient(180deg, $primary, $secondary);
+      }
+    }
+  }
+
+  .timeline__step {
+    position: relative;
+    padding-right: $space-3;
+
+    h3 { margin-top: $space-5; font-size: 1.25rem; font-weight: $fw-bold; }
+    p { margin-top: $space-2; color: $ink-soft; font-size: 0.95rem; line-height: 1.6; }
+
+    @media (max-width: 900px) {
+      padding: 0 0 $space-6 76px;
+
+      h3 { margin-top: 12px; }
+    }
+  }
+
+  .timeline__num {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid $line;
+    font-size: 0.95rem;
+    font-weight: $fw-black;
+    color: $primary;
+    box-shadow: 0 10px 24px -12px rgba($primary-dark, 0.35);
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    @media (max-width: 900px) {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+
+  .timeline__step:hover .timeline__num {
+    background: $brand-gradient;
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .timeline__out {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: $space-4;
+    padding: 5px 12px 5px 8px;
+    border-radius: $radius-pill;
+    background: $paper-alt;
+    font-size: 0.8rem;
+    font-weight: $fw-semibold;
+    color: $ink;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: #1A9E5C;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* ============================================================
+     WHY US (dark)
+     ============================================================ */
+  .why {
+    position: relative;
+    overflow: hidden;
+    background: $ink;
+    color: #fff;
+  }
+
+  .why__glow {
+    position: absolute;
+    width: 44rem;
+    aspect-ratio: 1;
+    right: -14rem;
+    bottom: -26rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($secondary, 0.35), rgba($primary, 0.12) 45%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .why__grid {
     position: relative;
     z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: $space-8;
+    align-items: center;
 
-    .lede { color: rgba($paper, 0.7); margin: $space-4 auto $space-6; }
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-7;
+    }
+  }
+
+  .why__eyebrow {
+    font-size: $fs-eyebrow;
+    font-weight: $fw-semibold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FF8FA6;
+  }
+
+  .why__intro {
+    .section-title { color: #fff; }
+    p { margin-top: $space-4; color: rgba(#fff, 0.7); font-size: 1.05rem; }
+  }
+
+  .why__link {
+    display: inline-flex;
+    gap: 6px;
+    margin-top: $space-5;
+    font-weight: $fw-bold;
+    color: #fff;
+
+    span { transition: transform $dur-base $ease-out; }
+    &:hover span { transform: translateX(4px); }
+  }
+
+  .why__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-3;
+
+    @media (max-width: 560px) { grid-template-columns: 1fr; }
+  }
+
+  .why__item {
+    padding: $space-5;
+    border-radius: 20px;
+    border: 1px solid rgba(#fff, 0.08);
+    background: rgba(#fff, 0.03);
+    transition: background $dur-base $ease-out, border-color $dur-base $ease-out;
+
+    &:hover { background: rgba(#fff, 0.06); border-color: rgba(#fff, 0.16); }
+
+    h3 { margin-top: $space-4; font-size: 1.05rem; font-weight: $fw-bold; color: #fff; }
+    p { margin-top: $space-2; font-size: 0.9rem; color: rgba(#fff, 0.6); line-height: 1.55; }
+  }
+
+  .why__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(#fff, 0.08);
+    color: #FF8FA6;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* ============================================================
+     FAQ
+     ============================================================ */
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: $space-8;
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-6;
+    }
+  }
+
+  .faq__intro {
+    p { margin-top: $space-4; color: $ink-soft; }
+    a { color: $primary; font-weight: $fw-bold; }
+
+    @media (min-width: 961px) {
+      position: sticky;
+      top: 120px;
+    }
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .faq__item {
+    border: 1px solid $line;
+    border-radius: 20px;
+    background: #fff;
+    transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &[open] {
+      border-color: rgba($primary, 0.3);
+      box-shadow: 0 20px 40px -28px rgba($primary-dark, 0.35);
+    }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $space-4;
+      padding: $space-5;
+      font-weight: $fw-bold;
+      font-size: 1.02rem;
+      cursor: pointer;
+      list-style: none;
+
+      &::-webkit-details-marker { display: none; }
+    }
+  }
+
+  .faq__icon {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: $paper-alt;
+    transition: background $dur-base $ease-out, transform $dur-base $ease-out;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 2px;
+      margin: -1px 0 0 -6px;
+      border-radius: 2px;
+      background: $ink;
+      transition: transform $dur-base $ease-out, background $dur-base $ease-out;
+    }
+
+    &::after { transform: rotate(90deg); }
+  }
+
+  .faq__item[open] .faq__icon {
+    background: $brand-gradient;
+    transform: rotate(180deg);
+
+    &::before, &::after { background: #fff; }
+    &::after { transform: rotate(0deg); }
+  }
+
+  .faq__answer {
+    padding: 0 $space-5 $space-5;
+    p { color: $ink-soft; max-width: 60ch; }
+  }
+
+  /* ============================================================
+     CTA
+     ============================================================ */
+  .cta { padding-top: 0; }
+
+  .cta__panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-6;
+    padding: $space-7;
+    border-radius: 32px;
+    background: linear-gradient(135deg, $primary-tint, $secondary-tint);
+    border: 1px solid $line;
+
+    @media (max-width: 860px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: $space-6 $space-5;
+    }
+  }
+
+  .cta__copy p { margin-top: $space-3; color: $ink-soft; font-size: 1.05rem; }
+
+  .cta__title {
+    margin-top: $space-3;
+    font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.4rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+  }
+
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    flex-shrink: 0;
+
+    .btn--ghost { background: #fff; }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      .btn { width: 100%; }
+    }
   }
 </style>
