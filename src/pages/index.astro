@@ -3,13 +3,119 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CornerMarks from '../components/CornerMarks.astro';
 import { site } from '../config/site';
 
-const marqueeItems = [
-  'Weight & purity tracking',
-  'GST-ready billing',
-  'Instagram DM automation',
-  'Customer history in one view',
-  'Story reply automation',
-  'WhatsApp broadcast — coming soon',
+const whatsappLive = site.products.connect.whatsappStatus !== 'coming-soon';
+
+// Tech we build custom projects with — simplified marks in each brand's colour (32×32 viewBox)
+const L = (s: string) => s;
+const logos: Record<string, string> = {
+  'React JS': L('<g fill="none" stroke="#149ECA" stroke-width="1.6"><ellipse cx="16" cy="16" rx="13" ry="5"/><ellipse cx="16" cy="16" rx="13" ry="5" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="13" ry="5" transform="rotate(120 16 16)"/></g><circle cx="16" cy="16" r="2.6" fill="#149ECA"/>'),
+  'Next.js': L('<circle cx="16" cy="16" r="14" fill="#111"/><path d="M11.5 22V10l10.5 13.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 10v7" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>'),
+  'Node.js': L('<path d="M16 2.5 28 9.5v13L16 29.5 4 22.5v-13Z" fill="#5FA04E"/><text x="16" y="20.5" font-size="10.5" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif">JS</text>'),
+  'Astro': L('<path d="M12.2 4.5h7.6l7 20.5c-2.6-1.4-6-2.2-10.8-2.2S7.8 23.6 5.2 25Z" fill="#17191E"/><path d="M11.3 24.2c-.4 2.6 1.6 4.8 4.7 5.3-.8-1.4-.5-2.6.6-3.4 1.6-1.1 2.2-1.9 1.9-2.9-1.6.5-5 .9-7.2 1Z" fill="#E2349A"/><path d="M13.8 17.5 16 10.5l2.2 7c-1.4-.3-3-.3-4.4 0Z" fill="#fff"/>'),
+  'WordPress': L('<circle cx="16" cy="16" r="14" fill="#21759B"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="#fff" stroke-width="1.4"/><path d="m9.2 11.5 4 11 2.6-7.4M12.8 11.5h-3.6M15 11.5l4.2 11 3.6-10.4M18.5 11.5H15M21 11.5h2.6" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'),
+  'SCSS': L('<circle cx="16" cy="16" r="14" fill="#CC6699"/><path d="M20.5 10.5c-1.8-1.6-6.2-1.2-7.6.6-1.6 2 .4 3.4 2.6 4.4 2.4 1.1 4 2.4 2.2 4.6-1.6 2-5.2 1.8-6.6.2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'),
+  'Shopify': L('<path d="M8 10.5h16l-1.6 17H9.6Z" fill="#95BF47"/><path d="M12 12V9a4 4 0 0 1 8 0v3" fill="none" stroke="#5E8E3E" stroke-width="1.8" stroke-linecap="round"/><path d="M18.4 15.2c-1-.8-3.6-.7-3.8.8-.3 2 4.2 1.6 3.9 4.2-.3 2.2-3.2 2.4-4.7 1.2" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>'),
+  'MongoDB': L('<path d="M16 3c3.8 4.6 6.2 8.4 6.2 12.6 0 4.8-3 8.2-5.4 9.8L16.4 29h-.8l-.4-3.6C12.8 23.8 9.8 20.4 9.8 15.6 9.8 11.4 12.2 7.6 16 3Z" fill="#47A248"/><path d="M16 6v20" stroke="#B8E0A5" stroke-width="1.1"/>'),
+  'MySQL': L('<ellipse cx="16" cy="8.5" rx="10" ry="4" fill="#4479A1"/><path d="M6 8.5v15c0 2.2 4.5 4 10 4s10-1.8 10-4v-15c0 2.2-4.5 4-10 4s-10-1.8-10-4Z" fill="#4479A1" fill-opacity="0.85"/><path d="M6 16c0 2.2 4.5 4 10 4s10-1.8 10-4" fill="none" stroke="#fff" stroke-opacity="0.7" stroke-width="1.3"/>'),
+  'TypeScript': L('<rect x="3" y="3" width="26" height="26" rx="5" fill="#3178C6"/><text x="22" y="25" font-size="12" font-weight="800" fill="#fff" text-anchor="end" font-family="Arial, sans-serif">TS</text>'),
+  'JavaScript': L('<rect x="3" y="3" width="26" height="26" rx="5" fill="#F7DF1E"/><text x="23" y="25" font-size="12" font-weight="800" fill="#111" text-anchor="end" font-family="Arial, sans-serif">JS</text>'),
+  'Tailwind CSS': L('<path d="M9 13.5c1.2-4.6 4-6.4 8.4-5.3 2.5.6 3.3 2.8 5.2 3.3 1.8.4 3.4-.2 4.4-1.5-1.2 4.6-4 6.4-8.4 5.3-2.5-.6-3.3-2.8-5.2-3.3-1.8-.4-3.4.2-4.4 1.5ZM4.6 21.5c1.2-4.6 4-6.4 8.4-5.3 2.5.6 3.3 2.8 5.2 3.3 1.8.4 3.4-.2 4.4-1.5-1.2 4.6-4 6.4-8.4 5.3-2.5-.6-3.3-2.8-5.2-3.3-1.8-.4-3.4.2-4.4 1.5Z" fill="#38BDF8"/>'),
+  'Express.js': L('<rect x="3" y="3" width="26" height="26" rx="7" fill="#1E1420"/><text x="16" y="20.5" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif">ex</text>'),
+  'PHP': L('<ellipse cx="16" cy="16" rx="14" ry="8.5" fill="#777BB4"/><text x="16" y="19.6" font-size="9.5" font-weight="800" font-style="italic" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif">php</text>'),
+  'Laravel': L('<path d="M6 8.5 12 5l6 3.5v7l6-3.5 6 3.5v7L18 29l-12-7Z" fill="none" stroke="#FF2D20" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 5v14l6 3.5M18 15.5l6 3.5V12" fill="none" stroke="#FF2D20" stroke-width="1.8" stroke-linejoin="round"/>'),
+  'WooCommerce': L('<rect x="2" y="7" width="28" height="17" rx="5" fill="#7F54B3"/><path d="M14 24l2 4 2-4" fill="#7F54B3"/><text x="16" y="19.5" font-size="8.5" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif">Woo</text>'),
+  'GraphQL': L('<path d="M16 3.5 26.8 9.75v12.5L16 28.5 5.2 22.25V9.75Z" fill="none" stroke="#E10098" stroke-width="1.6"/><path d="M16 3.5 5.6 22h20.8Z" fill="none" stroke="#E10098" stroke-width="1.4"/><g fill="#E10098"><circle cx="16" cy="3.5" r="2.4"/><circle cx="26.8" cy="9.75" r="2.4"/><circle cx="26.8" cy="22.25" r="2.4"/><circle cx="16" cy="28.5" r="2.4"/><circle cx="5.2" cy="22.25" r="2.4"/><circle cx="5.2" cy="9.75" r="2.4"/></g>'),
+  'PostgreSQL': L('<circle cx="16" cy="16" r="14" fill="#336791"/><text x="16" y="20" font-size="11" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif">Pg</text>'),
+  'Firebase': L('<path d="M7 24 10.5 4.5l4.2 7.8L17 8l8 16-9 5Z" fill="#FFA000"/><path d="M7 24 16 29l9-5-4.6-12.5Z" fill="#F57C00"/><path d="M7 24l3.5-19.5 4.2 7.8Z" fill="#FFCA28"/>'),
+  'Figma': L('<path d="M12 4h4v8h-4a4 4 0 0 1 0-8Z" fill="#F24E1E"/><path d="M16 4h4a4 4 0 0 1 0 8h-4Z" fill="#FF7262"/><path d="M12 12h4v8h-4a4 4 0 0 1 0-8Z" fill="#A259FF"/><circle cx="20" cy="16" r="4" fill="#1ABCFE"/><path d="M12 20h4v4a4 4 0 1 1-4-4Z" fill="#0ACF83"/>'),
+  'AWS': L('<text x="16" y="17" font-size="11.5" font-weight="800" fill="#232F3E" text-anchor="middle" font-family="Arial, sans-serif">aws</text><path d="M6 21.5c6 3.6 14 3.6 20 0" fill="none" stroke="#FF9900" stroke-width="2" stroke-linecap="round"/><path d="M23.5 20.5l2.8.8-.6 2.8" fill="none" stroke="#FF9900" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'),
+  'Vercel': L('<path d="M16 6 27 25H5Z" fill="#111"/>'),
+  'Razorpay': L('<path d="M13 4h12l-9 24H8l4-10.5-5 1Z" fill="#3395FF"/><path d="M15.5 11 25 4l-4.5 12Z" fill="#072654"/>'),
+};
+
+const toTech = (names: string[]) => names.map((name) => ({ name, logo: logos[name] }));
+
+// Two marquee rows: front-end & platforms, back-end & infrastructure
+const stackFront = toTech(['React JS', 'Next.js', 'Astro', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'SCSS', 'WordPress', 'Shopify', 'WooCommerce', 'Figma', 'Vercel']);
+const stackBack = toTech(['Node.js', 'Express.js', 'PHP', 'Laravel', 'GraphQL', 'MongoDB', 'MySQL', 'PostgreSQL', 'Firebase', 'AWS', 'Razorpay']);
+const heroLogos = toTech(['React JS', 'Next.js', 'Node.js', 'Astro', 'WordPress', 'Shopify', 'SCSS']);
+
+// Line icons (inner SVG markup, 24×24 viewBox)
+const icons: Record<string, string> = {
+  scale: '<path d="M12 3v18"/><path d="M5 21h14"/><path d="M3 7h18"/><path d="m6 7-3 7a3 3 0 0 0 6 0Z"/><path d="m18 7-3 7a3 3 0 0 0 6 0Z"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  receipt: '<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
+  trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+  message: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+  zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+  moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  send: '<path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.03.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.93"/>',
+  code: '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+  cart: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  plug: '<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>',
+  sparkles: '<path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6-4.6-1.9 4.6-1.9Z"/><path d="M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8Z"/>',
+  database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+  lifebuoy: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/>',
+  store: '<path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M2 7h20v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2Z"/>',
+  instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
+  id: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2"/><path d="M15 12h2"/><path d="M7 16h10"/>',
+};
+
+const crmFeatures = [
+  { icon: 'scale', title: 'Inventory by weight & purity', body: 'Gross and net weight, 18K/22K/24K or hallmark, stone details and design code — the way jewellery actually sells.' },
+  { icon: 'users', title: 'Customer history in one view', body: 'Every purchase, order, repair and exchange tied to the customer and searchable in seconds.' },
+  { icon: 'wrench', title: 'Orders & repairs tracking', body: 'Custom orders and repair jobs with status and expected delivery dates, so nothing slips.' },
+  { icon: 'receipt', title: 'GST-ready billing', body: 'Invoices with HSN codes, making charges and tax breakup built in — no separate billing tool.' },
+  { icon: 'trend', title: 'Daily rate updates', body: "Update today's gold and silver rates once — every quote and invoice follows automatically." },
+  { icon: 'shield', title: 'Staff access, kept simple', body: 'Give the counter, the workshop or managers exactly the access they need — nothing more.' },
+];
+
+const connectFeatures = [
+  { icon: 'message', title: 'Comment & DM automation', body: 'Someone comments on a post or reel — they get an instant reply in their DMs.' },
+  { icon: 'zap', title: 'Ice-breakers & keyword replies', body: 'Answer pricing, availability and store-hour questions the moment they come in.' },
+  { icon: 'sparkles', title: 'Story reply automation', body: 'Turn every story reaction into a real conversation, without opening Instagram.' },
+  { icon: 'moon', title: 'Away messages', body: 'Set store hours once and nobody waits till morning for a reply.' },
+];
+
+const services = [
+  { icon: 'code', title: 'Custom web applications', body: 'Dashboards, internal tools and customer-facing platforms built around your workflow.' },
+  { icon: 'cart', title: 'E-commerce & business websites', body: 'Shopify stores, WordPress sites and fast Astro or Next.js websites built to convert.' },
+  { icon: 'plug', title: 'API development & integrations', body: 'Connect payment gateways, third-party tools and your own systems.' },
+  { icon: 'sparkles', title: 'AI-powered features', body: 'Smart replies, content generation and automation in your current stack.' },
+  { icon: 'database', title: 'Database design', body: 'Reliable MongoDB or MySQL data models that scale with you.' },
+  { icon: 'lifebuoy', title: 'Maintenance & support', body: 'Fixes, updates and improvements — for software we built or someone else did.' },
+];
+
+const steps = [
+  { step: '01', title: 'Enquire', body: 'Tell us roughly what you need — no formal spec required to start the conversation.' },
+  { step: '02', title: 'Scope', body: 'We agree requirements, timeline and cost before any work begins.' },
+  { step: '03', title: 'Build', body: 'We build in stages with regular check-ins, so you always know where things stand.' },
+  { step: '04', title: 'Support', body: 'After delivery we stay available for fixes, updates and what comes next.' },
+];
+
+const faqs = [
+  {
+    q: 'Do I need to change how I currently track inventory?',
+    a: 'No. Storemate CRM is built around how jewellery businesses already track stock — by weight and purity — so the switch feels familiar from day one.',
+  },
+  {
+    q: 'Can I use Storemate CRM on my phone?',
+    a: 'Yes. Use it at the billing counter on a desktop, or check orders and customer history from your phone while you are away from the store.',
+  },
+  {
+    q: 'Can I try it before paying?',
+    a: 'Yes — Storemate CRM offers a free trial so you can set up your store and see it fit your workflow before committing.',
+  },
+  {
+    q: 'Do I need to share my Instagram password for Storemate Connect?',
+    a: "No. Storemate Connect uses Instagram's official API, the same access Meta gives approved partners — your login credentials are never shared with us.",
+  },
+  {
+    q: 'Can you build something our products don’t cover?',
+    a: 'Yes. The same team that builds Storemate takes on custom web apps, integrations and automation. Tell us what you need and we will tell you honestly if we are the right fit.',
+  },
 ];
 ---
 
@@ -18,197 +124,434 @@ const marqueeItems = [
   description="Storemate is the studio behind Storemate CRM and Storemate Connect — purpose-built products and custom software services for businesses that refuse to settle for generic."
   active="home"
 >
-  <!-- HERO -->
-  <section class="hero grid-bg">
-    <div class="hero__ambient" aria-hidden="true">
-      <span class="hero__glow hero__glow--rose" data-parallax="0.12"></span>
-      <span class="hero__glow hero__glow--violet" data-parallax="0.08"></span>
-      <span class="hero__glow hero__glow--peach" data-parallax="0.16"></span>
-      <span class="hero__orbit hero__orbit--one"></span>
-      <span class="hero__orbit hero__orbit--two"></span>
-    </div>
-    <div class="hero__particles" aria-hidden="true">
-      <span class="particle particle--1"></span>
-      <span class="particle particle--2"></span>
-      <span class="particle particle--3"></span>
-      <span class="particle particle--4"></span>
-      <span class="particle particle--5"></span>
-      <span class="particle particle--6"></span>
-    </div>
+  <!-- ================= HERO ================= -->
+  <section class="hero grid-bg" aria-labelledby="hero-heading">
+    <span class="hero__wash" aria-hidden="true"></span>
+
     <div class="container hero__inner">
-      <span class="eyebrow reveal reveal--left" style="--reveal-delay: 80ms;">Software studio · India</span>
-      <h1 class="h1 hero__title reveal reveal--left" style="--reveal-delay: 160ms;">
-        We build software that <span class="gradient-text">feels like yours.</span>
-      </h1>
-      <p class="lede hero__lede reveal reveal--left" style="--reveal-delay: 240ms;">
-        Your business isn't generic — your software shouldn't be either.
-        From ready-to-use products to fully custom builds, Storemate crafts
-        tools that fit the way you actually work.
+      <p class="hero__kicker reveal">
+        <span class="hero__kicker-mark" aria-hidden="true"></span>
+        Storemate — a software studio from India
       </p>
-      <div class="hero__actions reveal reveal--left" style="--reveal-delay: 320ms;">
-        <a href="/products" class="btn btn--primary btn--magnetic"><span>Explore products</span></a>
-        <a href="/services" class="btn btn--ghost btn--magnetic"><span>Explore services</span></a>
-      </div>
 
-      <div class="hero__chips reveal reveal--left" style="--reveal-delay: 400ms;">
-        <span class="chip">Purpose-built for jewellery</span>
-        <span class="chip">Live on real stores</span>
-        <span class="chip">Instagram-ready</span>
-      </div>
-    </div>
-
-    <div class="hero__scroll-cue reveal reveal--scale" style="--reveal-delay: 560ms;" aria-hidden="true">
-      <span class="hero__scroll-line"></span>
-      <span class="hero__scroll-label">Scroll</span>
-    </div>
-  </section>
-
-  <!-- MARQUEE -->
-  <section class="marquee-strip" aria-label="Product features">
-    <div class="marquee-strip__fade marquee-strip__fade--left" aria-hidden="true"></div>
-    <div class="marquee-strip__fade marquee-strip__fade--right" aria-hidden="true"></div>
-    <div class="marquee-strip__track">
-      {[...marqueeItems, ...marqueeItems].map((item) => (
-        <span class="marquee-strip__item">
-          {item}
-          <span class="marquee-strip__dot" aria-hidden="true"></span>
+      <h1 id="hero-heading" class="hero__title reveal" style="--reveal-delay: 80ms;">
+        Software for your business.<br />
+        Ready-made, or
+        <span class="hero__accent">
+          made for you.
+          <svg class="hero__scribble" viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 13 C 62 4, 132 3, 190 7 S 268 12, 297 5" />
+          </svg>
         </span>
-      ))}
+      </h1>
+
+      <p class="hero__lede reveal" style="--reveal-delay: 160ms;">
+        Use our products for jewellery stores today — or hire the team behind them to
+        design and build your website, web app or integration.
+      </p>
+
+      <div class="hero__doors">
+        <a href="/products" class="door door--products reveal reveal--scale" style="--reveal-delay: 220ms;">
+          <div class="door__head">
+            <span class="door__label">01 · Products</span>
+            <span class="door__arrow" aria-hidden="true">
+              <svg viewBox="0 0 12 12"><path d="M3 9 9 3M9 3H4M9 3v5" /></svg>
+            </span>
+          </div>
+          <h2 class="door__title">Use what's ready</h2>
+          <p class="door__text">
+            Billing, stock and customer records with Storemate CRM. Instagram replies on
+            autopilot with Storemate Connect.
+          </p>
+          <ul class="door__tags">
+            <li><span class="door__live" aria-hidden="true"></span>Storemate CRM</li>
+            <li><span class="door__live" aria-hidden="true"></span>Storemate Connect</li>
+          </ul>
+          <div class="door__media" aria-hidden="true">
+            <img src="/images/home/crm-dashboard.svg" alt="" width="960" height="620" fetchpriority="high" />
+          </div>
+        </a>
+
+        <a href="/services" class="door door--custom reveal reveal--scale" style="--reveal-delay: 300ms;">
+          <div class="door__head">
+            <span class="door__label">02 · Custom development</span>
+            <span class="door__arrow" aria-hidden="true">
+              <svg viewBox="0 0 12 12"><path d="M3 9 9 3M9 3H4M9 3v5" /></svg>
+            </span>
+          </div>
+          <h2 class="door__title">Get it built for you</h2>
+          <p class="door__text">
+            Websites, e-commerce stores, web apps and integrations — scoped with you, built
+            in stages and supported after launch.
+          </p>
+          <ul class="door__logos" aria-label="Technologies we build with">
+            {heroLogos.map((t) => (
+              <li title={t.name}>
+                <svg viewBox="0 0 32 32" aria-hidden="true" set:html={t.logo}></svg>
+                <span class="sr-only">{t.name}</span>
+              </li>
+            ))}
+            <li class="door__logos-more">+{stackFront.length + stackBack.length - heroLogos.length}</li>
+          </ul>
+          <div class="door__media" aria-hidden="true">
+            <img src="/images/home/custom-build.svg" alt="" width="600" height="440" fetchpriority="high" />
+          </div>
+        </a>
+      </div>
+
+      <p class="hero__help reveal" style="--reveal-delay: 380ms;">
+        Not sure which fits? <a href="/contact">Tell us what you need <span aria-hidden="true">&rarr;</span></a>
+      </p>
     </div>
   </section>
 
-  <!-- TWO PORTIONS: PRODUCTS / SERVICES -->
-  <section class="section portions" aria-labelledby="portions-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow">How we work</span>
-        <h2 id="portions-heading" class="h3">Two ways to work with Storemate.</h2>
-      </div>
-
-      <div class="portions__grid">
-        <a href="/products" class="portion-card corner-frame reveal reveal--scale tilt-card" style="--reveal-delay: 90ms;">
-          <CornerMarks />
-          <span class="portion-card__index">01</span>
-          <h3 class="h4">Products</h3>
-          <p>
-            Ready-made software you can start using today — Storemate CRM for running your store,
-            Storemate Connect for automating Instagram and WhatsApp.
-          </p>
-          <span class="portion-card__link">View our products &rarr;</span>
-        </a>
-
-        <a href="/services" class="portion-card corner-frame corner-frame--connect reveal reveal--scale tilt-card" style="--reveal-delay: 180ms;">
-          <CornerMarks />
-          <span class="portion-card__index">02</span>
-          <h3 class="h4">Services</h3>
-          <p>
-            Need something specific to your business? We build custom web apps, integrations,
-            and automation — scoped and built around your requirements.
-          </p>
-          <span class="portion-card__link portion-card__link--violet">View our services &rarr;</span>
-        </a>
-      </div>
+  <!-- ================= TECH MARQUEE ================= -->
+  <section class="marquee-strip" aria-labelledby="stack-heading">
+    <div class="container marquee-strip__head">
+      <h2 id="stack-heading" class="marquee-strip__label">Our custom-build stack</h2>
+      <span class="marquee-strip__count">{stackFront.length + stackBack.length} technologies, one team</span>
     </div>
+
+    {[stackFront, stackBack].map((row, r) => (
+      <div class:list={['marquee-strip__viewport', { 'marquee-strip__viewport--rev': r === 1 }]}>
+        <ul class="marquee-strip__track">
+          {[...row, ...row].map((t, i) => (
+            <li class="marquee-strip__item" aria-hidden={i >= row.length ? 'true' : undefined}>
+              <svg class="marquee-strip__logo" viewBox="0 0 32 32" aria-hidden="true" set:html={t.logo}></svg>
+              {t.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </section>
 
-  <!-- PRODUCTS PREVIEW -->
-  <section class="section section--alt" aria-labelledby="products-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow">The suite</span>
-        <h2 id="products-heading" class="h3">Two products. One connected way of working.</h2>
+  <!-- ================= CRM SPOTLIGHT ================= -->
+  <section class="section section--alt spotlight" aria-labelledby="crm-heading">
+    <div class="container spotlight__grid">
+      <div class="spotlight__media reveal reveal--left">
+        <div class="spotlight__frame spotlight__frame--crm">
+          <img
+            src="/images/home/crm-dashboard.svg"
+            alt="Storemate CRM dashboard showing today's sales, open orders, stock by purity and recent bills"
+            width="960"
+            height="620"
+            loading="lazy"
+          />
+        </div>
+        <img
+          class="spotlight__invoice"
+          src="/images/home/gst-invoice.svg"
+          alt="A GST-ready tax invoice with gold value, making charges and CGST/SGST breakup"
+          width="320"
+          height="300"
+          loading="lazy"
+        />
       </div>
 
-      <div class="products__grid">
-        <article class="product-card product-card--crm corner-frame reveal reveal--scale tilt-card" style="--reveal-delay: 90ms;">
-          <CornerMarks />
+      <div class="spotlight__copy">
+        <div class="reveal">
           <span class="badge badge--live">Live</span>
-          <h3 class="h4">Storemate CRM</h3>
-          <p class="product-card__desc">
-            Run your jewellery business from one place — inventory, customer records, orders and
-            billing, without spreadsheets or guesswork.
+          <span class="eyebrow spotlight__eyebrow">Storemate CRM</span>
+          <h2 id="crm-heading" class="h3">Run your jewellery business from one place.</h2>
+          <p class="lede">
+            Inventory, customers, orders and billing — without spreadsheets or guesswork.
+            Built around weight and purity from the first screen.
           </p>
-          <ul class="facet-list">
-            <li class="facet-item">
-              <span class="facet-item__mark" aria-hidden="true"></span>
-              <span class="facet-item__body"><strong>Inventory that makes sense</strong>Track stock by weight, purity, and design — the way jewellery is actually sold.</span>
-            </li>
-            <li class="facet-item">
-              <span class="facet-item__mark" aria-hidden="true"></span>
-              <span class="facet-item__body"><strong>Customer history in one view</strong>Every purchase, order, and repair — searchable in seconds.</span>
-            </li>
-            <li class="facet-item">
-              <span class="facet-item__mark" aria-hidden="true"></span>
-              <span class="facet-item__body"><strong>Billing that's ready for GST</strong>Generate compliant invoices without a separate tool.</span>
-            </li>
-          </ul>
-          <a href="/storemate-crm" class="btn btn--primary btn--magnetic"><span>Explore Storemate CRM</span></a>
-        </article>
+        </div>
 
-        <article class="product-card product-card--connect corner-frame corner-frame--connect reveal reveal--scale tilt-card" style="--reveal-delay: 180ms;">
-          <CornerMarks />
-          <span class="badge badge--live">Instagram live</span>
-          <h3 class="h4">Storemate Connect</h3>
-          <p class="product-card__desc">
-            Reply to Instagram comments and DMs automatically, so no customer question goes
-            unanswered — even after closing time.
-          </p>
-          <ul class="facet-list">
-            <li class="facet-item">
-              <span class="facet-item__mark" aria-hidden="true"></span>
-              <span class="facet-item__body"><strong>Comment &amp; DM automation</strong>Auto-reply to comments and DMs the moment someone asks about a piece.</span>
+        <ul class="feature-list">
+          {crmFeatures.map((f, i) => (
+            <li class="feature-list__item reveal" style={`--reveal-delay: ${80 + i * 60}ms;`}>
+              <span class="icon-tile icon-tile--rose" aria-hidden="true">
+                <svg viewBox="0 0 24 24" set:html={icons[f.icon]}></svg>
+              </span>
+              <span>
+                <strong>{f.title}</strong>
+                {f.body}
+              </span>
             </li>
-            <li class="facet-item">
-              <span class="facet-item__mark" aria-hidden="true"></span>
-              <span class="facet-item__body"><strong>Story reply automation</strong>Turn story reactions into conversations without lifting a finger.</span>
-            </li>
-            <li class="facet-item">
-              <span class="facet-item__mark" aria-hidden="true"></span>
-              <span class="facet-item__body"><strong>WhatsApp broadcast <span class="badge badge--soon">Coming soon</span></strong>Send updates and offers straight to your customers' WhatsApp.</span>
-            </li>
-          </ul>
-          <a href="/storemate-connect" class="btn btn--primary btn--magnetic"><span>Explore Storemate Connect</span></a>
-        </article>
+          ))}
+        </ul>
+
+        <div class="spotlight__actions reveal">
+          <a href="/storemate-crm" class="btn btn--primary btn--magnetic"><span>Explore Storemate CRM</span></a>
+          <a href={site.products.crm.url} class="text-link">Start free trial <span aria-hidden="true">&rarr;</span></a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- WHY -->
-  <section class="section why" aria-labelledby="why-heading">
+  <!-- ================= CONNECT SPOTLIGHT ================= -->
+  <section class="section spotlight spotlight--connect" aria-labelledby="connect-heading">
+    <div class="container spotlight__grid spotlight__grid--reverse">
+      <div class="spotlight__copy">
+        <div class="reveal">
+          <span class="badge badge--live">Instagram live</span>
+          <span class="eyebrow eyebrow--violet spotlight__eyebrow">Storemate Connect</span>
+          <h2 id="connect-heading" class="h3">Every Instagram question answered — instantly.</h2>
+          <p class="lede">
+            Customers ask about a piece at 11 PM. Storemate Connect replies in seconds,
+            in your words, so the conversation is still warm when you open in the morning.
+          </p>
+        </div>
+
+        <ul class="feature-grid-sm">
+          {connectFeatures.map((f, i) => (
+            <li class="mini-card reveal reveal--scale" style={`--reveal-delay: ${80 + i * 70}ms;`}>
+              <span class="icon-tile icon-tile--violet" aria-hidden="true">
+                <svg viewBox="0 0 24 24" set:html={icons[f.icon]}></svg>
+              </span>
+              <strong>{f.title}</strong>
+              <p>{f.body}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div class="whatsapp-note reveal">
+          <span class="icon-tile icon-tile--green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" set:html={icons.send}></svg>
+          </span>
+          <p>
+            <strong>WhatsApp template broadcasts</strong>
+            {whatsappLive
+              ? 'Send Meta-approved templates to your whole list or one customer — pay only for what you send.'
+              : 'Send updates and offers straight to your customers’ WhatsApp.'}
+          </p>
+          {!whatsappLive && <span class="badge badge--soon">Coming soon</span>}
+        </div>
+
+        <div class="spotlight__actions reveal">
+          <a href="/storemate-connect" class="btn btn--primary btn--magnetic"><span>Explore Storemate Connect</span></a>
+          <a href={site.products.connect.url} class="text-link text-link--violet">Connect your account <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+
+      <div class="spotlight__media spotlight__media--phone reveal reveal--scale">
+        <div class="phone-stage">
+          <span class="phone-stage__ring phone-stage__ring--one" aria-hidden="true"></span>
+          <span class="phone-stage__ring phone-stage__ring--two" aria-hidden="true"></span>
+          <img
+            class="phone-stage__phone"
+            src="/images/home/connect-phone.svg"
+            alt="An Instagram DM conversation where Storemate Connect automatically replies with a necklace's price and reserves it"
+            width="340"
+            height="690"
+            loading="lazy"
+          />
+          <div class="float-card float-card--reply" aria-hidden="true">
+            <span class="float-card__icon float-card__icon--violet">
+              <svg viewBox="0 0 24 24" set:html={icons.zap}></svg>
+            </span>
+            <span>
+              <strong>Keyword: “price”</strong>
+              <small>Auto-reply sent to DMs</small>
+            </span>
+          </div>
+          <div class="float-card float-card--story" aria-hidden="true">
+            <span class="float-card__icon float-card__icon--rose">
+              <svg viewBox="0 0 24 24" set:html={icons.sparkles}></svg>
+            </span>
+            <span>
+              <strong>Story reaction</strong>
+              <small>turned into a conversation</small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONNECTED SUITE ================= -->
+  <section class="section section--alt suite" aria-labelledby="suite-heading">
     <div class="container">
-      <div class="section-head reveal reveal--left">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">One connected suite</span>
+        <h2 id="suite-heading" class="h3">One customer. One record. Everywhere.</h2>
+        <p class="lede">
+          CRM and Connect share the same customer and order data — so your store and your
+          Instagram never feel like two separate systems.
+        </p>
+      </div>
+
+      <div class="suite__flow reveal reveal--scale">
+        <div class="suite__node">
+          <span class="icon-tile icon-tile--violet" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={icons.instagram}></svg></span>
+          <strong>Instagram &amp; WhatsApp</strong>
+          <small>Comments, DMs, story replies</small>
+        </div>
+        <span class="suite__wire" aria-hidden="true"><span></span></span>
+        <div class="suite__node suite__node--product suite__node--connect">
+          <span class="suite__node-tag">Storemate</span>
+          <strong>Connect</strong>
+          <small>Replies automatically</small>
+        </div>
+        <span class="suite__wire" aria-hidden="true"><span></span></span>
+        <div class="suite__node suite__node--core">
+          <span class="suite__core-icon" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={icons.id}></svg></span>
+          <strong>Shared customer record</strong>
+          <small>Purchases · orders · repairs · chats</small>
+        </div>
+        <span class="suite__wire suite__wire--rev" aria-hidden="true"><span></span></span>
+        <div class="suite__node suite__node--product suite__node--crm">
+          <span class="suite__node-tag">Storemate</span>
+          <strong>CRM</strong>
+          <small>Stock, billing, orders</small>
+        </div>
+        <span class="suite__wire suite__wire--rev" aria-hidden="true"><span></span></span>
+        <div class="suite__node">
+          <span class="icon-tile icon-tile--rose" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={icons.store}></svg></span>
+          <strong>Your counter</strong>
+          <small>Walk-ins, bills, staff</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICES ================= -->
+  <section class="section services-band grid-bg grid-bg--dark grid-bg--full" aria-labelledby="services-heading">
+    <span class="services-band__glow" aria-hidden="true"></span>
+    <div class="container services-band__grid">
+      <div class="services-band__intro">
+        <div class="reveal">
+          <span class="eyebrow services-band__eyebrow">Software services</span>
+          <h2 id="services-heading" class="h3">Need something specific? We'll build it.</h2>
+          <p class="lede">
+            The same team behind Storemate builds custom software for businesses of every
+            kind — scoped honestly, built in stages, supported after launch.
+          </p>
+        </div>
+        <div class="services-band__media reveal reveal--scale">
+          <img
+            src="/images/home/custom-build.svg"
+            alt="A code editor building an order service, next to a live order confirmation preview"
+            width="600"
+            height="440"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="services-band__list">
+        {services.map((s, i) => (
+          <a href="/services" class="service-row reveal" style={`--reveal-delay: ${i * 60}ms;`}>
+            <span class="service-row__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" set:html={icons[s.icon]}></svg>
+            </span>
+            <span class="service-row__text">
+              <strong>{s.title}</strong>
+              <span>{s.body}</span>
+            </span>
+            <span class="service-row__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        ))}
+        <a href="/services" class="btn btn--on-dark services-band__cta reveal">See all services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCESS ================= -->
+  <section class="section process" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">From enquiry to launch</span>
+        <h2 id="process-heading" class="h3">A clear process, no surprises.</h2>
+      </div>
+
+      <ol class="process__steps">
+        {steps.map((s, i) => (
+          <li class="process__step reveal reveal--scale" style={`--reveal-delay: ${i * 100}ms;`}>
+            <span class="process__num">{s.step}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= WHY ================= -->
+  <section class="section section--alt why" aria-labelledby="why-heading">
+    <div class="container why__grid">
+      <div class="why__intro reveal reveal--left">
         <span class="eyebrow">Why Storemate</span>
         <h2 id="why-heading" class="h3">Built for jewellery businesses, not adapted for them.</h2>
+        <p class="lede">
+          Generic retail software asks you to bend your store around it. Storemate starts
+          from how jewellery is actually bought, sold and tracked.
+        </p>
+        <a href="/about" class="text-link">More about us <span aria-hidden="true">&rarr;</span></a>
       </div>
 
-      <div class="why__grid">
-        <div class="why__item reveal reveal--scale" style="--reveal-delay: 80ms;">
+      <div class="why__cards">
+        <div class="why__card reveal reveal--scale" style="--reveal-delay: 80ms;">
           <span class="facet-item__mark why__mark" aria-hidden="true"></span>
           <h3>Made for one industry</h3>
-          <p>Every screen, field, and report is designed around how jewellery is bought, sold, and tracked — not bent from generic retail software.</p>
+          <p>Every screen, field and report is designed around jewellery — not bent from generic retail software.</p>
         </div>
-        <div class="why__item reveal reveal--scale" style="--reveal-delay: 160ms;">
+        <div class="why__card reveal reveal--scale" style="--reveal-delay: 160ms;">
           <span class="facet-item__mark why__mark" aria-hidden="true"></span>
           <h3>One connected suite</h3>
-          <p>CRM and Connect share the same customer and order data, so your store and your Instagram never feel like two separate systems.</p>
+          <p>CRM and Connect share the same customer and order data, so nothing gets typed in twice.</p>
         </div>
-        <div class="why__item reveal reveal--scale" style="--reveal-delay: 240ms;">
+        <div class="why__card reveal reveal--scale" style="--reveal-delay: 240ms;">
+          <span class="facet-item__mark why__mark" aria-hidden="true"></span>
+          <h3>Your data, backed up</h3>
+          <p>Inventory, customers and billing history are backed up automatically — a lost device loses nothing.</p>
+        </div>
+        <div class="why__card reveal reveal--scale" style="--reveal-delay: 320ms;">
           <span class="facet-item__mark why__mark" aria-hidden="true"></span>
           <h3>Backed by a services team</h3>
-          <p>Need something our products don't cover yet? The same team that builds Storemate can build it for you, scoped to your business.</p>
+          <p>Need something the products don't cover yet? The team that builds Storemate can build it for you.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA BANNER -->
-  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
-    <div class="container cta-banner__inner reveal reveal--scale">
-      <h2 class="h3">Ready to see Storemate in action?</h2>
-      <p class="lede">Pick a product to try today, or tell us what you need built.</p>
-      <div class="hero__actions">
-        <a href={site.products.crm.url} class="btn btn--on-dark">Open Storemate CRM</a>
-        <a href="/services" class="btn" style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;">Talk about a custom build</a>
+  <!-- ================= FAQ ================= -->
+  <section class="section faq" aria-labelledby="faq-heading">
+    <div class="container faq__grid">
+      <div class="faq__intro reveal reveal--left">
+        <span class="eyebrow">Questions</span>
+        <h2 id="faq-heading" class="h3">Good to know before you start.</h2>
+        <p class="lede">Can't find what you're looking for? We're happy to walk you through it.</p>
+        <a href="/faq" class="text-link">Read all FAQs <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="faq__list">
+        {faqs.map((f, i) => (
+          <details class="faq__item reveal" style={`--reveal-delay: ${i * 60}ms;`} open={i === 0}>
+            <summary>
+              {f.q}
+              <span class="faq__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq__answer"><p>{f.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="section cta" aria-labelledby="cta-heading">
+    <div class="container">
+      <div class="cta__panel grid-bg grid-bg--dark grid-bg--full reveal reveal--scale">
+        <span class="cta__glow cta__glow--rose" aria-hidden="true"></span>
+        <span class="cta__glow cta__glow--violet" aria-hidden="true"></span>
+
+        <div class="cta__copy">
+          <span class="eyebrow cta__eyebrow">Get started</span>
+          <h2 id="cta-heading" class="h3">Ready to see Storemate in action?</h2>
+          <p class="lede">Try a product today, or tell us what you need built — we'll tell you honestly if we're the right fit.</p>
+          <div class="hero__actions">
+            <a href={site.products.crm.url} class="btn btn--on-dark btn--magnetic"><span>Start free with CRM</span></a>
+            <a href="/contact" class="btn cta__ghost btn--magnetic"><span>Talk about a custom build</span></a>
+          </div>
+        </div>
+
+        <div class="cta__media" aria-hidden="true">
+          <img src="/images/home/gst-invoice.svg" alt="" width="320" height="300" loading="lazy" />
+        </div>
       </div>
     </div>
   </section>
@@ -217,280 +560,471 @@ const marqueeItems = [
 <style lang="scss">
   @use '../styles/tokens' as *;
 
+  /* ============================================================
+     HERO — editorial headline + two "doors"
+     ============================================================ */
   .hero {
     position: relative;
     overflow: hidden;
-    padding-block: $space-9 $space-8;
-    min-height: min(680px, calc(100svh - 72px));
-    display: grid;
-    align-items: center;
+    padding-block: $space-8 $space-8;
 
     @media (max-width: 640px) {
-      min-height: 0;
-      padding-block: $space-7 $space-6;
+      padding-block: $space-6 $space-7;
     }
   }
 
-  // ---- Animated hero atmosphere --------------------------------------------
-  .hero.grid-bg::before {
-    animation: gridDrift 30s linear infinite;
-    will-change: transform;
-  }
-
-  .hero__ambient,
-  .hero__particles {
+  /* one soft wash of colour behind the headline — nothing else floating around */
+  .hero__wash {
     position: absolute;
-    inset: 0;
+    top: -30%;
+    left: 50%;
+    width: min(1100px, 120vw);
+    aspect-ratio: 2 / 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba($primary, 0.09), rgba($secondary, 0.05) 55%, transparent);
     pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+    z-index: -1;
   }
-
-  .hero__glow {
-    position: absolute;
-    display: block;
-    width: clamp(17rem, 32vw, 32rem);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    opacity: 0.5;
-    filter: blur(12px);
-    will-change: transform;
-  }
-
-  .hero__glow--rose {
-    top: -28%;
-    right: -7%;
-    background: radial-gradient(circle, rgba($primary, 0.28) 0%, rgba($primary, 0.09) 42%, transparent 70%);
-    animation: glowFloatRose 16s ease-in-out infinite alternate;
-  }
-
-  .hero__glow--violet {
-    bottom: -52%;
-    left: 33%;
-    background: radial-gradient(circle, rgba($secondary, 0.22) 0%, rgba($secondary, 0.08) 45%, transparent 70%);
-    animation: glowFloatViolet 19s ease-in-out infinite alternate;
-  }
-
-  .hero__glow--peach {
-    top: 28%;
-    left: -15%;
-    width: clamp(13rem, 24vw, 24rem);
-    background: radial-gradient(circle, rgba(#F4AB79, 0.18) 0%, transparent 68%);
-    animation: glowFloatPeach 14s ease-in-out infinite alternate;
-  }
-
-  .hero__orbit {
-    position: absolute;
-    display: block;
-    border: 1px solid rgba($secondary, 0.15);
-    border-radius: 50%;
-    will-change: transform;
-  }
-
-  .hero__orbit--one {
-    width: clamp(19rem, 38vw, 38rem);
-    aspect-ratio: 1;
-    top: -23rem;
-    right: -10rem;
-    border-color: rgba($primary, 0.16);
-    animation: orbitTurn 28s linear infinite;
-  }
-
-  .hero__orbit--two {
-    width: clamp(14rem, 26vw, 25rem);
-    aspect-ratio: 1;
-    right: 12%;
-    bottom: -18rem;
-    border-style: dashed;
-    animation: orbitTurn 22s linear infinite reverse;
-  }
-
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0;
-    box-shadow: 0 0 0 5px rgba($paper, 0.28), 0 0 20px currentColor;
-    animation: particleFloat 12s infinite ease-in-out;
-    will-change: transform, opacity;
-  }
-
-  .particle--1 { width: 6px; height: 6px; background: $primary; top: 20%; left: 10%; animation-delay: 0s; }
-  .particle--2 { width: 4px; height: 4px; background: $secondary; top: 60%; left: 80%; animation-delay: 2s; }
-  .particle--3 { width: 8px; height: 8px; background: rgba($primary, 0.4); top: 40%; left: 55%; animation-delay: 4s; }
-  .particle--4 { width: 5px; height: 5px; background: rgba($secondary, 0.5); top: 75%; left: 25%; animation-delay: 6s; }
-  .particle--5 { width: 3px; height: 3px; background: $primary; top: 15%; left: 70%; animation-delay: 8s; }
-  .particle--6 { width: 7px; height: 7px; background: rgba($secondary, 0.3); top: 50%; left: 40%; animation-delay: 10s; }
-
-  @keyframes particleFloat {
-    0%   { opacity: 0; transform: translateY(0) scale(0.5); }
-    15%  { opacity: 0.6; }
-    50%  { opacity: 0.3; transform: translateY(-40px) scale(1); }
-    85%  { opacity: 0.6; }
-    100% { opacity: 0; transform: translateY(-80px) scale(0.5); }
-  }
-
-  @keyframes gridDrift { to { transform: translate3d(56px, 56px, 0); } }
-  @keyframes glowFloatRose { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-11%, 14%, 0) scale(1.12); } }
-  @keyframes glowFloatViolet { from { transform: translate3d(0, 0, 0) scale(0.92); } to { transform: translate3d(14%, -16%, 0) scale(1.12); } }
-  @keyframes glowFloatPeach { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(22%, -18%, 0) scale(1.15); } }
-  @keyframes orbitTurn { to { transform: rotate(360deg); } }
 
   .hero__inner {
     position: relative;
-    z-index: 1;
-    max-width: 760px;
+    text-align: center;
   }
 
-  .hero__title { margin-top: $space-4; }
-  .hero__lede { margin-top: $space-5; }
-
-  .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $space-4;
-    margin-top: $space-6;
-
-    @media (max-width: 480px) {
-      gap: $space-3;
-      .btn { width: 100%; }
-    }
-  }
-
-  // ---- Hero feature chips ---------------------------------------------------
-  .hero__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $space-3;
-    margin-top: $space-6;
-  }
-
-  .chip {
-    font-size: 0.8125rem;
-    font-weight: $fw-semibold;
-    letter-spacing: 0.01em;
-    color: $ink-soft;
-    padding: 0.4rem 0.85rem;
-    border-radius: 999px;
-    border: 1px solid $line;
-    background: rgba($paper, 0.6);
-    backdrop-filter: blur(6px);
+  .hero__kicker {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 10px;
+    font-size: 0.875rem;
+    font-weight: $fw-semibold;
+    color: $ink-soft;
+  }
 
-    &::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: $primary;
-      display: inline-block;
+  .hero__kicker-mark {
+    width: 14px;
+    height: 14px;
+    background: $primary;
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+  }
+
+  .hero__title {
+    margin: $space-5 auto 0;
+    max-width: 18ch;
+    font-size: clamp(2.5rem, 1.5rem + 3.6vw, 4.75rem);
+    font-weight: $fw-black;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: $ink;
+
+    @media (max-width: 640px) {
+      br { display: none; }
     }
   }
 
-  // ---- Scroll cue ------------------------------------------------------------
-  .hero__scroll-cue {
+  .hero__accent {
+    position: relative;
+    display: inline-block;
+    color: $primary;
+    white-space: nowrap;
+  }
+
+  /* hand-drawn underline that draws itself in */
+  .hero__scribble {
     position: absolute;
-    left: 50%;
-    bottom: $space-6;
-    transform: translateX(-50%);
-    z-index: 1;
+    left: -2%;
+    bottom: -0.16em;
+    width: 104%;
+    height: 0.28em;
+    overflow: visible;
+
+    path {
+      fill: none;
+      stroke: $primary;
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: 0.35;
+      stroke-dasharray: 340;
+      stroke-dashoffset: 340;
+      animation: scribbleDraw 1.1s $ease-out 0.7s forwards;
+    }
+  }
+
+  @keyframes scribbleDraw { to { stroke-dashoffset: 0; } }
+
+  .hero__lede {
+    margin: $space-5 auto 0;
+    max-width: 54ch;
+    font-size: $fs-body-lg;
+    color: $ink-soft;
+  }
+
+  /* ---- the two doors ---- */
+  .hero__doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-5;
+    margin-top: $space-8;
+    text-align: left;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      margin-top: $space-7;
+    }
+  }
+
+  .door {
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: $space-2;
-
-    @media (max-width: 640px) { display: none; }
-  }
-
-  .hero__scroll-line {
-    width: 1px;
-    height: 34px;
-    background: linear-gradient(to bottom, rgba($ink, 0.35), transparent);
-    position: relative;
+    min-height: 470px;
+    padding: $space-6 $space-6 0;
+    border-radius: 28px;
     overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.5s $ease-out, box-shadow 0.5s $ease-out;
 
-    &::after {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: $primary;
-      animation: scrollLine 2.2s ease-in-out infinite;
+    &:hover { transform: translateY(-4px); }
+
+    @media (max-width: 640px) {
+      min-height: 420px;
+      padding: $space-5 $space-5 0;
     }
   }
 
-  @keyframes scrollLine {
-    0% { top: -100%; }
-    60% { top: 100%; }
-    100% { top: 100%; }
+  .door--products {
+    background: #FBF1EF;
+    border: 1px solid #F1DEDA;
+    color: $ink;
+
+    &:hover { box-shadow: 0 30px 60px -34px rgba($primary-dark, 0.45); }
   }
 
-  .hero__scroll-label {
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  .door--custom {
+    background: $ink;
+    border: 1px solid $ink;
+    color: #fff;
+
+    &:hover { box-shadow: 0 30px 60px -30px rgba($ink, 0.7); }
+  }
+
+  .door__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .door__label {
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.04em;
+    color: $primary;
+  }
+
+  .door--custom .door__label { color: #FF8FA6; }
+
+  .door__arrow {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    color: $ink;
+    transition: transform 0.5s $ease-out, background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .door:hover .door__arrow {
+    transform: rotate(45deg);
+    background: $primary;
+    color: #fff;
+  }
+
+  .door__title {
+    margin-top: $space-5;
+    font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.1rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.025em;
+  }
+
+  .door__text {
+    margin-top: $space-3;
+    max-width: 40ch;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: $ink-soft;
+  }
+
+  .door--custom .door__text { color: rgba(#fff, 0.66); }
+
+  .door__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+    margin-top: $space-5;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: $radius-pill;
+      background: #fff;
+      border: 1px solid #F1DEDA;
+      font-size: 0.8125rem;
+      font-weight: $fw-semibold;
+    }
+  }
+
+  .door__live {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1A9E5C;
+  }
+
+  .door__logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: $space-5;
+
+    li {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    svg { width: 22px; height: 22px; }
+  }
+
+  .door__logos-more {
+    width: auto !important;
+    padding: 0 10px;
+    background: rgba(#fff, 0.1) !important;
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+  }
+
+  /* preview image peeks in from the bottom-right corner */
+  .door__media {
+    position: relative;
+    margin-top: auto;
+    margin-right: -$space-6;
+    padding-top: $space-6;
+    padding-left: 12%;
+    height: 230px;
+
+    img {
+      width: 560px;
+      max-width: none;
+      height: auto;
+      border-radius: 14px 0 0 0;
+      box-shadow: 0 -12px 40px -18px rgba($ink, 0.35);
+      transition: transform 0.6s $ease-out;
+    }
+
+    @media (max-width: 640px) {
+      margin-right: -$space-5;
+      height: 190px;
+      img { width: 440px; }
+    }
+  }
+
+  .door--custom .door__media img {
+    width: 470px;
+    box-shadow: 0 0 0 1px rgba(#fff, 0.08), 0 -12px 40px -18px #000;
+
+    @media (max-width: 640px) { width: 380px; }
+  }
+
+  .door:hover .door__media img { transform: translate(-8px, -10px); }
+
+  .hero__help {
+    margin-top: $space-6;
+    font-size: 0.95rem;
     color: $muted;
+
+    a {
+      font-weight: $fw-bold;
+      color: $ink;
+      border-bottom: 1.5px solid rgba($primary, 0.4);
+      transition: border-color $dur-base $ease-out, color $dur-base $ease-out;
+
+      &:hover { color: $primary; border-color: $primary; }
+    }
   }
 
-  // ---- Marquee strip ---------------------------------------------------------
+  /* ---- floating notification cards (used in the Connect spotlight) ---- */
+  .float-card {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px 10px 10px;
+    border-radius: 16px;
+    background: rgba(#fff, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba($line, 0.9);
+    box-shadow: 0 18px 40px -16px rgba($ink, 0.28);
+    white-space: nowrap;
+    animation: cardBob 6s ease-in-out infinite;
+
+    strong {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: $fw-bold;
+      color: $ink;
+      line-height: 1.3;
+    }
+
+    small {
+      display: block;
+      font-size: 0.72rem;
+      color: $muted;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 640px) {
+      padding: 7px 10px 7px 7px;
+      gap: 8px;
+
+      strong { font-size: 0.72rem; }
+      small { display: none; }
+    }
+  }
+
+  .float-card__icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    color: #fff;
+
+    svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @media (max-width: 640px) { width: 28px; height: 28px; }
+  }
+
+  .float-card__icon--violet { background: linear-gradient(135deg, #9B5CF6, $secondary); }
+  .float-card__icon--rose { background: linear-gradient(135deg, #F45C7C, $primary); }
+
+  @keyframes cardBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes phoneFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-14px) rotate(-1deg); }
+  }
+
+  @keyframes orbitTurn { to { transform: rotate(360deg); } }
+
+  /* ============================================================
+     TECH MARQUEE — two rows, opposite directions
+     ============================================================ */
   .marquee-strip {
     position: relative;
     border-top: 1px solid $line;
     border-bottom: 1px solid $line;
-    overflow: hidden;
-    padding-block: $space-4;
+    padding-block: $space-6;
     background: $paper;
+  }
+
+  .marquee-strip__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: $space-4;
+    margin-bottom: $space-5;
+
+    @media (max-width: 560px) {
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+
+  .marquee-strip__label {
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $ink;
+  }
+
+  .marquee-strip__count {
+    font-size: 0.875rem;
+    color: $muted;
+  }
+
+  .marquee-strip__viewport {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+
+    & + & { margin-top: $space-3; }
   }
 
   .marquee-strip__track {
     display: flex;
     width: max-content;
-    gap: $space-7;
-    animation: marqueeScroll 32s linear infinite;
+    gap: $space-3;
+    padding-right: $space-3;   /* keeps the loop seamless at -50% */
+    animation: marqueeScroll 48s linear infinite;
   }
 
-  .marquee-strip:hover .marquee-strip__track {
-    animation-play-state: paused;
+  .marquee-strip__viewport--rev .marquee-strip__track {
+    animation-direction: reverse;
+    animation-duration: 54s;
   }
+
+  .marquee-strip:hover .marquee-strip__track { animation-play-state: paused; }
 
   .marquee-strip__item {
     display: inline-flex;
     align-items: center;
-    gap: $space-7;
-    font-size: 0.9375rem;
+    gap: 10px;
+    padding: 8px 18px 8px 10px;
+    border-radius: 14px;
+    border: 1px solid $line;
+    background: #fff;
+    font-size: 0.95rem;
     font-weight: $fw-semibold;
-    color: $ink-soft;
+    color: $ink;
     white-space: nowrap;
   }
 
-  .marquee-strip__dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: $secondary;
-    opacity: 0.6;
-  }
-
-  .marquee-strip__fade {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: clamp(2rem, 8vw, 6rem);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .marquee-strip__fade--left {
-    left: 0;
-    background: linear-gradient(to right, $paper, transparent);
-  }
-
-  .marquee-strip__fade--right {
-    right: 0;
-    background: linear-gradient(to left, $paper, transparent);
+  .marquee-strip__logo {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
   }
 
   @keyframes marqueeScroll {
@@ -498,91 +1032,68 @@ const marqueeItems = [
     to { transform: translate3d(-50%, 0, 0); }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-strip__track { animation: none; }
-  }
-
+  /* ============================================================
+     SHARED BITS
+     ============================================================ */
   .section-head {
-    max-width: 560px;
-    margin-bottom: $space-7;
+    max-width: 620px;
+    margin-bottom: $space-8;
+
     .h3 { margin-top: $space-3; }
+    .lede { margin-top: $space-4; }
+
+    @media (max-width: 640px) { margin-bottom: $space-7; }
   }
 
-  // ---- Portions (Products / Services) -------------------------------------
-  .portions__grid {
+  .section-head--center {
+    margin-inline: auto;
+    text-align: center;
+
+    .lede { margin-inline: auto; }
+  }
+
+  .icon-tile {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $space-6;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 13px;
 
-    @media (max-width: 780px) { grid-template-columns: 1fr; }
-  }
-
-  .portion-card {
-    display: block;
-    border: 1px solid $line;
-    border-radius: $radius-lg;
-    padding: $space-8 $space-7;
-    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
-
-    &:hover {
-      box-shadow: $shadow-soft;
+    svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-
-    h3 { margin-top: $space-4; }
-    p { margin-top: $space-4; color: $ink-soft; max-width: 42ch; }
   }
 
-  .portion-card__index {
-    font-family: $font-body;
-    font-weight: $fw-black;
-    font-size: 0.875rem;
-    letter-spacing: 0.08em;
-    color: $muted;
-  }
+  .icon-tile--rose { background: $primary-tint; color: $primary; }
+  .icon-tile--violet { background: $secondary-tint; color: $secondary; }
+  .icon-tile--green { background: rgba(#1A9E5C, 0.1); color: #1A9E5C; }
 
-  .portion-card__link {
-    display: inline-block;
-    margin-top: $space-6;
-    font-weight: $fw-semibold;
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: $fw-bold;
     color: $primary;
+
+    span { transition: transform $dur-base $ease-out; }
+    &:hover span { transform: translateX(4px); }
   }
 
-  .portion-card__link--violet { color: $secondary; }
+  .text-link--violet { color: $secondary; }
 
-  // ---- Products ---------------------------------------------------------
-  .products__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $space-6;
-
-    @media (max-width: 860px) { grid-template-columns: 1fr; }
-  }
-
-  .product-card {
-    background: $paper;
-    border-radius: $radius-lg;
-    padding: $space-7;
-    display: flex;
-    flex-direction: column;
-    gap: $space-5;
-    border: 1px solid $line;
-    transition: box-shadow $dur-base $ease-out;
-
-    &:hover { box-shadow: $shadow-soft; }
-
-    .product-card__desc { color: $ink-soft; }
-  }
-
-  .product-card .badge--live { align-self: flex-start; }
-
-  // ---- Tilt cards (JS-driven) --------------------------------------------
   .tilt-card {
     transform-style: preserve-3d;
     will-change: transform;
     transition: transform 0.35s $ease-out, box-shadow $dur-base $ease-out;
   }
 
-  // ---- Magnetic buttons (JS-driven) --------------------------------------
   .btn--magnetic {
     position: relative;
     display: inline-flex;
@@ -591,61 +1102,784 @@ const marqueeItems = [
     span { display: inline-block; pointer-events: none; }
   }
 
-  // ---- Why grid -----------------------------------------------------------
-  .why__grid {
+  /* ============================================================
+     SPOTLIGHTS
+     ============================================================ */
+  .spotlight { overflow: hidden; }
+
+  .spotlight__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-6;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: $space-8;
 
-    @media (max-width: 860px) { grid-template-columns: 1fr; }
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: $space-7;
+    }
   }
 
-  .why__item {
-    h3 { margin-top: $space-4; font-size: $fs-h6; }
-    p { margin-top: $space-3; color: $ink-soft; }
+  .spotlight__grid--reverse {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      .spotlight__media { order: -1; }
+    }
   }
 
-  .why__mark {
-    width: 2rem;
-    height: 2rem;
+  .spotlight__copy {
+    .badge { margin-right: $space-2; vertical-align: middle; }
+    .h3 { margin-top: $space-4; }
+    .lede { margin-top: $space-4; }
   }
 
-  // ---- CTA banner ----------------------------------------------------------
-  .cta-banner {
+  .spotlight__eyebrow { vertical-align: middle; }
+
+  .spotlight__media {
+    position: relative;
+    padding: 0 $space-6 $space-8 0;
+
+    @media (max-width: 640px) { padding: 0 $space-4 $space-7 0; }
+  }
+
+  .spotlight__frame {
+    position: relative;
+    border-radius: 18px;
+    box-shadow: 0 40px 80px -36px rgba($primary-dark, 0.4);
+
+    img { width: 100%; height: auto; border-radius: 18px; }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -18px -18px auto auto;
+      width: 60%;
+      height: 70%;
+      border-radius: 24px;
+      background: $brand-gradient;
+      opacity: 0.12;
+      z-index: -1;
+    }
+  }
+
+  .spotlight__invoice {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 42%;
+    height: auto;
+    filter: drop-shadow(0 26px 40px rgba($ink, 0.22));
+    animation: cardBob 7s ease-in-out infinite;
+  }
+
+  .spotlight__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-4 $space-6;
+    margin-top: $space-7;
+  }
+
+  /* CRM feature list */
+  .feature-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-5 $space-6;
+    margin-top: $space-7;
+
+    @media (max-width: 560px) { grid-template-columns: 1fr; }
+  }
+
+  .feature-list__item {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    font-size: 0.9375rem;
+    color: $ink-soft;
+    line-height: 1.55;
+
+    strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 1rem;
+      color: $ink;
+      font-weight: $fw-bold;
+    }
+
+    @media (max-width: 560px) {
+      flex-direction: row;
+      gap: $space-4;
+    }
+  }
+
+  /* Connect */
+  .feature-grid-sm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-4;
+    margin-top: $space-7;
+
+    @media (max-width: 560px) { grid-template-columns: 1fr; }
+  }
+
+  .mini-card {
+    padding: $space-5;
+    border-radius: 20px;
+    border: 1px solid $line;
+    background: #fff;
+    transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out, transform $dur-base $ease-out;
+
+    &:hover {
+      border-color: rgba($secondary, 0.3);
+      box-shadow: 0 20px 40px -24px rgba($secondary-dark, 0.35);
+      transform: translateY(-3px);
+    }
+
+    strong { display: block; margin-top: $space-4; font-weight: $fw-bold; }
+    p { margin-top: 4px; font-size: 0.9rem; color: $ink-soft; line-height: 1.55; }
+  }
+
+  .whatsapp-note {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+    margin-top: $space-4;
+    padding: $space-4 $space-5;
+    border-radius: 20px;
+    border: 1px dashed rgba(#1A9E5C, 0.35);
+    background: rgba(#1A9E5C, 0.04);
+
+    p { flex: 1; font-size: 0.9rem; color: $ink-soft; line-height: 1.5; }
+    strong { display: block; color: $ink; }
+
+    @media (max-width: 480px) {
+      flex-wrap: wrap;
+      .badge { margin-left: 60px; }
+    }
+  }
+
+  .spotlight__media--phone {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .phone-stage {
+    position: relative;
+    width: min(100%, 440px);
+    aspect-ratio: 1 / 1.15;
+    display: grid;
+    place-items: center;
+  }
+
+  .phone-stage__ring {
+    position: absolute;
+    border-radius: 50%;
+    inset: 6%;
+    border: 1px dashed rgba($secondary, 0.3);
+    animation: orbitTurn 40s linear infinite;
+  }
+
+  .phone-stage__ring--one {
+    background: radial-gradient(circle, rgba($secondary, 0.14), rgba($primary, 0.06) 45%, transparent 70%);
+  }
+
+  .phone-stage__ring--two {
+    inset: 20%;
+    border-color: rgba($primary, 0.3);
+    animation-direction: reverse;
+    animation-duration: 30s;
+  }
+
+  .phone-stage__phone {
+    position: relative;
+    width: 58%;
+    height: auto;
+    filter: drop-shadow(0 40px 50px rgba($ink, 0.3));
+    animation: phoneFloat 8s ease-in-out infinite;
+  }
+
+  .float-card--reply { top: 18%; left: -2%; }
+  .float-card--story { bottom: 16%; right: -2%; animation-delay: -3s; }
+
+  @media (max-width: 640px) {
+    .float-card--reply { left: 0; }
+    .float-card--story { right: 0; }
+  }
+
+  /* ============================================================
+     CONNECTED SUITE
+     ============================================================ */
+  .suite__flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
+  }
+
+  .suite__node {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: $space-5 $space-4;
+    border-radius: 22px;
+    border: 1px solid $line;
+    background: #fff;
+
+    strong { font-size: 0.98rem; font-weight: $fw-bold; color: $ink; line-height: 1.3; }
+    small { font-size: 0.8rem; color: $muted; line-height: 1.4; }
+
+    .icon-tile { margin-bottom: 4px; }
+
+    @media (max-width: 1024px) {
+      width: min(100%, 360px);
+      flex: none;
+    }
+  }
+
+  .suite__node--product {
+    background: $ink;
+    border-color: $ink;
+
+    strong { font-size: 1.35rem; color: #fff; }
+    small { color: rgba(#fff, 0.6); }
+  }
+
+  .suite__node-tag {
+    font-size: 0.7rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .suite__node--connect .suite__node-tag { color: #B795FF; }
+  .suite__node--crm .suite__node-tag { color: #FF8FA6; }
+
+  .suite__node--core {
+    flex-grow: 1.3;
+    padding-block: $space-6;
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(#fff, #fff) padding-box,
+      $brand-gradient border-box;
+    box-shadow: 0 30px 60px -30px rgba($secondary-dark, 0.4);
+  }
+
+  .suite__core-icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 4px;
+    border-radius: 18px;
+    background: $brand-gradient;
+    color: #fff;
+    box-shadow: 0 12px 24px -10px rgba($primary, 0.6);
+
+    svg {
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* animated connector */
+  .suite__wire {
+    position: relative;
+    flex: 0 0 clamp(18px, 3vw, 44px);
+    height: 2px;
+    background: repeating-linear-gradient(90deg, rgba($ink, 0.18) 0 6px, transparent 6px 11px);
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      margin-top: -4px;
+      border-radius: 50%;
+      background: $primary;
+      box-shadow: 0 0 0 4px rgba($primary, 0.15);
+      animation: wirePulse 2.4s ease-in-out infinite;
+    }
+
+    @media (max-width: 1024px) {
+      flex-basis: 34px;
+      width: 2px;
+      height: 34px;
+      background: repeating-linear-gradient(180deg, rgba($ink, 0.18) 0 6px, transparent 6px 11px);
+
+      span {
+        top: 0;
+        left: 50%;
+        margin: 0 0 0 -4px;
+        animation-name: wirePulseV;
+      }
+    }
+  }
+
+  .suite__wire--rev span {
+    background: $secondary;
+    box-shadow: 0 0 0 4px rgba($secondary, 0.15);
+    animation-direction: reverse;
+  }
+
+  @keyframes wirePulse {
+    0% { left: 0; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { left: calc(100% - 8px); opacity: 0; }
+  }
+
+  @keyframes wirePulseV {
+    0% { top: 0; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: calc(100% - 8px); opacity: 0; }
+  }
+
+  /* ============================================================
+     SERVICES BAND
+     ============================================================ */
+  .services-band {
+    position: relative;
+    overflow: hidden;
     background: $ink;
     color: $paper;
+
+    .lede { color: rgba($paper, 0.7); margin-top: $space-4; }
+    .h3 { margin-top: $space-3; color: #fff; }
   }
 
-  .cta-banner__inner {
+  .services-band__glow {
+    position: absolute;
+    width: 46rem;
+    aspect-ratio: 1;
+    left: -14rem;
+    bottom: -26rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($secondary, 0.35), rgba($primary, 0.12) 45%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .services-band__eyebrow { color: #FF8FA6; }
+
+  .services-band__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: $space-8;
+    align-items: start;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: $space-7;
+    }
+  }
+
+  .services-band__media {
+    margin-top: $space-7;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+      box-shadow:
+        0 0 0 1px rgba(#fff, 0.08),
+        0 40px 80px -30px rgba(#000, 0.6);
+    }
+  }
+
+  .services-band__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .service-row {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+    padding: $space-4 $space-5;
+    border-radius: 20px;
+    border: 1px solid rgba(#fff, 0.08);
+    background: rgba(#fff, 0.03);
+    transition: background $dur-base $ease-out, border-color $dur-base $ease-out;
+
+    &:hover {
+      background: rgba(#fff, 0.07);
+      border-color: rgba(#fff, 0.18);
+
+      .service-row__arrow { transform: translateX(4px); color: #fff; }
+      .service-row__icon { background: $brand-gradient; color: #fff; }
+    }
+  }
+
+  .service-row__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: rgba(#fff, 0.08);
+    color: #FF8FA6;
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .service-row__text {
+    flex: 1;
+    min-width: 0;
+
+    strong { display: block; color: #fff; font-weight: $fw-bold; }
+    span { display: block; margin-top: 2px; font-size: 0.875rem; color: rgba($paper, 0.6); line-height: 1.5; }
+  }
+
+  .service-row__arrow {
+    color: rgba(#fff, 0.4);
+    font-size: 1.1rem;
+    transition: transform $dur-base $ease-out, color $dur-base $ease-out;
+  }
+
+  .services-band__cta {
+    align-self: flex-start;
+    margin-top: $space-4;
+  }
+
+  /* ============================================================
+     PROCESS
+     ============================================================ */
+  .process__steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-5;
+    counter-reset: step;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 12%;
+      right: 12%;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, $line 0 8px, transparent 8px 14px);
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr 1fr;
+      &::before { display: none; }
+    }
+
+    @media (max-width: 520px) { grid-template-columns: 1fr; }
+  }
+
+  .process__step {
+    position: relative;
     text-align: center;
-    max-width: 620px;
-    margin-inline: auto;
+    padding: 0 $space-3;
+
+    h3 { margin-top: $space-5; font-size: $fs-h6; }
+    p { margin-top: $space-2; color: $ink-soft; font-size: 0.95rem; }
+
+    @media (max-width: 900px) {
+      padding: $space-6 $space-5;
+      border: 1px solid $line;
+      border-radius: 22px;
+      background: #fff;
+    }
+  }
+
+  .process__num {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid $line;
+    font-weight: $fw-black;
+    font-size: 1rem;
+    color: $primary;
+    box-shadow: 0 10px 24px -12px rgba($primary-dark, 0.35);
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+  }
+
+  .process__step:hover .process__num {
+    background: $brand-gradient;
+    color: #fff;
+    border-color: transparent;
+  }
+
+  /* ============================================================
+     WHY
+     ============================================================ */
+  .why__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: $space-8;
+    align-items: center;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-7;
+    }
+  }
+
+  .why__intro {
+    .h3 { margin-top: $space-3; }
+    .lede { margin: $space-4 0 $space-5; }
+  }
+
+  .why__cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-4;
+
+    @media (max-width: 560px) { grid-template-columns: 1fr; }
+  }
+
+  .why__card {
+    padding: $space-6 $space-5;
+    border-radius: 22px;
+    border: 1px solid $line;
+    background: #fff;
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 50px -28px rgba($primary-dark, 0.35);
+    }
+
+    &:nth-child(even) { transform: translateY(24px); }
+    &:nth-child(even):hover { transform: translateY(20px); }
+
+    h3 { margin-top: $space-4; font-size: 1.125rem; }
+    p { margin-top: $space-2; color: $ink-soft; font-size: 0.95rem; }
+
+    @media (max-width: 560px) {
+      &:nth-child(even), &:nth-child(even):hover { transform: none; }
+    }
+  }
+
+  .why__mark { display: block; width: 1.8rem; height: 1.8rem; }
+
+  /* ============================================================
+     FAQ
+     ============================================================ */
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: $space-8;
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-6;
+    }
+  }
+
+  .faq__intro {
+    position: sticky;
+    top: 120px;
+
+    .h3 { margin-top: $space-3; }
+    .lede { margin: $space-4 0 $space-5; }
+
+    @media (max-width: 960px) { position: static; }
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .faq__item {
+    border: 1px solid $line;
+    border-radius: 20px;
+    background: #fff;
+    transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &[open] {
+      border-color: rgba($primary, 0.3);
+      box-shadow: 0 20px 40px -28px rgba($primary-dark, 0.35);
+    }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $space-4;
+      padding: $space-5;
+      font-weight: $fw-bold;
+      font-size: 1.02rem;
+      cursor: pointer;
+      list-style: none;
+
+      &::-webkit-details-marker { display: none; }
+    }
+  }
+
+  .faq__icon {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: $paper-alt;
+    transition: background $dur-base $ease-out, transform $dur-base $ease-out;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 2px;
+      margin: -1px 0 0 -6px;
+      border-radius: 2px;
+      background: $ink;
+      transition: transform $dur-base $ease-out, background $dur-base $ease-out;
+    }
+
+    &::after { transform: rotate(90deg); }
+  }
+
+  .faq__item[open] .faq__icon {
+    background: $brand-gradient;
+    transform: rotate(180deg);
+
+    &::before, &::after { background: #fff; }
+    &::after { transform: rotate(0deg); }
+  }
+
+  .faq__answer {
+    padding: 0 $space-5 $space-5;
+
+    p { color: $ink-soft; max-width: 60ch; }
+  }
+
+  /* ============================================================
+     CTA
+     ============================================================ */
+  .cta { padding-top: 0; }
+
+  .cta__panel {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr);
+    align-items: center;
+    gap: $space-7;
+    padding: $space-8;
+    border-radius: 32px;
+    background: $ink;
+    color: $paper;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      padding: $space-7 $space-5;
+      text-align: center;
+    }
+  }
+
+  .cta__glow {
+    position: absolute;
+    width: 30rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .cta__glow--rose {
+    top: -16rem;
+    right: -6rem;
+    background: radial-gradient(circle, rgba($primary, 0.45), transparent 65%);
+  }
+
+  .cta__glow--violet {
+    bottom: -18rem;
+    left: 10%;
+    background: radial-gradient(circle, rgba($secondary, 0.4), transparent 65%);
+  }
+
+  .cta__copy {
     position: relative;
     z-index: 1;
 
-    .lede {
-      color: rgba($paper, 0.7);
-      margin-inline: auto;
-      margin-top: $space-4;
-    }
+    .h3 { margin-top: $space-3; color: #fff; }
+    .lede { margin-top: $space-4; color: rgba($paper, 0.72); }
 
-    .hero__actions {
-      justify-content: center;
-      margin-top: $space-6;
+    @media (max-width: 860px) {
+      .lede { margin-inline: auto; }
+      .hero__actions { justify-content: center; }
     }
   }
 
-  @media (max-width: 640px) {
-    .hero__glow--rose { top: -16%; right: -45%; opacity: 0.42; }
-    .hero__glow--violet { bottom: -35%; left: 8%; }
-    .hero__glow--peach, .hero__orbit--two, .particle--3, .particle--4 { display: none; }
+  .cta__eyebrow { color: #FF8FA6; }
+
+  .cta__ghost {
+    border: 1.5px solid rgba(#fff, 0.3);
+    color: #fff;
+
+    &:hover { border-color: #fff; }
   }
 
+  .cta__media {
+    position: relative;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      margin-left: auto;
+      transform: rotate(4deg);
+      filter: drop-shadow(0 30px 40px rgba(#000, 0.45));
+      animation: cardBob 7s ease-in-out infinite;
+    }
+
+    @media (max-width: 860px) { display: none; }
+  }
+
+  /* ============================================================
+     MOBILE TUNING + REDUCED MOTION
+     ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    .hero.grid-bg::before,
-    .hero__glow,
-    .hero__orbit,
-    .particle {
+    .float-card,
+    .spotlight__invoice,
+    .phone-stage__ring,
+    .phone-stage__phone,
+    .suite__wire span,
+    .cta__media img,
+    .hero__scribble path,
+    .marquee-strip__track {
       animation: none !important;
     }
   }
@@ -698,17 +1932,17 @@ const marqueeItems = [
   // ---- Tilt cards ---------------------------------------------------------
   if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
     document.querySelectorAll<HTMLElement>('.tilt-card').forEach((card) => {
-      const maxTilt = 6;
+      const maxTilt = 5;
 
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const px = (e.clientX - rect.left) / rect.width - 0.5;
         const py = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(900px) rotateX(${(-py * maxTilt).toFixed(2)}deg) rotateY(${(px * maxTilt).toFixed(2)}deg) translateY(-4px)`;
+        card.style.transform = `perspective(1000px) rotateX(${(-py * maxTilt).toFixed(2)}deg) rotateY(${(px * maxTilt).toFixed(2)}deg) translateY(-4px)`;
       });
 
       card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
       });
     });
   }

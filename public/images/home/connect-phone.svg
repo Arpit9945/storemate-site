@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 690" font-family="Kumbh Sans, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Storemate Connect replying to an Instagram DM automatically</title>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E93558"/>
+      <stop offset="1" stop-color="#7026ED"/>
+    </linearGradient>
+    <linearGradient id="ig" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#F9A23B"/>
+      <stop offset="0.5" stop-color="#E93558"/>
+      <stop offset="1" stop-color="#7026ED"/>
+    </linearGradient>
+    <clipPath id="screen"><rect x="12" y="12" width="316" height="666" rx="38"/></clipPath>
+  </defs>
+
+  <!-- device -->
+  <rect x="0" y="0" width="340" height="690" rx="50" fill="#1E1420"/>
+  <rect x="3" y="3" width="334" height="684" rx="47" fill="none" stroke="#FFFFFF" stroke-opacity="0.08"/>
+
+  <g clip-path="url(#screen)">
+    <rect x="12" y="12" width="316" height="666" fill="#FFFFFF"/>
+
+    <!-- status bar -->
+    <text x="40" y="44" font-size="13" font-weight="700" fill="#1E1420">9:41</text>
+    <rect x="128" y="24" width="84" height="24" rx="12" fill="#1E1420"/>
+    <g fill="#1E1420">
+      <rect x="250" y="36" width="3" height="6" rx="1"/><rect x="255" y="33" width="3" height="9" rx="1"/><rect x="260" y="30" width="3" height="12" rx="1"/>
+      <rect x="274" y="31" width="22" height="11" rx="3" fill="none" stroke="#1E1420" stroke-width="1.4"/>
+      <rect x="276" y="33" width="15" height="7" rx="1.5"/>
+    </g>
+
+    <!-- chat header -->
+    <line x1="12" y1="112" x2="328" y2="112" stroke="#ECDFE3"/>
+    <path d="M34 82l-7 -7 7 -7" fill="none" stroke="#1E1420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 8)"/>
+    <circle cx="70" cy="83" r="19" fill="url(#ig)"/>
+    <circle cx="70" cy="83" r="16" fill="#FFFFFF"/>
+    <circle cx="70" cy="83" r="14" fill="url(#brand)"/>
+    <path d="M70 75l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFFFFF"/>
+    <text x="98" y="80" font-size="14" font-weight="700" fill="#1E1420">yourjewelstore</text>
+    <circle cx="102" cy="94" r="3.5" fill="#34D399"/>
+    <text x="110" y="98" font-size="11" fill="#8A7A82">Auto-replies on</text>
+    <rect x="280" y="73" width="22" height="20" rx="5" fill="none" stroke="#1E1420" stroke-width="1.8"/>
+    <path d="M288 80l6 3-6 3z" fill="#1E1420"/>
+
+    <!-- shared post -->
+    <text x="170" y="138" font-size="10.5" fill="#8A7A82" text-anchor="middle">Today 8:12 PM</text>
+    <rect x="28" y="150" width="150" height="132" rx="16" fill="#FAF5F4" stroke="#ECDFE3"/>
+    <rect x="36" y="158" width="134" height="88" rx="10" fill="#FDEEF2"/>
+    <circle cx="103" cy="186" r="22" fill="none" stroke="#E9B949" stroke-width="5"/>
+    <circle cx="103" cy="210" r="8" fill="#E93558"/>
+    <circle cx="103" cy="210" r="3" fill="#FFFFFF" fill-opacity="0.8"/>
+    <circle cx="82" cy="200" r="3.5" fill="#E9B949"/><circle cx="124" cy="200" r="3.5" fill="#E9B949"/>
+    <text x="40" y="264" font-size="11" font-weight="700" fill="#1E1420">Temple necklace</text>
+    <text x="40" y="276" font-size="10" fill="#8A7A82">New arrivals · 22K</text>
+
+    <!-- incoming -->
+    <rect x="28" y="292" width="208" height="54" rx="18" fill="#F1ECEE"/>
+    <text font-size="12.5" fill="#1E1420">
+      <tspan x="44" y="314">Hi! What's the price of this</tspan>
+      <tspan x="44" y="332">temple necklace? 😍</tspan>
+    </text>
+
+    <!-- auto label -->
+    <g transform="translate(176 360)">
+      <rect x="0" y="0" width="128" height="20" rx="10" fill="#F3EBFD"/>
+      <path d="M14 4l-5 7h4l-2 6 6-8h-4z" fill="#7026ED"/>
+      <text x="24" y="14" font-size="10.5" font-weight="700" fill="#7026ED">Auto-reply · 2 sec</text>
+    </g>
+
+    <!-- outgoing -->
+    <rect x="80" y="386" width="230" height="92" rx="18" fill="url(#brand)"/>
+    <text font-size="12.5" fill="#FFFFFF">
+      <tspan x="96" y="408">Hi! The temple necklace</tspan>
+      <tspan x="96" y="426">(22K · 38.4 g) is ₹2,71,000</tspan>
+      <tspan x="96" y="444">at today's rate. Shall we</tspan>
+      <tspan x="96" y="462">reserve it for you?</tspan>
+    </text>
+
+    <!-- incoming -->
+    <rect x="28" y="490" width="196" height="36" rx="18" fill="#F1ECEE"/>
+    <text x="44" y="512.5" font-size="12.5" fill="#1E1420">Yes please! Visit tomorrow 🙏</text>
+
+    <!-- outgoing -->
+    <rect x="96" y="538" width="214" height="56" rx="18" fill="url(#brand)"/>
+    <text font-size="12.5" fill="#FFFFFF">
+      <tspan x="112" y="560">Reserved till 7 PM tomorrow.</tspan>
+      <tspan x="112" y="578">Store location below 📍</tspan>
+    </text>
+    <text x="304" y="608" font-size="10" fill="#8A7A82" text-anchor="end">Seen</text>
+
+    <!-- composer -->
+    <rect x="24" y="624" width="292" height="40" rx="20" fill="#FFFFFF" stroke="#ECDFE3"/>
+    <circle cx="44" cy="644" r="12" fill="url(#brand)"/>
+    <rect x="39" y="639" width="10" height="9" rx="2" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="64" y="648.5" font-size="12.5" fill="#8A7A82">Message…</text>
+    <path d="M276 636v16M268 644h16" stroke="#1E1420" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="300" cy="644" r="6" fill="none" stroke="#1E1420" stroke-width="1.6" opacity="0.6"/>
+  </g>
+</svg>

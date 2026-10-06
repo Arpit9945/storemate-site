@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 300" font-family="Kumbh Sans, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>GST-ready jewellery invoice</title>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E93558"/>
+      <stop offset="1" stop-color="#7026ED"/>
+    </linearGradient>
+  </defs>
+  <rect x="0.5" y="0.5" width="319" height="299" rx="20" fill="#FFFFFF" stroke="#ECDFE3"/>
+  <rect x="0.5" y="0.5" width="319" height="6" rx="3" fill="url(#brand)"/>
+
+  <text x="22" y="40" font-size="10.5" font-weight="700" fill="#8A7A82" letter-spacing="1">TAX INVOICE</text>
+  <text x="22" y="62" font-size="16" font-weight="800" fill="#1E1420">#SM-2410-1042</text>
+  <rect x="214" y="30" width="86" height="24" rx="12" fill="#1A9E5C" fill-opacity="0.12"/>
+  <circle cx="228" cy="42" r="6" fill="#1A9E5C"/>
+  <path d="M225 42l2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="240" y="46" font-size="11" font-weight="700" fill="#1A9E5C">GST ready</text>
+
+  <line x1="22" y1="80" x2="298" y2="80" stroke="#ECDFE3" stroke-dasharray="4 4"/>
+
+  <g font-size="12" fill="#4A3B44">
+    <text x="22" y="104">Gold value <tspan fill="#8A7A82" font-size="10.5">(22K · 48.250 g)</tspan></text>
+    <text x="298" y="104" text-anchor="end" font-weight="600" fill="#1E1420">₹3,25,300</text>
+    <text x="22" y="128">Making charges <tspan fill="#8A7A82" font-size="10.5">(HSN 7113)</tspan></text>
+    <text x="298" y="128" text-anchor="end" font-weight="600" fill="#1E1420">₹7,520</text>
+    <text x="22" y="152">CGST 1.5%</text>
+    <text x="298" y="152" text-anchor="end" font-weight="600" fill="#1E1420">₹4,992</text>
+    <text x="22" y="176">SGST 1.5%</text>
+    <text x="298" y="176" text-anchor="end" font-weight="600" fill="#1E1420">₹4,992</text>
+  </g>
+
+  <rect x="14" y="196" width="292" height="50" rx="14" fill="#FAF5F4"/>
+  <text x="30" y="226" font-size="12.5" font-weight="700" fill="#4A3B44">Total payable</text>
+  <text x="290" y="228" font-size="20" font-weight="800" fill="#1E1420" text-anchor="end">₹3,42,804</text>
+
+  <rect x="22" y="262" width="134" height="22" rx="11" fill="#FDEEF2"/>
+  <text x="89" y="277" font-size="10.5" font-weight="700" fill="#E93558" text-anchor="middle">Shared on WhatsApp</text>
+  <rect x="164" y="262" width="88" height="22" rx="11" fill="#F3EBFD"/>
+  <text x="208" y="277" font-size="10.5" font-weight="700" fill="#7026ED" text-anchor="middle">PDF · Print</text>
+</svg>

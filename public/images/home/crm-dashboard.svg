@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="Kumbh Sans, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Storemate CRM dashboard preview</title>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E93558"/>
+      <stop offset="1" stop-color="#7026ED"/>
+    </linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E93558" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#E93558" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E93558"/>
+      <stop offset="1" stop-color="#7026ED"/>
+    </linearGradient>
+    <clipPath id="frame"><rect width="960" height="620" rx="18"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="960" height="620" fill="#FFFFFF"/>
+
+    <!-- browser bar -->
+    <rect width="960" height="44" fill="#FAF5F4"/>
+    <line x1="0" y1="44" x2="960" y2="44" stroke="#ECDFE3"/>
+    <circle cx="24" cy="22" r="5.5" fill="#F26B6B"/>
+    <circle cx="42" cy="22" r="5.5" fill="#F5BE4F"/>
+    <circle cx="60" cy="22" r="5.5" fill="#4CC37A"/>
+    <rect x="350" y="11" width="260" height="22" rx="11" fill="#FFFFFF" stroke="#ECDFE3"/>
+    <path d="M368 20.5v-2a3 3 0 0 1 6 0v2" fill="none" stroke="#8A7A82" stroke-width="1.3"/>
+    <rect x="366.5" y="20" width="9" height="7" rx="1.5" fill="#8A7A82"/>
+    <text x="384" y="26.5" font-size="11.5" fill="#4A3B44">app.storematehq.com/dashboard</text>
+
+    <!-- sidebar -->
+    <rect x="0" y="44" width="190" height="576" fill="#FFFDFC"/>
+    <line x1="190" y1="44" x2="190" y2="620" stroke="#ECDFE3"/>
+    <rect x="22" y="66" width="28" height="28" rx="8" fill="url(#brand)"/>
+    <path d="M36 72l2.2 5.6 5.8 2.4-5.8 2.4L36 88l-2.2-5.6-5.8-2.4 5.8-2.4z" fill="#fff"/>
+    <text x="60" y="86" font-size="15.5" font-weight="800" fill="#1E1420">Storemate</text>
+
+    <g font-size="13" fill="#4A3B44">
+      <rect x="14" y="116" width="162" height="34" rx="10" fill="#FDEEF2"/>
+      <rect x="28" y="126" width="14" height="14" rx="4" fill="#E93558"/>
+      <text x="52" y="137.5" fill="#E93558" font-weight="700">Dashboard</text>
+
+      <rect x="28" y="168" width="14" height="14" rx="4" fill="none" stroke="#8A7A82" stroke-width="1.6"/>
+      <text x="52" y="179.5">Inventory</text>
+      <circle cx="35" cy="217" r="7" fill="none" stroke="#8A7A82" stroke-width="1.6"/>
+      <text x="52" y="221.5">Customers</text>
+      <rect x="28" y="252" width="14" height="14" rx="2" fill="none" stroke="#8A7A82" stroke-width="1.6"/>
+      <text x="52" y="263.5">Orders &amp; repairs</text>
+      <rect x="29" y="294" width="12" height="15" rx="2" fill="none" stroke="#8A7A82" stroke-width="1.6"/>
+      <text x="52" y="305.5">GST billing</text>
+      <path d="M28 349h14M31 343v6M39 343v6M28 343l7-5 7 5" fill="none" stroke="#8A7A82" stroke-width="1.6" stroke-linejoin="round"/>
+      <text x="52" y="347.5">Loans (Girvi)</text>
+      <path d="M28 391V378M34 391v-9M40 391v-5" stroke="#8A7A82" stroke-width="1.8" stroke-linecap="round"/>
+      <text x="52" y="389.5">Reports</text>
+      <circle cx="35" cy="427" r="6.5" fill="none" stroke="#8A7A82" stroke-width="1.6"/>
+      <circle cx="35" cy="427" r="2" fill="#8A7A82"/>
+      <text x="52" y="431.5">Settings</text>
+    </g>
+
+    <!-- gold rate card -->
+    <clipPath id="rateCard"><rect x="16" y="470" width="158" height="128" rx="14"/></clipPath>
+    <rect x="16" y="470" width="158" height="128" rx="14" fill="#1E1420"/>
+    <g clip-path="url(#rateCard)">
+      <circle cx="170" cy="600" r="58" fill="#7026ED" opacity="0.35"/>
+      <circle cx="168" cy="468" r="30" fill="#E93558" opacity="0.22"/>
+    </g>
+    <text x="30" y="496" font-size="11" fill="#FFFFFF" fill-opacity="0.65" font-weight="600" letter-spacing="0.8">TODAY'S RATE · 22K</text>
+    <text x="30" y="530" font-size="25" font-weight="800" fill="#FFFFFF">₹6,742</text>
+    <text x="128" y="530" font-size="12" fill="#FFFFFF" fill-opacity="0.6">/g</text>
+    <rect x="30" y="546" width="78" height="22" rx="11" fill="#34D399" fill-opacity="0.18"/>
+    <text x="40" y="561" font-size="11.5" font-weight="700" fill="#34D399">▲ 0.8% today</text>
+    <text x="30" y="586" font-size="10.5" fill="#FFFFFF" fill-opacity="0.5">24K ₹7,355 · 18K ₹5,516</text>
+
+    <!-- main header -->
+    <text x="214" y="86" font-size="23" font-weight="800" fill="#1E1420">Dashboard</text>
+    <text x="214" y="106" font-size="12.5" fill="#8A7A82">Here's how your store is doing today</text>
+    <rect x="676" y="66" width="120" height="34" rx="17" fill="#FFFFFF" stroke="#ECDFE3"/>
+    <circle cx="694" cy="83" r="5.5" fill="none" stroke="#4A3B44" stroke-width="1.5"/>
+    <path d="M698 87l3.5 3.5" stroke="#4A3B44" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="708" y="87.5" font-size="12" fill="#8A7A82">Search…</text>
+    <rect x="808" y="66" width="132" height="34" rx="17" fill="url(#brand)"/>
+    <text x="874" y="87.5" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">+ New bill</text>
+
+    <!-- stat cards -->
+    <g>
+      <rect x="214" y="120" width="171" height="88" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+      <text x="230" y="146" font-size="11.5" fill="#8A7A82" font-weight="600">Today's sales</text>
+      <text x="230" y="176" font-size="21" font-weight="800" fill="#1E1420">₹2,48,500</text>
+      <text x="230" y="196" font-size="11" font-weight="700" fill="#1A9E5C">▲ 12% vs yesterday</text>
+
+      <rect x="399" y="120" width="171" height="88" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+      <text x="415" y="146" font-size="11.5" fill="#8A7A82" font-weight="600">Open orders</text>
+      <text x="415" y="176" font-size="21" font-weight="800" fill="#1E1420">18</text>
+      <text x="415" y="196" font-size="11" font-weight="700" fill="#E93558">4 due this week</text>
+
+      <rect x="584" y="120" width="171" height="88" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+      <text x="600" y="146" font-size="11.5" fill="#8A7A82" font-weight="600">Stock (net weight)</text>
+      <text x="600" y="176" font-size="21" font-weight="800" fill="#1E1420">12.84 kg</text>
+      <text x="600" y="196" font-size="11" font-weight="600" fill="#8A7A82">1,126 pieces</text>
+
+      <rect x="769" y="120" width="171" height="88" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+      <text x="785" y="146" font-size="11.5" fill="#8A7A82" font-weight="600">Customers</text>
+      <text x="785" y="176" font-size="21" font-weight="800" fill="#1E1420">1,284</text>
+      <text x="785" y="196" font-size="11" font-weight="700" fill="#7026ED">+26 this month</text>
+    </g>
+
+    <!-- sales chart -->
+    <rect x="214" y="222" width="452" height="232" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+    <text x="232" y="250" font-size="14" font-weight="700" fill="#1E1420">Sales this week</text>
+    <rect x="574" y="234" width="76" height="24" rx="12" fill="#FAF5F4"/>
+    <text x="612" y="250" font-size="11" font-weight="600" fill="#4A3B44" text-anchor="middle">7 days ▾</text>
+    <g stroke="#ECDFE3" stroke-dasharray="3 5">
+      <line x1="232" y1="290" x2="648" y2="290"/>
+      <line x1="232" y1="336" x2="648" y2="336"/>
+      <line x1="232" y1="382" x2="648" y2="382"/>
+    </g>
+    <path d="M232 400 C 262 392, 282 360, 301 362 S 345 384, 370 372 S 415 318, 440 322 S 485 352, 509 340 S 552 290, 578 296 S 626 270, 648 276 L648 424 L232 424 Z" fill="url(#area)"/>
+    <path d="M232 400 C 262 392, 282 360, 301 362 S 345 384, 370 372 S 415 318, 440 322 S 485 352, 509 340 S 552 290, 578 296 S 626 270, 648 276" fill="none" stroke="url(#line)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="578" cy="296" r="6" fill="#FFFFFF" stroke="#7026ED" stroke-width="3"/>
+    <rect x="530" y="258" width="96" height="26" rx="8" fill="#1E1420"/>
+    <text x="578" y="275" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">₹3,12,400</text>
+    <g font-size="11" fill="#8A7A82" text-anchor="middle">
+      <text x="232" y="442">Mon</text><text x="301" y="442">Tue</text><text x="370" y="442">Wed</text>
+      <text x="440" y="442">Thu</text><text x="509" y="442">Fri</text><text x="578" y="442">Sat</text><text x="645" y="442">Sun</text>
+    </g>
+
+    <!-- purity donut -->
+    <rect x="680" y="222" width="260" height="232" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+    <text x="698" y="250" font-size="14" font-weight="700" fill="#1E1420">Stock by purity</text>
+    <g transform="translate(762 340) rotate(-90)">
+      <circle r="46" fill="none" stroke="#F3EBFD" stroke-width="16"/>
+      <circle r="46" fill="none" stroke="#E93558" stroke-width="16" stroke-dasharray="167.6 289" />
+      <circle r="46" fill="none" stroke="#7026ED" stroke-width="16" stroke-dasharray="78 289" stroke-dashoffset="-170.5"/>
+      <circle r="46" fill="none" stroke="#F5A35C" stroke-width="16" stroke-dasharray="37 289" stroke-dashoffset="-251.5"/>
+    </g>
+    <text x="762" y="338" font-size="17" font-weight="800" fill="#1E1420" text-anchor="middle">12.8</text>
+    <text x="762" y="354" font-size="10.5" fill="#8A7A82" text-anchor="middle">kg total</text>
+    <g font-size="12" fill="#4A3B44">
+      <rect x="836" y="300" width="10" height="10" rx="3" fill="#E93558"/><text x="852" y="309.5">22K</text><text x="922" y="309.5" text-anchor="end" font-weight="700" fill="#1E1420">58%</text>
+      <rect x="836" y="330" width="10" height="10" rx="3" fill="#7026ED"/><text x="852" y="339.5">18K</text><text x="922" y="339.5" text-anchor="end" font-weight="700" fill="#1E1420">27%</text>
+      <rect x="836" y="360" width="10" height="10" rx="3" fill="#F5A35C"/><text x="852" y="369.5">24K</text><text x="922" y="369.5" text-anchor="end" font-weight="700" fill="#1E1420">15%</text>
+    </g>
+    <rect x="698" y="408" width="224" height="30" rx="10" fill="#FAF5F4"/>
+    <text x="710" y="427.5" font-size="11.5" fill="#4A3B44">Silver stock</text>
+    <text x="910" y="427.5" font-size="11.5" font-weight="700" fill="#1E1420" text-anchor="end">8.42 kg</text>
+
+    <!-- recent bills -->
+    <rect x="214" y="468" width="726" height="140" rx="14" fill="#FFFFFF" stroke="#ECDFE3"/>
+    <text x="232" y="494" font-size="14" font-weight="700" fill="#1E1420">Recent bills</text>
+    <text x="922" y="494" font-size="12" font-weight="700" fill="#E93558" text-anchor="end">View all →</text>
+    <g font-size="10.5" fill="#8A7A82" font-weight="700" letter-spacing="0.6">
+      <text x="232" y="518">ITEM</text><text x="480" y="518">PURITY</text><text x="570" y="518">NET WT.</text><text x="680" y="518">AMOUNT</text><text x="830" y="518">STATUS</text>
+    </g>
+    <line x1="232" y1="526" x2="922" y2="526" stroke="#ECDFE3"/>
+    <g font-size="12.5" fill="#1E1420">
+      <rect x="232" y="534" width="22" height="22" rx="7" fill="#FDEEF2"/>
+      <text x="264" y="549.5" font-weight="600">Bridal necklace set</text>
+      <text x="480" y="549.5" fill="#4A3B44">22K</text><text x="570" y="549.5" fill="#4A3B44">48.250 g</text>
+      <text x="680" y="549.5" font-weight="700">₹3,42,800</text>
+      <rect x="830" y="536" width="50" height="20" rx="10" fill="#1A9E5C" fill-opacity="0.12"/>
+      <text x="855" y="550" font-size="11" font-weight="700" fill="#1A9E5C" text-anchor="middle">Paid</text>
+
+      <rect x="232" y="566" width="22" height="22" rx="7" fill="#F3EBFD"/>
+      <text x="264" y="581.5" font-weight="600">Diamond solitaire ring</text>
+      <text x="480" y="581.5" fill="#4A3B44">18K</text><text x="570" y="581.5" fill="#4A3B44">6.120 g</text>
+      <text x="680" y="581.5" font-weight="700">₹68,400</text>
+      <rect x="830" y="568" width="64" height="20" rx="10" fill="#F5A35C" fill-opacity="0.16"/>
+      <text x="862" y="582" font-size="11" font-weight="700" fill="#C46A1C" text-anchor="middle">Pending</text>
+    </g>
+  </g>
+  <rect x="0.5" y="0.5" width="959" height="619" rx="17.5" fill="none" stroke="#ECDFE3"/>
+</svg>

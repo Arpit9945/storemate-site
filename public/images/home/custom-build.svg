@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 440" font-family="Kumbh Sans, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Custom software being built — code editor and live preview</title>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E93558"/>
+      <stop offset="1" stop-color="#7026ED"/>
+    </linearGradient>
+    <clipPath id="win"><rect width="600" height="440" rx="18"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#win)">
+    <rect width="600" height="440" fill="#1E1420"/>
+    <rect width="600" height="40" fill="#2A1D2C"/>
+    <circle cx="22" cy="20" r="5" fill="#F26B6B"/><circle cx="38" cy="20" r="5" fill="#F5BE4F"/><circle cx="54" cy="20" r="5" fill="#4CC37A"/>
+    <rect x="86" y="10" width="118" height="30" rx="8" fill="#1E1420"/>
+    <text x="100" y="30" font-size="11.5" fill="#FFFFFF" fill-opacity="0.85">orders.service.ts</text>
+    <text x="222" y="30" font-size="11.5" fill="#FFFFFF" fill-opacity="0.4">api/routes.ts</text>
+
+    <!-- line numbers + code -->
+    <g font-family="Consolas, Menlo, monospace" font-size="12">
+      <g fill="#FFFFFF" fill-opacity="0.25" text-anchor="end">
+        <text x="34" y="74">1</text><text x="34" y="96">2</text><text x="34" y="118">3</text><text x="34" y="140">4</text>
+        <text x="34" y="162">5</text><text x="34" y="184">6</text><text x="34" y="206">7</text><text x="34" y="228">8</text>
+        <text x="34" y="250">9</text><text x="34" y="272">10</text><text x="34" y="294">11</text><text x="34" y="316">12</text>
+        <text x="34" y="338">13</text><text x="34" y="360">14</text>
+      </g>
+      <text x="50" y="74"><tspan fill="#C792EA">export async function</tspan><tspan fill="#82AAFF"> createOrder</tspan><tspan fill="#FFFFFF">(input) {</tspan></text>
+      <text x="66" y="96"><tspan fill="#C792EA">const</tspan><tspan fill="#FFFFFF"> rate = </tspan><tspan fill="#C792EA">await</tspan><tspan fill="#82AAFF"> getTodayRate</tspan><tspan fill="#FFFFFF">(input.purity);</tspan></text>
+      <text x="66" y="118"><tspan fill="#C792EA">const</tspan><tspan fill="#FFFFFF"> value = input.netWeight * rate;</tspan></text>
+      <text x="66" y="140" fill="#FFFFFF" fill-opacity="0.35">// making charges + GST, split per state</text>
+      <text x="66" y="162"><tspan fill="#C792EA">const</tspan><tspan fill="#FFFFFF"> tax = </tspan><tspan fill="#82AAFF">gst</tspan><tspan fill="#FFFFFF">(value + input.making, </tspan><tspan fill="#F78C6C">0.03</tspan><tspan fill="#FFFFFF">);</tspan></text>
+      <text x="66" y="184"><tspan fill="#C792EA">const</tspan><tspan fill="#FFFFFF"> order = </tspan><tspan fill="#C792EA">await</tspan><tspan fill="#FFFFFF"> db.orders.</tspan><tspan fill="#82AAFF">insert</tspan><tspan fill="#FFFFFF">({</tspan></text>
+      <text x="82" y="206" fill="#FFFFFF">...input, value, tax,</text>
+      <text x="82" y="228"><tspan fill="#FFFFFF">status: </tspan><tspan fill="#C3E88D">'confirmed'</tspan><tspan fill="#FFFFFF">,</tspan></text>
+      <text x="66" y="250" fill="#FFFFFF">});</text>
+      <text x="66" y="272"><tspan fill="#C792EA">await</tspan><tspan fill="#82AAFF"> notify</tspan><tspan fill="#FFFFFF">(order.customer, </tspan><tspan fill="#C3E88D">'whatsapp'</tspan><tspan fill="#FFFFFF">);</tspan></text>
+      <text x="66" y="294"><tspan fill="#C792EA">return</tspan><tspan fill="#FFFFFF"> order;</tspan></text>
+      <text x="50" y="316" fill="#FFFFFF">}</text>
+      <rect x="50" y="328" width="2" height="16" fill="#E93558"/>
+    </g>
+
+    <!-- terminal -->
+    <rect x="0" y="374" width="600" height="66" fill="#170F18"/>
+    <g font-family="Consolas, Menlo, monospace" font-size="11.5">
+      <text x="20" y="400"><tspan fill="#34D399">✓</tspan><tspan fill="#FFFFFF" fill-opacity="0.7"> 42 tests passed</tspan><tspan fill="#FFFFFF" fill-opacity="0.35">  ·  build 1.8s</tspan></text>
+      <text x="20" y="422"><tspan fill="#E93558">→</tspan><tspan fill="#FFFFFF" fill-opacity="0.7"> deployed to staging</tspan></text>
+    </g>
+  </g>
+
+  <!-- floating preview card -->
+  <g transform="translate(372 66)">
+    <rect width="208" height="250" rx="16" fill="#FFFFFF"/>
+    <rect x="16" y="16" width="70" height="8" rx="4" fill="#ECDFE3"/>
+    <text x="16" y="50" font-size="15" font-weight="800" fill="#1E1420">Order confirmed</text>
+    <text x="16" y="68" font-size="11" fill="#8A7A82">#ORD-5531 · just now</text>
+    <rect x="16" y="82" width="176" height="62" rx="12" fill="#FAF5F4"/>
+    <rect x="26" y="92" width="42" height="42" rx="10" fill="url(#brand)"/>
+    <circle cx="47" cy="113" r="11" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+    <text x="78" y="108" font-size="11.5" font-weight="700" fill="#1E1420">Gold bangles (pair)</text>
+    <text x="78" y="125" font-size="10.5" fill="#8A7A82">22K · 32.600 g</text>
+    <g font-size="11" fill="#4A3B44">
+      <text x="16" y="170">Value</text><text x="192" y="170" text-anchor="end" font-weight="700" fill="#1E1420">₹2,19,800</text>
+      <text x="16" y="190">GST (3%)</text><text x="192" y="190" text-anchor="end" font-weight="700" fill="#1E1420">₹6,594</text>
+    </g>
+    <rect x="16" y="206" width="176" height="30" rx="15" fill="url(#brand)"/>
+    <text x="104" y="225.5" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Notify on WhatsApp</text>
+  </g>
+</svg>
