@@ -14,6 +14,18 @@ const navLinks = [
   { href: "/about", label: "About", key: "about" },
   { href: "/contact", label: "Contact", key: "contact" },
 ];
+
+// Line icons for the desktop nav (inner SVG markup)
+const navIcons: Record<string, string> = {
+  products:
+    '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+  services:
+    '<path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6-4.6-1.9 4.6-1.9Z"/><path d="M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8Z"/>',
+  about:
+    '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  contact:
+    '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+};
 ---
 
 <div class="hdr-gradient-bar" aria-hidden="true"></div>
@@ -39,6 +51,7 @@ const navLinks = [
           id="desktopDropdownTrigger"
           aria-expanded="false"
         >
+          <svg class="hdr-nav__icon" viewBox="0 0 24 24" aria-hidden="true" set:html={navIcons.products}></svg>
           Products
           <svg class="hdr-caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
             <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -67,14 +80,41 @@ const navLinks = [
         <a
           href={link.href}
           class:list={["hdr-nav__link", { "is-active": active === link.key }]}
+          aria-current={active === link.key ? "page" : undefined}
         >
+          <svg class="hdr-nav__icon" viewBox="0 0 24 24" aria-hidden="true" set:html={navIcons[link.key]}></svg>
           {link.label}
         </a>
       ))}
     </nav>
 
     <div class="hdr-right">
-      <a href={site.products.crm.url} class="btn btn--primary btn--sm hdr-cta-desktop">Open CRM</a>
+      <a
+        href={site.products.crm.url}
+        class="hdr-account hdr-cta-desktop"
+        aria-label="Log in to Storemate CRM"
+        data-tip="Log in to CRM"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"></path>
+        </svg>
+      </a>
+
+      <a href="/contact" class="hdr-cta hdr-cta-desktop">
+        <span class="hdr-cta__inner">
+          <span class="hdr-cta__dot" aria-hidden="true"></span>
+          <span class="hdr-cta__label">Let's Talk</span>
+          <span class="hdr-cta__arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </span>
+      </a>
 
       <button
         class="hdr-burger"
@@ -91,62 +131,133 @@ const navLinks = [
   </div>
 </header>
 
-<!-- Mobile fullscreen nav -->
+<!-- Mobile nav — floating slide-over sheet -->
 <div class="mob" id="mobNav" aria-hidden="true">
   <div class="mob__overlay" id="mobOverlay"></div>
-  <div class="mob__sheet">
+  <div class="mob__sheet" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="mob__head">
       <a href="/" class="hdr-brand">
         <img src="/images/logo.png" alt="" width="30" height="30" class="hdr-brand__img" />
         <span class="hdr-brand__name">{site.name}</span>
       </a>
       <button class="mob__x" id="mobClose" type="button" aria-label="Close menu">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3 3L17 17M17 3L3 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
         </svg>
       </button>
     </div>
 
-    <nav class="mob__links">
-      <div class="mob__accordion">
-        <button type="button" class="mob__link mob__acc-trigger" id="mobAccTrigger">
-          Products
+    <span class="mob__label mob__stagger" style="--i: 0">Menu</span>
+
+    <nav class="mob__links" aria-label="Mobile">
+      <div class="mob__accordion mob__stagger" style="--i: 1">
+        <button
+          type="button"
+          class:list={["mob__link mob__acc-trigger", { "is-active": productsActive }]}
+          id="mobAccTrigger"
+          aria-expanded="false"
+          aria-controls="mobAccBody"
+        >
+          <span class="mob__link-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" set:html={navIcons.products}></svg>
+          </span>
+          <span class="mob__link-label">Products</span>
           <svg class="hdr-caret" width="12" height="7" viewBox="0 0 10 6" fill="none" aria-hidden="true">
             <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </button>
         <div class="mob__acc-body" id="mobAccBody">
           <div class="mob__acc-inner">
-            <a href="/storemate-crm" class="hdr-dd-item">
-              <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
-              <span class="hdr-dd-text">
+            <div class="mob__products">
+              <a href="/storemate-crm" class:list={["mob__product mob__product--crm", { "is-active": active === "crm" }]}>
+                <span class="hdr-dd-icon hdr-dd-icon--crm" aria-hidden="true"></span>
                 <span class="hdr-dd-title">Storemate CRM</span>
                 <span class="hdr-dd-sub">Jewellery business management</span>
-              </span>
-            </a>
-            <a href="/storemate-connect" class="hdr-dd-item">
-              <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
-              <span class="hdr-dd-text">
+              </a>
+              <a href="/storemate-connect" class:list={["mob__product mob__product--connect", { "is-active": active === "connect" }]}>
+                <span class="hdr-dd-icon hdr-dd-icon--connect" aria-hidden="true"></span>
                 <span class="hdr-dd-title">Storemate Connect</span>
                 <span class="hdr-dd-sub">Instagram & WhatsApp automation</span>
-              </span>
-            </a>
+              </a>
+            </div>
             <a href="/products" class="hdr-dd-all">View all products <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
 
-      {navLinks.map((link) => (
+      {navLinks.map((link, idx) => (
         <a
           href={link.href}
-          class:list={["mob__link", { "is-active": active === link.key }]}
+          class:list={["mob__link mob__stagger", { "is-active": active === link.key }]}
+          style={`--i: ${idx + 2}`}
+          aria-current={active === link.key ? "page" : undefined}
         >
-          {link.label}
+          <span class="mob__link-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" set:html={navIcons[link.key]}></svg>
+          </span>
+          <span class="mob__link-label">{link.label}</span>
+          <svg class="mob__link-arrow" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
         </a>
       ))}
     </nav>
 
-    <a href={site.products.crm.url} class="btn btn--primary mob__cta">Open Storemate CRM</a>
+    <div class="mob__foot mob__stagger" style={`--i: ${navLinks.length + 2}`}>
+      <div class="mob__card">
+        <span class="mob__card-eyebrow"><span class="hdr-cta__dot" aria-hidden="true"></span> We're available</span>
+        <p class="mob__card-title">Have a project in mind?</p>
+        <a href="/contact" class="hdr-cta mob__cta">
+          <span class="hdr-cta__inner">
+            <span class="hdr-cta__label">Let's Talk</span>
+            <span class="hdr-cta__arrow" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </span>
+        </a>
+      </div>
+
+      <a href={site.products.crm.url} class="mob__login">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"></path>
+        </svg>
+        Log in to Storemate CRM
+      </a>
+
+      <div class="mob__quick">
+        <a href={`mailto:${site.contact.email}`} class="mob__quick-btn" aria-label="Email us">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+            <path d="m3 7 9 6 9-6"></path>
+          </svg>
+        </a>
+        <a href={`https://wa.me/${site.contact.whatsapp.replace(/\D/g, "")}`} class="mob__quick-btn" aria-label="WhatsApp us" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 21l1.65-3.8A9 9 0 1 1 7.8 20.3Z"></path>
+          </svg>
+        </a>
+        <a href={site.socials.instagram} class="mob__quick-btn" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"></circle>
+          </svg>
+        </a>
+        <a href={site.socials.linkedin} class="mob__quick-btn" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -418,8 +529,394 @@ const navLinks = [
   }
 
   /* ========================================================
-     MOBILE NAV — full-screen slide-over sheet
+     DESKTOP — floating pill header + scroll behaviour
+     (mobile header above 900px breakpoint stays untouched)
      ======================================================== */
+  .hdr-nav__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.8;
+    transition: transform $dur-base $ease-out, opacity $dur-fast $ease-out;
+  }
+
+  /* Round account button with tooltip */
+  .hdr-account {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: $ink-soft;
+    background: rgba($ink, 0.04);
+    border: 1px solid rgba($ink, 0.06);
+    transition:
+      color $dur-fast $ease-out,
+      background $dur-base $ease-out,
+      border-color $dur-base $ease-out,
+      transform $dur-base $ease-out;
+
+    svg { transition: transform $dur-base $ease-out; }
+
+    /* tooltip */
+    &::after {
+      content: attr(data-tip);
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: $ink;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: $fw-semibold;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -4px);
+      transition: opacity $dur-fast $ease-out, transform $dur-base $ease-out;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: $primary;
+      background: $primary-tint;
+      border-color: rgba($primary, 0.2);
+
+      svg { transform: translateY(-1px) scale(1.05); }
+      &::after { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @media (max-width: 900px) { display: none; }
+  }
+
+  /* Dark CTA with a rotating gradient ring */
+  @property --hdr-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .hdr-cta {
+    --hdr-angle: 0deg;
+    position: relative;
+    display: inline-flex;
+    padding: 1.5px;
+    border-radius: $radius-pill;
+    background: conic-gradient(from var(--hdr-angle), $primary, $secondary, #F59E0B, $primary);
+    animation: hdr-ring-spin 4s linear infinite;
+    isolation: isolate;
+    transition: transform $dur-base $ease-out;
+
+    /* soft glow that follows the ring */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      z-index: -1;
+      border-radius: inherit;
+      background: inherit;
+      filter: blur(10px);
+      opacity: 0.35;
+      transition: opacity $dur-base $ease-out;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+      &::before { opacity: 0.65; }
+    }
+
+    @media (max-width: 900px) { display: none; }
+  }
+
+  .hdr-cta__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 5px 5px 16px;
+    border-radius: inherit;
+    background: $ink;
+    color: #fff;
+    font-weight: $fw-bold;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    transition: background $dur-base $ease-out;
+  }
+
+  .hdr-cta:hover .hdr-cta__inner { background: #2A1D2C; }
+
+  /* "available" pulse */
+  .hdr-cta__dot {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34D399;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: inherit;
+      animation: hdr-dot-pulse 2s $ease-out infinite;
+    }
+  }
+
+  /* two arrows: one slides out, the next slides in */
+  .hdr-cta__arrow {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    color: $ink;
+    overflow: hidden;
+
+    svg {
+      grid-area: 1 / 1;
+      transition: transform 0.45s $ease-out;
+    }
+    svg:last-child { transform: translateX(-200%); }
+  }
+
+  .hdr-cta:hover .hdr-cta__arrow {
+    svg:first-child { transform: translateX(200%); }
+    svg:last-child { transform: translateX(0); }
+  }
+
+  @keyframes hdr-ring-spin {
+    to { --hdr-angle: 360deg; }
+  }
+
+  @keyframes hdr-dot-pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(2.8); opacity: 0; }
+  }
+
+  @media (min-width: 901px) {
+    /* Gradient bar becomes a scroll-progress indicator */
+    .hdr-gradient-bar {
+      background: transparent;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 52;
+      pointer-events: none;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: $brand-gradient;
+        transform-origin: left center;
+        transform: scaleX(var(--hdr-progress, 0));
+      }
+    }
+
+    .site-header {
+      top: 0;
+      padding: 14px $space-5 0;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: none;
+      pointer-events: none;     /* only the pill itself is interactive */
+      /* take no layout space so the hero background runs behind the pill */
+      margin-bottom: -78px;
+      transition: transform 0.5s $ease-out;
+      animation: hdr-drop-in 0.8s $ease-out backwards;
+
+      @media (min-width: 640px) { padding: 14px $space-6 0; }
+    }
+
+    /* Push the first section's content below the floating pill; a transparent
+       border keeps the section's background painting right up to the top. */
+    :global(main > section:first-of-type) {
+      border-top: 78px solid transparent;
+    }
+
+    /* Product pages open with a breadcrumb instead of a section */
+    :global(main > .breadcrumb:first-of-type) {
+      margin-top: 78px;
+    }
+    :global(main > .breadcrumb ~ section:first-of-type) {
+      border-top: 0;
+    }
+
+    .hdr-container {
+      pointer-events: auto;
+      height: 64px;
+      max-width: $container-max;
+      padding: 0 8px 0 22px;
+      background: rgba(#fff, 0.82);
+      backdrop-filter: blur(16px) saturate(1.6);
+      -webkit-backdrop-filter: blur(16px) saturate(1.6);
+      border: 1px solid rgba($line, 0.9);
+      border-radius: $radius-pill;
+      box-shadow:
+        0 1px 2px rgba($ink, 0.04),
+        0 8px 30px -10px rgba($ink, 0.12);
+      transition:
+        max-width 0.6s $ease-out,
+        height 0.5s $ease-out,
+        box-shadow 0.5s $ease-out,
+        background 0.5s $ease-out;
+      @media (min-width: 640px) { padding: 0 8px 0 22px; }
+    }
+
+    .hdr-brand__name { font-size: 1.15rem; }
+
+    .hdr-nav { gap: 2px; }
+
+    .hdr-nav__link {
+      gap: 7px;
+      padding: 8px 14px;
+      font-size: 0.9375rem;
+      color: $ink-soft;
+
+      &:hover {
+        color: $ink;
+        background: rgba($ink, 0.045);
+        .hdr-nav__icon { opacity: 1; transform: translateY(-1px); }
+      }
+      &.is-active {
+        color: $primary;
+        background: transparent;
+        .hdr-nav__icon { opacity: 1; }
+      }
+    }
+
+    .hdr-nav__dropdown.is-open .hdr-nav__link {
+      color: $ink;
+      background: rgba($ink, 0.045);
+      &.is-active { color: $primary; background: $primary-tint; }
+    }
+
+    /* Dropdown sits below the pill; ::before bridges the hover gap */
+    .hdr-dropdown-panel {
+      top: calc(100% + 22px);
+      left: 50%;
+      transform: translate(-50%, 8px) scale(0.98);
+      transform-origin: top center;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px -16px rgba($ink, 0.22);
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -24px;
+        height: 24px;
+      }
+    }
+
+    .hdr-nav__dropdown.is-open .hdr-dropdown-panel {
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    /* ---- Scrolled state: tighter, elevated pill ---- */
+    .site-header.is-scrolled .hdr-container {
+      max-width: 1080px;
+      height: 58px;
+      background: rgba(#fff, 0.9);
+      box-shadow:
+        0 1px 2px rgba($ink, 0.05),
+        0 16px 40px -14px rgba($ink, 0.22);
+    }
+
+  }
+
+  @keyframes hdr-drop-in {
+    from { opacity: 0; transform: translateY(-24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ========================================================
+     MOBILE — floating pill bar + slide-over sheet
+     ======================================================== */
+  @media (max-width: 900px) {
+    .site-header {
+      top: 0;
+      padding: 10px 12px 0;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: none;
+      margin-bottom: -68px;
+      pointer-events: none;
+    }
+
+    .hdr-container {
+      pointer-events: auto;
+      height: 58px;
+      padding: 0 7px 0 14px;
+      background: rgba(#fff, 0.86);
+      backdrop-filter: blur(16px) saturate(1.6);
+      -webkit-backdrop-filter: blur(16px) saturate(1.6);
+      border: 1px solid rgba($line, 0.9);
+      border-radius: $radius-pill;
+      box-shadow:
+        0 1px 2px rgba($ink, 0.04),
+        0 8px 24px -10px rgba($ink, 0.14);
+      transition: box-shadow 0.5s $ease-out, background 0.5s $ease-out;
+    }
+
+    .site-header.is-scrolled .hdr-container {
+      background: rgba(#fff, 0.94);
+      box-shadow:
+        0 1px 2px rgba($ink, 0.05),
+        0 14px 34px -12px rgba($ink, 0.24);
+    }
+
+    .hdr-brand__img { width: 30px; height: 30px; }
+    .hdr-brand__name { font-size: 1.1rem; }
+
+    /* burger becomes a dark round button */
+    .hdr-burger {
+      width: 44px;
+      height: 44px;
+      gap: 4px;
+      border-radius: 50%;
+      background: $ink;
+      transition: background $dur-base $ease-out, transform $dur-base $ease-out;
+
+      &:active { transform: scale(0.94); }
+    }
+
+    .hdr-burger__line {
+      width: 16px;
+      height: 1.8px;
+      background: #fff;
+
+      &:nth-child(2) { width: 10px; margin-left: 6px; transition: width $dur-base $ease-out, margin $dur-base $ease-out, opacity $dur-fast; }
+    }
+
+    .hdr-burger.is-active .hdr-burger__line:nth-child(1) { transform: translateY(5.8px) rotate(45deg); }
+    .hdr-burger.is-active .hdr-burger__line:nth-child(3) { transform: translateY(-5.8px) rotate(-45deg); }
+
+    /* push first section content below the pill */
+    :global(main > section:first-of-type) {
+      border-top: 68px solid transparent;
+    }
+    :global(main > .breadcrumb:first-of-type) {
+      margin-top: 68px;
+    }
+    :global(main > .breadcrumb ~ section:first-of-type) {
+      border-top: 0;
+    }
+  }
+
   .mob {
     position: fixed;
     inset: 0;
@@ -428,146 +925,351 @@ const navLinks = [
     justify-content: flex-end;
     visibility: hidden;
     pointer-events: none;
+    transition: visibility 0s linear 0.5s;
   }
 
   .mob.is-open {
     visibility: visible;
     pointer-events: auto;
+    transition-delay: 0s;
   }
 
   /* backdrop */
   .mob__overlay {
     position: absolute;
     inset: 0;
-    background: rgba($ink, 0.4);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+    background: rgba($ink, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     opacity: 0;
-    transition: opacity $dur-base $ease-out;
+    transition: opacity 0.4s $ease-out;
   }
 
   .mob.is-open .mob__overlay { opacity: 1; }
 
-  /* sheet */
+  /* sheet — a floating rounded card */
   .mob__sheet {
     position: relative;
-    width: 100%;
-    max-width: 340px;
-    height: 100%;
+    width: calc(100% - 20px);
+    max-width: 380px;
+    height: calc(100% - 20px);
+    margin: 10px;
     background: $paper;
-    box-shadow: -16px 0 48px rgba($ink, 0.15);
+    border-radius: 26px;
+    box-shadow: 0 30px 80px -20px rgba($ink, 0.45);
     display: flex;
     flex-direction: column;
-    padding: $space-5;
+    padding: 14px 16px 16px;
+    overflow-x: hidden;   /* corner glow + slide-in items must not cause sideways scroll */
     overflow-y: auto;
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    transform: translateX(100%);
-    transition: transform 0.35s $ease-out;
+    transform: translateX(calc(100% + 20px));
+    transition: transform 0.5s $ease-out;
+
+    /* soft brand glow in the corner */
+    &::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba($primary, 0.14), rgba($secondary, 0.06) 50%, transparent 70%);
+      pointer-events: none;
+    }
   }
 
   .mob.is-open .mob__sheet { transform: translateX(0); }
 
   /* head */
   .mob__head {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: $space-4;
-    margin-bottom: $space-4;
-    border-bottom: 1px solid $line;
+    padding: 2px 0 14px 4px;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed $line;
     flex-shrink: 0;
   }
 
   .mob__x {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background: none;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid $line;
+    background: #fff;
     cursor: pointer;
     color: $ink;
     border-radius: 50%;
     flex-shrink: 0;
     -webkit-tap-highlight-color: transparent;
-    transition: background $dur-fast $ease-out;
+    transition: background $dur-fast $ease-out, transform 0.5s $ease-out;
 
     &:hover { background: $paper-alt; }
   }
 
+  .mob.is-open .mob__x { transform: rotate(90deg); }
+
+  /* staggered entrance */
+  .mob__stagger {
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.35s $ease-out, transform 0.5s $ease-out;
+  }
+
+  .mob.is-open .mob__stagger {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(0.12s + var(--i, 0) * 0.055s);
+  }
+
+  .mob__label {
+    display: block;
+    padding: 10px 6px 6px;
+    font-size: 0.7rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $muted;
+  }
+
   /* links */
   .mob__links {
+    position: relative;
     display: flex;
     flex-direction: column;
-    flex: 1;
+    gap: 4px;
   }
 
   .mob__link {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: $space-4 $space-2;
-    font-size: 1.05rem;
-    font-weight: $fw-medium;
-    color: $ink-soft;
-    border-bottom: 1px solid $line;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-family: inherit;
+    gap: 12px;
     width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 16px;
+    background: none;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: $fw-semibold;
+    color: $ink;
     text-align: left;
-    border-bottom: 1px solid $line;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background $dur-fast $ease-out;
 
-    &.is-active { color: $primary; }
+    &:active,
+    &:hover { background: rgba($ink, 0.04); }
+
+    &.is-active {
+      background: $primary-tint;
+      color: $primary;
+
+      .mob__link-icon {
+        background: $primary;
+        border-color: $primary;
+        color: #fff;
+      }
+    }
   }
+
+  .mob__link-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid $line;
+    color: $ink-soft;
+    transition: background $dur-fast $ease-out, color $dur-fast $ease-out;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .mob__link-label { flex: 1; }
+
+  .mob__link-arrow,
+  .mob__link .hdr-caret {
+    margin-right: 8px;
+    color: $muted;
+    flex-shrink: 0;
+  }
+
+  .mob__link-arrow {
+    transition: transform $dur-base $ease-out, color $dur-fast;
+  }
+
+  .mob__link:hover .mob__link-arrow {
+    transform: translateX(3px);
+    color: $ink;
+  }
+
+  .mob__link.is-active .mob__link-arrow,
+  .mob__link.is-active .hdr-caret { color: $primary; }
 
   /* accordion */
-  .mob__accordion {
-    border-bottom: 1px solid $line;
-  }
-
-  .mob__acc-trigger {
-    // inherits .mob__link styles via class combo
-    border-bottom: none !important;
-  }
-
   .mob__acc-body {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s $ease-out;
+    transition: grid-template-rows 0.4s $ease-out;
     overflow: hidden;
   }
 
-  .mob__acc-inner {
-    min-height: 0;
+  .mob__acc-inner { min-height: 0; }
+
+  .mob__accordion.is-open .mob__acc-body { grid-template-rows: 1fr; }
+  .mob__accordion.is-open .hdr-caret { transform: rotate(180deg); }
+
+  .mob__products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 6px 0 4px;
   }
 
-  .mob__accordion.is-open .mob__acc-body {
-    grid-template-rows: 1fr;
+  .mob__product {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid $line;
+    background: #fff;
+    transition: border-color $dur-fast $ease-out, transform $dur-base $ease-out;
+
+    .hdr-dd-icon { margin: 0 0 6px; }
+    .hdr-dd-title { font-size: 0.875rem; line-height: 1.25; }
+    .hdr-dd-sub { font-size: 0.75rem; line-height: 1.35; }
+
+    &:active { transform: scale(0.97); }
   }
 
-  .mob__accordion.is-open .hdr-caret {
-    transform: rotate(180deg);
-  }
-
-  .mob__acc-body .hdr-dd-item {
-    padding: $space-3 $space-2;
-  }
+  .mob__product--crm { background: linear-gradient(160deg, $primary-tint, #fff 70%); }
+  .mob__product--connect { background: linear-gradient(160deg, $secondary-tint, #fff 70%); }
+  .mob__product.is-active { border-color: rgba($primary, 0.4); }
 
   .mob__acc-body .hdr-dd-all {
-    padding: $space-3 $space-2;
-    margin-top: 0;
+    margin-top: 2px;
+    padding: 10px 8px;
+    border-top: none;
   }
 
-  /* CTA */
-  .mob__cta {
+  /* footer */
+  .mob__foot {
+    position: relative;
     margin-top: auto;
-    padding-top: $space-5;
-    text-align: center;
-    justify-content: center;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     flex-shrink: 0;
+  }
+
+  .mob__card {
+    position: relative;
+    overflow: hidden;
+    padding: 18px;
+    border-radius: 20px;
+    background: $ink;
+    color: #fff;
+
+    &::before {
+      content: "";
+      position: absolute;
+      right: -40px;
+      bottom: -60px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba($secondary, 0.55), rgba($primary, 0.25) 45%, transparent 70%);
+      pointer-events: none;
+    }
+  }
+
+  .mob__card-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: $fw-semibold;
+    color: rgba(#fff, 0.7);
+  }
+
+  .mob__card-title {
+    position: relative;
+    margin: 6px 0 14px;
+    font-size: 1.2rem;
+    font-weight: $fw-bold;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+
+  .mob__cta {
+    display: flex;
+    width: 100%;
+
+    .hdr-cta__inner {
+      flex: 1;
+      justify-content: space-between;
+      padding: 6px 6px 6px 18px;
+    }
+  }
+
+  .mob__login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px;
+    border-radius: $radius-pill;
+    border: 1px solid $line;
+    background: #fff;
+    font-weight: $fw-semibold;
+    font-size: 0.9375rem;
+    color: $ink;
+    transition: background $dur-fast $ease-out;
+
+    &:active { background: $paper-alt; }
+  }
+
+  .mob__quick {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 2px;
+  }
+
+  .mob__quick-btn {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: $ink-soft;
+    background: rgba($ink, 0.04);
+    transition: color $dur-fast $ease-out, background $dur-fast $ease-out;
+
+    &:hover,
+    &:active {
+      color: $primary;
+      background: $primary-tint;
+    }
   }
 
   /* ===== Reduced motion ===== */
@@ -576,8 +1278,16 @@ const navLinks = [
     .mob__overlay,
     .hdr-dropdown-panel,
     .hdr-burger__line,
-    .mob__acc-body {
+    .mob__acc-body,
+    .site-header,
+    .hdr-container,
+    .hdr-cta,
+    .hdr-cta__dot::after,
+    .hdr-account,
+    .mob__stagger,
+    .mob__x {
       transition: none !important;
+      animation: none !important;
     }
   }
 </style>
@@ -606,7 +1316,9 @@ const navLinks = [
     document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
     // reset accordion
-    document.getElementById("mobAccTrigger")?.closest(".mob__accordion")?.classList.remove("is-open");
+    const acc = document.getElementById("mobAccTrigger");
+    acc?.closest(".mob__accordion")?.classList.remove("is-open");
+    acc?.setAttribute("aria-expanded", "false");
   }
 
   burger?.addEventListener("click", () => {
@@ -630,7 +1342,8 @@ const navLinks = [
   // ---- Mobile accordion ----
   const accTrigger = document.getElementById("mobAccTrigger");
   accTrigger?.addEventListener("click", () => {
-    accTrigger.closest(".mob__accordion")?.classList.toggle("is-open");
+    const isOpen = accTrigger.closest(".mob__accordion")?.classList.toggle("is-open");
+    accTrigger.setAttribute("aria-expanded", String(!!isOpen));
   });
 
   // ---- Desktop dropdown (hover + focus) ----
@@ -646,4 +1359,28 @@ const navLinks = [
   ddWrap?.addEventListener("focusout", (e) => {
     if (!ddWrap.contains((e as FocusEvent).relatedTarget as Node)) closeDD();
   });
+
+  // ---- Scroll behaviour: shrink on scroll + progress bar ----
+  // (styles for these states only apply above the 900px breakpoint)
+  const header = document.getElementById("siteHeader");
+  const progressBar = document.querySelector<HTMLElement>(".hdr-gradient-bar");
+  let ticking = false;
+
+  function onScroll() {
+    const y = Math.max(window.scrollY, 0);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar?.style.setProperty("--hdr-progress", String(max > 0 ? Math.min(y / max, 1) : 0));
+
+    header?.classList.toggle("is-scrolled", y > 24);
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    }
+  }, { passive: true });
+  onScroll();
+
 </script>
