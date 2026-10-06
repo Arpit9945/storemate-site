@@ -745,14 +745,6 @@ const navIcons: Record<string, string> = {
       border-top: 78px solid transparent;
     }
 
-    /* Product pages open with a breadcrumb instead of a section */
-    :global(main > .breadcrumb:first-of-type) {
-      margin-top: 78px;
-    }
-    :global(main > .breadcrumb ~ section:first-of-type) {
-      border-top: 0;
-    }
-
     .hdr-container {
       pointer-events: auto;
       height: 64px;
@@ -908,12 +900,6 @@ const navIcons: Record<string, string> = {
     /* push first section content below the pill */
     :global(main > section:first-of-type) {
       border-top: 68px solid transparent;
-    }
-    :global(main > .breadcrumb:first-of-type) {
-      margin-top: 68px;
-    }
-    :global(main > .breadcrumb ~ section:first-of-type) {
-      border-top: 0;
     }
   }
 

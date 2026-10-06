@@ -1,0 +1,108 @@
+---
+/** Closing call-to-action panel for product pages. */
+interface Props {
+  tone: 'crm' | 'connect';
+  title: string;
+  text: string;
+  primary: { label: string; href: string };
+  secondary: { label: string; href: string };
+}
+const { tone, title, text, primary, secondary } = Astro.props;
+---
+
+<section class:list={['section', 'p-cta', `tone-${tone}`]} aria-labelledby="cta-heading">
+  <div class="container">
+    <div class="p-cta__panel grid-bg grid-bg--dark grid-bg--full reveal reveal--scale">
+      <span class="p-cta__glow" aria-hidden="true"></span>
+      <div class="p-cta__copy">
+        <span class="p-cta__eyebrow">Get started</span>
+        <h2 id="cta-heading" class="p-cta__title">{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="p-cta__actions">
+        <a href={primary.href} class="btn btn--on-dark">{primary.label}</a>
+        <a href={secondary.href} class="btn p-cta__ghost">{secondary.label}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '../../styles/tokens' as *;
+
+  .p-cta { padding-top: 0; }
+
+  .p-cta__panel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-6;
+    padding: $space-8 $space-7;
+    border-radius: 32px;
+    background: $ink;
+    color: #fff;
+
+    @media (max-width: 860px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: $space-7 $space-5;
+    }
+  }
+
+  .p-cta__glow {
+    position: absolute;
+    width: 34rem;
+    aspect-ratio: 1;
+    right: -8rem;
+    top: -20rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, transparent), transparent 68%);
+    pointer-events: none;
+  }
+
+  .p-cta__copy {
+    position: relative;
+    max-width: 580px;
+
+    p { margin-top: $space-3; color: rgba(#fff, 0.7); font-size: 1.05rem; }
+  }
+
+  .p-cta__eyebrow {
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+  }
+
+  .p-cta__title {
+    margin-top: $space-3;
+    font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.5rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    color: #fff;
+  }
+
+  .p-cta__actions {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      .btn { width: 100%; }
+    }
+  }
+
+  .p-cta__ghost {
+    border: 1.5px solid rgba(#fff, 0.3);
+    color: #fff;
+
+    &:hover { border-color: #fff; }
+  }
+</style>

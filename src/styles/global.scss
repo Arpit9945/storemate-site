@@ -143,6 +143,23 @@ h6 {
   color: $paper;
 }
 
+// ---- Product tones ------------------------------------------------------------
+// Product-page components read their accent from these, so the same component
+// renders crimson for Storemate CRM and violet for Storemate Connect.
+.tone-crm {
+  --accent: #{$primary};
+  --accent-tint: #{$primary-tint};
+  --accent-dark: #{$primary-dark};
+  --accent-soft: #FF8FA6;
+}
+
+.tone-connect {
+  --accent: #{$secondary};
+  --accent-tint: #{$secondary-tint};
+  --accent-dark: #{$secondary-dark};
+  --accent-soft: #B795FF;
+}
+
 // ---- Grid texture (signature background motif) -----------------------------
 // Fine technical grid, faded at the edges via radial mask. Applied to hero
 // and section backgrounds for a structured, precision-engineered feel —

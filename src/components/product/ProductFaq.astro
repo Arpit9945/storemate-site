@@ -1,0 +1,144 @@
+---
+/** FAQ accordion with a sticky intro column. Pages keep their own FAQPage schema. */
+interface Props {
+  tone: 'crm' | 'connect';
+  name: string;
+  faqs: { q: string; a: string }[];
+}
+const { tone, name, faqs } = Astro.props;
+---
+
+<section class:list={['section', 'p-faq', `tone-${tone}`]} aria-labelledby="faq-heading">
+  <div class="container p-faq__grid">
+    <div class="p-faq__intro reveal">
+      <span class="p-faq__eyebrow">Common questions</span>
+      <h2 id="faq-heading" class="p-faq__title">Questions about {name}</h2>
+      <p>Can't find your answer? <a href="/contact">Ask us directly</a> — we'll walk you through it.</p>
+    </div>
+
+    <div class="p-faq__list">
+      {faqs.map((f, i) => (
+        <details class="p-faq__item reveal" style={`--reveal-delay: ${i * 50}ms;`} open={i === 0}>
+          <summary>
+            {f.q}
+            <span class="p-faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="p-faq__answer"><p>{f.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '../../styles/tokens' as *;
+
+  .p-faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: $space-8;
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+      gap: $space-6;
+    }
+  }
+
+  .p-faq__intro {
+    p { margin-top: $space-4; color: $ink-soft; }
+    a { color: var(--accent); font-weight: $fw-bold; }
+
+    @media (min-width: 961px) {
+      position: sticky;
+      top: 120px;
+    }
+  }
+
+  .p-faq__eyebrow {
+    font-size: $fs-eyebrow;
+    font-weight: $fw-semibold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .p-faq__title {
+    margin-top: $space-3;
+    font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.7rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .p-faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .p-faq__item {
+    border: 1px solid $line;
+    border-radius: 20px;
+    background: #fff;
+    transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out;
+
+    &[open] {
+      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+      box-shadow: 0 20px 40px -28px color-mix(in srgb, var(--accent-dark) 50%, transparent);
+    }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $space-4;
+      padding: $space-5;
+      font-weight: $fw-bold;
+      font-size: 1.02rem;
+      cursor: pointer;
+      list-style: none;
+
+      &::-webkit-details-marker { display: none; }
+    }
+  }
+
+  .p-faq__icon {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: $paper-alt;
+    transition: background $dur-base $ease-out, transform $dur-base $ease-out;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 2px;
+      margin: -1px 0 0 -6px;
+      border-radius: 2px;
+      background: $ink;
+      transition: transform $dur-base $ease-out, background $dur-base $ease-out;
+    }
+
+    &::after { transform: rotate(90deg); }
+  }
+
+  .p-faq__item[open] .p-faq__icon {
+    background: var(--accent);
+    transform: rotate(180deg);
+
+    &::before, &::after { background: #fff; }
+    &::after { transform: rotate(0deg); }
+  }
+
+  .p-faq__answer {
+    padding: 0 $space-5 $space-5;
+    p { color: $ink-soft; max-width: 62ch; line-height: 1.65; }
+  }
+</style>

@@ -1,0 +1,225 @@
+---
+/** Section heading + a grid of icon feature cards. `dark` flips it to the ink background. */
+import { icons } from '../../data/icons';
+
+interface Props {
+  tone: 'crm' | 'connect';
+  id?: string;
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  items: { icon: string; title: string; body: string }[];
+  dark?: boolean;
+  badge?: string;
+}
+const { tone, id, eyebrow, title, intro, items, dark = false, badge } = Astro.props;
+const headingId = `${id ?? 'features'}-heading`;
+---
+
+<section
+  class:list={['section', 'f-cards', `tone-${tone}`, { 'f-cards--dark grid-bg grid-bg--dark grid-bg--full': dark }]}
+  id={id}
+  aria-labelledby={headingId}
+>
+  {dark && <span class="f-cards__glow" aria-hidden="true"></span>}
+  <div class="container">
+    <div class="f-cards__head">
+      <div class="reveal">
+        <span class="f-cards__eyebrow">{eyebrow}</span>
+        <h2 id={headingId} class="f-cards__title">{title}</h2>
+      </div>
+      {intro && <p class="reveal">{intro}</p>}
+    </div>
+
+    <div class:list={['f-cards__grid', { 'f-cards__grid--five': items.length === 5, 'f-cards__grid--four': items.length === 4 }]}>
+      {items.map((f, i) => (
+        <article class="f-card reveal reveal--scale" style={`--reveal-delay: ${(i % 3) * 80}ms;`}>
+          <div class="f-card__top">
+            <span class="f-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" set:html={icons[f.icon]}></svg>
+            </span>
+            {badge && <span class="f-card__badge">{badge}</span>}
+          </div>
+          <h3>{f.title}</h3>
+          <p>{f.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '../../styles/tokens' as *;
+
+  .f-cards { position: relative; overflow: hidden; }
+
+  .f-cards--dark {
+    background: $ink;
+    color: #fff;
+  }
+
+  .f-cards__glow {
+    position: absolute;
+    width: 46rem;
+    aspect-ratio: 1;
+    left: -16rem;
+    top: -24rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 40%, transparent), transparent 68%);
+    pointer-events: none;
+  }
+
+  .f-cards__head {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: end;
+    gap: $space-4 $space-7;
+    margin-bottom: $space-7;
+
+    > p { color: $ink-soft; font-size: 1.05rem; }
+
+    @media (max-width: 860px) { grid-template-columns: 1fr; }
+  }
+
+  .f-cards--dark .f-cards__head > p { color: rgba(#fff, 0.68); }
+
+  .f-cards__eyebrow {
+    font-size: $fs-eyebrow;
+    font-weight: $fw-semibold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .f-cards--dark .f-cards__eyebrow { color: var(--accent-soft); }
+
+  .f-cards__title {
+    margin-top: $space-3;
+    font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.9rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .f-cards__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-4;
+
+    @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 620px) { grid-template-columns: 1fr; }
+  }
+
+  .f-cards__grid--four {
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 620px) { grid-template-columns: 1fr; }
+  }
+
+  /* 5 cards: 3 on top, 2 wide underneath */
+  .f-cards__grid--five {
+    grid-template-columns: repeat(6, 1fr);
+
+    .f-card { grid-column: span 2; }
+    .f-card:nth-child(n + 4) { grid-column: span 3; }
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr 1fr;
+      .f-card, .f-card:nth-child(n + 4) { grid-column: auto; }
+      .f-card:last-child { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 620px) {
+      grid-template-columns: 1fr;
+      .f-card:last-child { grid-column: auto; }
+    }
+  }
+
+  .f-card {
+    padding: $space-6;
+    border-radius: 24px;
+    border: 1px solid $line;
+    background: #fff;
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out, border-color $dur-base $ease-out;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+      box-shadow: 0 26px 50px -30px color-mix(in srgb, var(--accent-dark) 55%, transparent);
+
+      .f-card__icon { background: var(--accent); color: #fff; }
+    }
+
+    h3 { margin-top: $space-5; font-size: 1.15rem; font-weight: $fw-bold; letter-spacing: -0.01em; }
+    p { margin-top: $space-2; font-size: 0.95rem; color: $ink-soft; line-height: 1.6; }
+
+    @media (max-width: 640px) { padding: $space-5; }
+  }
+
+  .f-cards--dark .f-card {
+    border-color: rgba(#fff, 0.08);
+    background: rgba(#fff, 0.03);
+
+    &:hover {
+      border-color: rgba(#fff, 0.18);
+      background: rgba(#fff, 0.06);
+      box-shadow: none;
+    }
+
+    h3 { color: #fff; }
+    p { color: rgba(#fff, 0.62); }
+  }
+
+  .f-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .f-card__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--accent-tint);
+    color: var(--accent);
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .f-cards--dark .f-card__icon { background: rgba(#fff, 0.08); color: var(--accent-soft); }
+
+  .f-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: $radius-pill;
+    background: rgba(#1A9E5C, 0.1);
+    font-size: 0.75rem;
+    font-weight: $fw-bold;
+    color: #1A9E5C;
+
+    &::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+  }
+
+  .f-cards--dark .f-card__badge { background: rgba(#34D399, 0.12); color: #34D399; }
+</style>

@@ -1,23 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import CornerMarks from '../components/CornerMarks.astro';
+import ProductHero from '../components/product/ProductHero.astro';
+import FeatureCards from '../components/product/FeatureCards.astro';
+import FeatureTabs from '../components/product/FeatureTabs.astro';
+import PairCard from '../components/product/PairCard.astro';
+import ProductFaq from '../components/product/ProductFaq.astro';
+import ProductCta from '../components/product/ProductCta.astro';
+import { icons } from '../data/icons';
 import { site } from '../config/site';
 
 const instagramFeatures = [
   {
+    icon: 'message',
     title: 'Comment & DM automation',
     body: 'Set a keyword or reply to every comment on a post or reel — the moment someone asks about a piece, they get an instant reply in their DMs.',
   },
   {
+    icon: 'sparkles',
     title: 'Story reply automation',
     body: 'Turn every story reaction into a conversation automatically, without opening Instagram.',
   },
   {
+    icon: 'zap',
     title: 'Ice-breakers & keyword replies',
     body: 'Quick-reply buttons greet new conversations, and keyword triggers answer common questions instantly — pricing, availability, store hours.',
   },
   {
+    icon: 'moon',
     title: 'Away messages',
     body: 'Set store hours once, and customers get an automatic reply outside them — so no one is left waiting until morning.',
   },
@@ -59,22 +68,27 @@ const instagramGroups = [
 
 const whatsappFeatures = [
   {
+    icon: 'send',
     title: 'Template broadcasts',
     body: 'Send a Meta-approved template to your entire customer list in one broadcast — new arrivals, offers, or updates, out in one send.',
   },
   {
+    icon: 'user',
     title: 'Single message sending',
     body: "Send an approved template to one customer at a time, for one-off updates that don't need a full broadcast.",
   },
   {
+    icon: 'code',
     title: 'API access per template',
     body: 'Every approved template comes with its own API, so your developer can trigger individual WhatsApp messages directly from your own systems or website.',
   },
   {
+    icon: 'list',
     title: 'Full message log',
     body: 'Every message sent is recorded against the customer and the exact date and time — a complete, searchable send history.',
   },
   {
+    icon: 'wallet',
     title: 'Pay-per-use pricing',
     body: "No flat monthly WhatsApp fee — you're billed only for the messages you actually send.",
   },
@@ -107,6 +121,13 @@ const whatsappGroups = [
   },
 ];
 
+// One tabbed breakdown for both channels
+const groupIcons = ['message', 'zap', 'grid', 'send', 'code', 'list'];
+const allGroups = [
+  ...instagramGroups.map((g) => ({ ...g, channel: 'Instagram' })),
+  ...whatsappGroups.map((g) => ({ ...g, channel: 'WhatsApp' })),
+].map((g, i) => ({ ...g, icon: groupIcons[i] }));
+
 const faqs = [
   {
     q: "Is this against Instagram's rules?",
@@ -126,7 +147,7 @@ const faqs = [
   },
   {
     q: 'Is WhatsApp automation live, or still coming soon?',
-    a: 'It\u2019s live. Broadcasts and single messages using Meta-approved templates, the per-template developer API, and the full message log are all available now.',
+    a: 'It’s live. Broadcasts and single messages using Meta-approved templates, the per-template developer API, and the full message log are all available now.',
   },
   {
     q: 'How does WhatsApp pricing work?',
@@ -138,7 +159,7 @@ const faqs = [
   },
 ];
 
-const canonicalUrl = 'https://storematehq.com/storemate-connect';
+const canonicalUrl = new URL('/storemate-connect', site.url).toString();
 ---
 
 <BaseLayout
@@ -190,507 +211,205 @@ const canonicalUrl = 'https://storematehq.com/storemate-connect';
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://storematehq.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://storematehq.com/products' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site.url).toString() },
+        { '@type': 'ListItem', position: 2, name: 'Products', item: new URL('/products', site.url).toString() },
         { '@type': 'ListItem', position: 3, name: 'Storemate Connect', item: canonicalUrl },
       ],
     })}
   />
 
-  <link rel="canonical" href={canonicalUrl} slot="head" />
-
-  <nav class="breadcrumb container" aria-label="Breadcrumb">
-    <ol>
-      <li><a href="/">Home</a></li>
-      <li><a href="/products">Products</a></li>
-      <li aria-current="page">Storemate Connect</li>
-    </ol>
-  </nav>
-
-  <PageHero
-    eyebrow="Storemate Connect"
+  <ProductHero
     tone="connect"
-    title="Instagram and WhatsApp, handled from one place."
+    name="Storemate Connect"
+    badge="Instagram + WhatsApp live"
+    title="Instagram and WhatsApp,"
+    accent="handled from one place."
     lede="Auto-reply to Instagram comments, DMs, and story replies instantly — and send Meta-approved WhatsApp templates as broadcasts, single messages, or straight from your own systems via API."
+    primary={{ label: 'Open Storemate Connect', href: site.products.connect.url }}
+    secondary={{ label: "See what's inside", href: '#instagram' }}
+    checks={['Instagram, official API', 'WhatsApp, pay-per-use', 'Message log included']}
   >
-    <div class="hero__actions">
-      <a href={site.products.connect.url} class="btn btn--primary btn--magnetic"><span>Open Storemate Connect</span></a>
-      <a href="#instagram" class="btn btn--ghost btn--magnetic"><span>See what's inside</span></a>
-    </div>
+    <div slot="visual" class="cx-visual" aria-hidden="true">
+      <span class="cx-visual__ring cx-visual__ring--one"></span>
+      <span class="cx-visual__ring cx-visual__ring--two"></span>
+      <img class="cx-visual__phone" src="/images/home/connect-phone.svg" alt="" width="340" height="690" fetchpriority="high" />
 
-    <div class="hero__chips">
-      <span class="chip">Instagram, official API</span>
-      <span class="chip">WhatsApp, pay-per-use</span>
-      <span class="chip">Message log included</span>
-    </div>
-  </PageHero>
-
-  <!-- INSTAGRAM: quick features -->
-  <section class="section" id="instagram" aria-labelledby="instagram-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow eyebrow--violet">Instagram automation</span>
-        <h2 id="instagram-heading" class="h3">Every Instagram interaction, covered.</h2>
+      <div class="cx-card cx-card--keyword">
+        <span class="cx-card__icon cx-card__icon--violet"><svg viewBox="0 0 24 24" set:html={icons.zap}></svg></span>
+        <span><strong>Keyword: “price”</strong><small>Reply sent to DMs in 2 sec</small></span>
       </div>
 
-      <div class="feature-grid">
-        {instagramFeatures.map((f, i) => (
-          <div
-            class="feature-card corner-frame corner-frame--connect reveal reveal--scale tilt-card"
-            style={`--reveal-delay: ${i * 70}ms;`}
-          >
-            <CornerMarks />
-            <div class="feature-card__top">
-              <span class="facet-item__mark feature-card__mark" aria-hidden="true"></span>
-              <span class="badge badge--live">Live</span>
-            </div>
-            <h3>{f.title}</h3>
-            <p>{f.body}</p>
-          </div>
-        ))}
+      <div class="cx-card cx-card--story">
+        <span class="cx-card__icon cx-card__icon--rose"><svg viewBox="0 0 24 24" set:html={icons.sparkles}></svg></span>
+        <span><strong>Story reaction</strong><small>Turned into a conversation</small></span>
+      </div>
+
+      <div class="cx-card cx-card--wa">
+        <span class="cx-card__icon cx-card__icon--green"><svg viewBox="0 0 24 24" set:html={icons.send}></svg></span>
+        <span><strong>WhatsApp broadcast sent</strong><small>“New arrivals” template</small></span>
       </div>
     </div>
-  </section>
+  </ProductHero>
 
-  <!-- INSTAGRAM: detailed breakdown -->
-  <section class="section section--alt" aria-labelledby="instagram-breakdown-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow eyebrow--violet">Instagram, in detail</span>
-        <h2 id="instagram-breakdown-heading" class="h3">Every Instagram feature, by category.</h2>
-      </div>
+  <FeatureCards
+    tone="connect"
+    id="instagram"
+    eyebrow="Instagram automation"
+    title="Every Instagram interaction, covered."
+    intro="Comments, DMs and story replies answered the moment they arrive — in your words, through Instagram's official API."
+    items={instagramFeatures}
+    badge="Live"
+  />
 
-      <div class="breakdown-grid">
-        {instagramGroups.map((group, i) => (
-          <div
-            class:list={['breakdown-card', 'corner-frame', 'corner-frame--connect', 'reveal', 'reveal--scale', 'tilt-card']}
-            style={`--reveal-delay: ${i * 70}ms;`}
-          >
-            <CornerMarks />
-            <span class="breakdown-card__index">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{group.title}</h3>
-            <ul class="breakdown-card__list">
-              {group.items.map((item) => (
-                <li>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                    <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <FeatureCards
+    tone="connect"
+    id="whatsapp"
+    eyebrow="WhatsApp messaging"
+    title="Meta-approved templates, sent your way."
+    intro="Broadcast to your whole list, message one customer, or trigger sends from your own systems — and only pay for what you send."
+    items={whatsappFeatures}
+    badge="Live"
+    dark
+  />
 
-  <!-- WHATSAPP: quick features -->
-  <section class="section" id="whatsapp" aria-labelledby="whatsapp-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow eyebrow--violet">WhatsApp messaging</span>
-        <h2 id="whatsapp-heading" class="h3">Meta-approved templates, sent your way.</h2>
-      </div>
+  <FeatureTabs
+    tone="connect"
+    id="breakdown"
+    eyebrow="In detail"
+    title="Every feature, by category."
+    lede="A closer look at everything Storemate Connect does on Instagram and WhatsApp."
+    groups={allGroups}
+  />
 
-      <div class="feature-grid">
-        {whatsappFeatures.map((f, i) => (
-          <div
-            class="feature-card corner-frame corner-frame--connect reveal reveal--scale tilt-card"
-            style={`--reveal-delay: ${i * 70}ms;`}
-          >
-            <CornerMarks />
-            <div class="feature-card__top">
-              <span class="facet-item__mark feature-card__mark" aria-hidden="true"></span>
-              <span class="badge badge--live">Live</span>
-            </div>
-            <h3>{f.title}</h3>
-            <p>{f.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <PairCard
+    tone="crm"
+    name="Storemate CRM"
+    title="Pair it with Storemate CRM"
+    text="Every conversation Connect handles on Instagram or WhatsApp can carry straight into your customer's record in Storemate CRM — so your store, your Instagram, and your WhatsApp all feel like one system."
+    href="/storemate-crm"
+    image={{ src: '/images/home/crm-dashboard.svg', width: 960, height: 620, kind: 'screen' }}
+    points={['Inventory by weight & purity', 'GST-ready billing', 'Full customer history in one view']}
+  />
 
-  <!-- WHATSAPP: detailed breakdown -->
-  <section class="section section--alt" aria-labelledby="whatsapp-breakdown-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow eyebrow--violet">WhatsApp, in detail</span>
-        <h2 id="whatsapp-breakdown-heading" class="h3">Every WhatsApp feature, by category.</h2>
-      </div>
+  <ProductFaq tone="connect" name="Storemate Connect" faqs={faqs} />
 
-      <div class="breakdown-grid">
-        {whatsappGroups.map((group, i) => (
-          <div
-            class:list={['breakdown-card', 'corner-frame', 'corner-frame--connect', 'reveal', 'reveal--scale', 'tilt-card']}
-            style={`--reveal-delay: ${i * 70}ms;`}
-          >
-            <CornerMarks />
-            <span class="breakdown-card__index">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{group.title}</h3>
-            <ul class="breakdown-card__list">
-              {group.items.map((item) => (
-                <li>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                    <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="pair-heading">
-    <div class="container">
-      <div class="pair corner-frame corner-frame--connect reveal reveal--scale">
-        <CornerMarks />
-        <div class="pair__text">
-          <span class="eyebrow eyebrow--violet">Works better together</span>
-          <h2 id="pair-heading" class="h3">Pair it with Storemate CRM</h2>
-          <p class="lede">
-            Every conversation Connect handles on Instagram or WhatsApp can carry straight into your
-            customer's record in Storemate CRM — so your store, your Instagram, and your WhatsApp all
-            feel like one system.
-          </p>
-          <a href="/storemate-crm" class="btn btn--ghost btn--magnetic"><span>Explore Storemate CRM</span></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="faq-heading">
-    <div class="container container--narrow">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow eyebrow--violet">Common questions</span>
-        <h2 id="faq-heading" class="h3">Frequently asked</h2>
-      </div>
-
-      <div class="faq-list">
-        {faqs.map((item, i) => (
-          <details class="faq-item" style={`--reveal-delay: ${i * 50}ms;`}>
-            <summary>{item.q}</summary>
-            <p>{item.a}</p>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER — structure/styling untouched, copy updated to reflect both channels -->
-  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
-    <div class="container cta-banner__inner reveal">
-      <h2 class="h3">Ready to automate Instagram and WhatsApp?</h2>
-      <p class="lede">Connect your account and set up your first automation in minutes.</p>
-      <div class="hero__actions">
-        <a href={site.products.connect.url} class="btn btn--on-dark">Open Storemate Connect</a>
-        <a href="/contact" class="btn" style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;">Talk to us first</a>
-      </div>
-    </div>
-  </section>
+  <ProductCta
+    tone="connect"
+    title="Ready to automate Instagram and WhatsApp?"
+    text="Connect your account and set up your first automation in minutes."
+    primary={{ label: 'Open Storemate Connect', href: site.products.connect.url }}
+    secondary={{ label: 'Talk to us first', href: '/contact' }}
+  />
 </BaseLayout>
 
 <style lang="scss">
   @use '../styles/tokens' as *;
 
-  // ---- Breadcrumb -----------------------------------------------------------
-  .breadcrumb {
-    padding-top: $space-5;
-
-    ol {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: $space-2;
-      list-style: none;
-      font-size: 0.8125rem;
-      color: $muted;
-    }
-
-    li {
-      display: flex;
-      align-items: center;
-      gap: $space-2;
-
-      &:not(:last-child)::after {
-        content: '/';
-        color: $line;
-      }
-    }
-
-    a {
-      color: $muted;
-      transition: color $dur-base $ease-out;
-      &:hover { color: $secondary; }
-    }
-
-    li[aria-current='page'] {
-      color: $ink-soft;
-      font-weight: $fw-semibold;
-    }
-  }
-
-  .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $space-4;
-    margin-top: $space-6;
-  }
-
-  .hero__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $space-3;
-    margin-top: $space-6;
-  }
-
-  .chip {
-    font-size: 0.8125rem;
-    font-weight: $fw-semibold;
-    letter-spacing: 0.01em;
-    color: $ink-soft;
-    padding: 0.4rem 0.85rem;
-    border-radius: 999px;
-    border: 1px solid $line;
-    background: rgba($paper, 0.6);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-
-    &::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: $secondary;
-      display: inline-block;
-    }
-  }
-
-  .section-head {
+  .cx-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1.02;
     max-width: 560px;
-    margin-bottom: $space-7;
-
-    .h3 { margin-top: $space-3; }
-    .lede { margin-top: $space-4; color: $ink-soft; }
+    margin-inline: auto;
   }
 
-  // ---- Feature grid -----------------------------------------------------------
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-6;
-
-    @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
-    @media (max-width: 640px) { grid-template-columns: 1fr; }
+  .cx-visual__ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba($secondary, 0.3);
+    animation: cxTurn 40s linear infinite;
   }
 
-  .feature-card {
-    padding: $space-6;
-    transition: box-shadow $dur-base $ease-out;
-
-    &:hover { box-shadow: $shadow-soft; }
-
-    h3 { margin-top: $space-4; font-size: $fs-h6; }
-    p { margin-top: $space-3; color: $ink-soft; line-height: 1.55; }
+  .cx-visual__ring--one {
+    inset: 4%;
+    background: radial-gradient(circle, rgba($secondary, 0.14), rgba($primary, 0.06) 45%, transparent 70%);
   }
 
-  .feature-card__top {
+  .cx-visual__ring--two {
+    inset: 18%;
+    border-color: rgba($primary, 0.28);
+    animation-direction: reverse;
+    animation-duration: 30s;
+  }
+
+  .cx-visual__phone {
+    position: relative;
+    width: 50%;
+    height: auto;
+    filter: drop-shadow(0 40px 50px rgba($ink, 0.3));
+    animation: cxFloat 8s ease-in-out infinite;
+  }
+
+  .cx-card {
+    position: absolute;
+    z-index: 2;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  .feature-card__mark { width: 2rem; height: 2rem; }
-
-  // ---- Breakdown grid -----------------------------------------------------------
-  .breakdown-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-5;
-
-    @media (max-width: 960px) { grid-template-columns: 1fr 1fr; }
-    @media (max-width: 640px) { grid-template-columns: 1fr; }
-  }
-
-  .breakdown-card {
-    padding: $space-6;
+    gap: 10px;
+    padding: 10px 14px 10px 10px;
+    border-radius: 16px;
+    background: rgba(#fff, 0.94);
     border: 1px solid $line;
-    border-radius: $radius-md;
-    box-shadow: none;
-    transition: box-shadow $dur-base $ease-out;
+    box-shadow: 0 18px 40px -16px rgba($ink, 0.28);
+    white-space: nowrap;
+    animation: cxBob 6s ease-in-out infinite;
 
-    &:hover { box-shadow: $shadow-soft; }
+    strong { display: block; font-size: 0.8125rem; color: $ink; }
+    small { display: block; font-size: 0.72rem; color: $muted; }
 
-    h3 { margin-top: $space-3; font-size: $fs-h6; }
-  }
-
-  .breakdown-card__index {
-    font-weight: $fw-black;
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
-    color: $secondary;
-  }
-
-  .breakdown-card__list {
-    margin-top: $space-4;
-    display: flex;
-    flex-direction: column;
-    gap: $space-3;
-
-    li {
-      display: flex;
-      align-items: flex-start;
-      gap: $space-3;
-      color: $ink-soft;
-      font-size: 0.9375rem;
-      line-height: 1.55;
+    @media (max-width: 640px) {
+      padding: 7px 10px 7px 7px;
+      strong { font-size: 0.72rem; }
+      small { display: none; }
     }
+  }
+
+  .cx-card--keyword { top: 16%; left: 0; }
+  .cx-card--story { top: 48%; right: 0; animation-delay: -2s; }
+  .cx-card--wa { bottom: 10%; left: 4%; animation-delay: -4s; }
+
+  .cx-card__icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    color: #fff;
 
     svg {
-      flex-shrink: 0;
-      margin-top: 4px;
-      color: $secondary;
-    }
-  }
-
-  // ---- Pair (cross-sell) section -----------------------------------------------
-  .pair {
-    display: flex;
-    justify-content: center;
-    padding: $space-8 $space-7;
-    border: 1px solid $line;
-    border-radius: $radius-lg;
-    background: linear-gradient(180deg, rgba($secondary, 0.05), transparent 60%);
-  }
-
-  .pair__text {
-    max-width: 640px;
-    text-align: center;
-
-    .h3 { margin-top: $space-3; }
-    .lede { margin: $space-4 auto $space-6; color: $ink-soft; }
-  }
-
-  // ---- FAQ -----------------------------------------------------------------
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: $space-3;
-  }
-
-  .faq-item {
-    border: 1px solid $line;
-    border-radius: $radius-md;
-    padding: $space-5;
-    transition: border-color $dur-base $ease-out;
-
-    &[open] { border-color: rgba($secondary, 0.35); }
-
-    summary {
-      cursor: pointer;
-      font-weight: $fw-semibold;
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: $space-4;
-
-      &::-webkit-details-marker { display: none; }
-
-      &::after {
-        content: '+';
-        font-size: 1.25rem;
-        color: $secondary;
-        flex-shrink: 0;
-        transition: transform $dur-base $ease-out;
-      }
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    &[open] summary::after {
-      content: '+';
-      transform: rotate(45deg);
-    }
-
-    p {
-      margin-top: $space-4;
-      color: $ink-soft;
-      line-height: 1.6;
-      animation: faqReveal 0.3s $ease-out;
-    }
+    @media (max-width: 640px) { width: 28px; height: 28px; }
   }
 
-  @keyframes faqReveal {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
+  .cx-card__icon--violet { background: linear-gradient(135deg, #9B5CF6, $secondary); }
+  .cx-card__icon--rose { background: linear-gradient(135deg, #F45C7C, $primary); }
+  .cx-card__icon--green { background: linear-gradient(135deg, #34D399, #1FA855); }
+
+  @keyframes cxTurn { to { transform: rotate(360deg); } }
+
+  @keyframes cxFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-14px) rotate(0deg); }
   }
 
-  // ---- Tilt cards / magnetic buttons (shared interaction hooks) ------------
-  .tilt-card {
-    transform-style: preserve-3d;
-    will-change: transform;
-    transition: transform 0.35s $ease-out, box-shadow $dur-base $ease-out;
+  @keyframes cxBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
   }
 
-  .btn--magnetic {
-    position: relative;
-    display: inline-flex;
-    transition: transform 0.25s $ease-out;
-
-    span { display: inline-block; pointer-events: none; }
-  }
-
-  // ---- CTA banner (structure/styling untouched) ----------------------------------------------------------
-  .cta-banner {
-    background: $ink;
-    color: $paper;
-  }
-
-  .cta-banner__inner {
-    text-align: center;
-    max-width: 620px;
-    margin-inline: auto;
-    position: relative;
-    z-index: 1;
-
-    .lede { color: rgba($paper, 0.7); margin-inline: auto; margin-top: $space-4; }
-    .hero__actions { justify-content: center; }
+  @media (prefers-reduced-motion: reduce) {
+    .cx-visual__ring,
+    .cx-visual__phone,
+    .cx-card { animation: none; }
   }
 </style>
-
-<script>
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const canHover = window.matchMedia('(hover: hover)').matches;
-
-  if (!prefersReducedMotion && canHover) {
-    document.querySelectorAll<HTMLElement>('.btn--magnetic').forEach((btn) => {
-      const strength = 12;
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate3d(${(x / rect.width) * strength}px, ${(y / rect.height) * strength}px, 0)`;
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate3d(0, 0, 0)';
-      });
-    });
-
-    document.querySelectorAll<HTMLElement>('.tilt-card').forEach((card) => {
-      const maxTilt = 5;
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const px = (e.clientX - rect.left) / rect.width - 0.5;
-        const py = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(900px) rotateX(${(-py * maxTilt).toFixed(2)}deg) rotateY(${(px * maxTilt).toFixed(2)}deg) translateY(-4px)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
-      });
-    });
-  }
-</script>

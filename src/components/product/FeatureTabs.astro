@@ -1,0 +1,354 @@
+---
+/**
+ * "Every feature, by category" — category tabs on the left, the selected
+ * category's checklist on the right. All panels stay in the HTML (SEO, no-JS);
+ * the script only toggles which one is visible.
+ */
+import { icons } from '../../data/icons';
+
+interface Group {
+  title: string;
+  icon: string;
+  items: string[];
+  channel?: string;
+}
+interface Props {
+  tone: 'crm' | 'connect';
+  id: string;
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  groups: Group[];
+}
+const { tone, id, eyebrow, title, lede, groups } = Astro.props;
+---
+
+<section class:list={['section', 'section--alt', 'f-tabs', `tone-${tone}`]} id={id} aria-labelledby={`${id}-heading`}>
+  <div class="container">
+    <div class="f-tabs__head reveal">
+      <span class="f-tabs__eyebrow">{eyebrow}</span>
+      <h2 id={`${id}-heading`} class="f-tabs__title">{title}</h2>
+      {lede && <p>{lede}</p>}
+    </div>
+
+    <div class="f-tabs__body reveal reveal--scale" data-tabs>
+      <div class="f-tabs__list" role="tablist" aria-label={title}>
+        {groups.map((g, i) => (
+          <button
+            type="button"
+            role="tab"
+            class="f-tab"
+            id={`${id}-tab-${i}`}
+            aria-controls={`${id}-panel-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+          >
+            <span class="f-tab__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" set:html={icons[g.icon]}></svg>
+            </span>
+            <span class="f-tab__text">
+              {g.channel && <span class="f-tab__channel">{g.channel}</span>}
+              <span class="f-tab__title">{g.title}</span>
+            </span>
+            <span class="f-tab__count">{g.items.length}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="f-tabs__panels">
+        {groups.map((g, i) => (
+          <div
+            class="f-panel"
+            role="tabpanel"
+            id={`${id}-panel-${i}`}
+            aria-labelledby={`${id}-tab-${i}`}
+            hidden={i !== 0}
+          >
+            <div class="f-panel__head">
+              <span class="f-panel__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{g.title}</h3>
+            </div>
+            <ul class="f-panel__list">
+              {g.items.map((item) => (
+                <li>
+                  <span class="f-panel__check" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" set:html={icons.check}></svg>
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '../../styles/tokens' as *;
+
+  .f-tabs__head {
+    max-width: 640px;
+    margin-bottom: $space-7;
+
+    p { margin-top: $space-4; color: $ink-soft; font-size: 1.05rem; }
+  }
+
+  .f-tabs__eyebrow {
+    font-size: $fs-eyebrow;
+    font-weight: $fw-semibold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .f-tabs__title {
+    margin-top: $space-3;
+    font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.9rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .f-tabs__body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: $space-4;
+    padding: $space-3;
+    border-radius: 28px;
+    border: 1px solid $line;
+    background: #fff;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      padding: $space-2;
+      border-radius: 22px;
+    }
+  }
+
+  /* ---- tab list ---- */
+  .f-tabs__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    @media (max-width: 900px) {
+      flex-direction: row;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+
+      &::-webkit-scrollbar { display: none; }
+    }
+  }
+
+  .f-tab {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    width: 100%;
+    padding: 12px;
+    border-radius: 18px;
+    text-align: left;
+    color: $ink-soft;
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    &:hover { background: $paper-alt; color: $ink; }
+
+    &[aria-selected='true'] {
+      background: var(--accent-tint);
+      color: $ink;
+
+      .f-tab__icon { background: var(--accent); color: #fff; }
+      .f-tab__count { background: #fff; color: var(--accent); }
+    }
+
+    @media (max-width: 900px) {
+      flex-shrink: 0;
+      width: auto;
+      padding: 8px 14px 8px 8px;
+      border-radius: $radius-pill;
+
+      .f-tab__count { display: none; }
+    }
+  }
+
+  .f-tab__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: $paper-alt;
+    color: $ink-soft;
+    transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @media (max-width: 900px) {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      svg { width: 16px; height: 16px; }
+    }
+  }
+
+  .f-tab__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .f-tab__channel {
+    font-size: 0.7rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .f-tab__title {
+    font-size: 0.98rem;
+    font-weight: $fw-bold;
+    white-space: nowrap;
+  }
+
+  .f-tab__count {
+    display: grid;
+    place-items: center;
+    min-width: 28px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: $radius-pill;
+    background: $paper-alt;
+    font-size: 0.75rem;
+    font-weight: $fw-bold;
+    color: $muted;
+  }
+
+  /* ---- panels ---- */
+  .f-tabs__panels {
+    border-radius: 20px;
+    background: linear-gradient(160deg, var(--accent-tint), #fff 65%);
+    border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .f-panel {
+    padding: $space-6;
+    animation: panelIn 0.4s $ease-out;
+
+    @media (max-width: 640px) { padding: $space-5; }
+  }
+
+  .f-panel[hidden] { display: none; }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .f-panel__head {
+    display: flex;
+    align-items: baseline;
+    gap: $space-3;
+
+    h3 {
+      font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.7rem);
+      font-weight: $fw-black;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .f-panel__num {
+    font-size: 0.85rem;
+    font-weight: $fw-black;
+    color: var(--accent);
+  }
+
+  .f-panel__list {
+    display: flex;
+    flex-direction: column;
+    margin-top: $space-5;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $space-3;
+      padding: $space-3 0;
+      border-top: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: $ink;
+    }
+  }
+
+  .f-panel__check {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+
+    svg {
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .f-panel { animation: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls') || '');
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+      // keep the active chip visible when the list scrolls sideways on mobile
+      tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        const keys: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+        if (e.key in keys) {
+          e.preventDefault();
+          select(tabs[(i + keys[e.key] + tabs.length) % tabs.length], true);
+        } else if (e.key === 'Home' || e.key === 'End') {
+          e.preventDefault();
+          select(tabs[e.key === 'Home' ? 0 : tabs.length - 1], true);
+        }
+      });
+    });
+  });
+</script>

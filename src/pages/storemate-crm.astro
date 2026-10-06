@@ -1,31 +1,41 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHero from "../components/PageHero.astro";
-import CornerMarks from "../components/CornerMarks.astro";
+import ProductHero from "../components/product/ProductHero.astro";
+import FeatureCards from "../components/product/FeatureCards.astro";
+import FeatureTabs from "../components/product/FeatureTabs.astro";
+import PairCard from "../components/product/PairCard.astro";
+import ProductFaq from "../components/product/ProductFaq.astro";
+import ProductCta from "../components/product/ProductCta.astro";
 import { site } from "../config/site";
 
 const features = [
   {
+    icon: "scale",
     title: "Inventory by weight, purity & design",
     body: "Track every piece the way jewellery actually sells — by gross and net weight, purity (18K/22K/24K, or by hallmark), stone details, and design code. No forcing your stock into a generic 'product' field.",
   },
   {
+    icon: "users",
     title: "Customer history in one view",
     body: "Every purchase, order, repair, and exchange tied to a customer — searchable in seconds, so any staff member can pick up where the last conversation left off.",
   },
   {
+    icon: "wrench",
     title: "Orders & repairs tracking",
     body: "Log custom orders and repair jobs with status, expected delivery date, and customer notifications — nothing falls through the cracks.",
   },
   {
+    icon: "receipt",
     title: "GST-ready billing",
     body: "Generate compliant invoices with HSN codes, making charges, and tax breakup built in — no separate billing software needed.",
   },
   {
+    icon: "trend",
     title: "Daily rate updates",
     body: "Update today's gold and silver rates once, and every quote and invoice reflects it automatically.",
   },
   {
+    icon: "shield",
     title: "Staff access, kept simple",
     body: "Give your team access to exactly what they need — the counter, the workshop, or the full store — without handing over everything.",
   },
@@ -34,6 +44,7 @@ const features = [
 const featureGroups = [
   {
     title: "Dashboard & insights",
+    icon: "chart",
     items: [
       "Time-range filtered business stats — today, or any custom date range",
       "Live overview of orders, pending payments, and stock at a glance",
@@ -43,6 +54,7 @@ const featureGroups = [
   },
   {
     title: "Customer management",
+    icon: "users",
     items: [
       "Searchable customer directory",
       "Full purchase, order, and loan history in one profile",
@@ -51,6 +63,7 @@ const featureGroups = [
   },
   {
     title: "Orders & billing",
+    icon: "receipt",
     items: [
       "Multi-item order builder — pick from stock or enter manually",
       "Gross/net weight, purity, HUID, and making charges (percentage or flat)",
@@ -62,6 +75,7 @@ const featureGroups = [
   },
   {
     title: "Inventory & stock",
+    icon: "box",
     items: [
       "Category-based stock organization",
       "Item-level weight, purity, making charge, and photos",
@@ -70,6 +84,7 @@ const featureGroups = [
   },
   {
     title: "Loans (Jama / Girvi)",
+    icon: "landmark",
     items: [
       "Loan creation against pledged jewellery, linked to a customer",
       "Automatic monthly interest calculation from the loan start date",
@@ -79,6 +94,7 @@ const featureGroups = [
   },
   {
     title: "Staff & access",
+    icon: "shield",
     items: [
       "Separate owner and staff login",
       "Staff accounts scoped to what they need — counter, workshop, or full access",
@@ -86,6 +102,7 @@ const featureGroups = [
   },
   {
     title: "Store settings",
+    icon: "settings",
     items: [
       "General store profile — name, address, GST details",
       "Offers and promotions management",
@@ -117,7 +134,7 @@ const faqs = [
   },
 ];
 
-const canonicalUrl = "https://storematehq.com/storemate-crm";
+const canonicalUrl = new URL("/storemate-crm", site.url).toString();
 ---
 
 <BaseLayout
@@ -169,524 +186,180 @@ const canonicalUrl = "https://storematehq.com/storemate-crm";
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://storematehq.com/",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Products",
-          item: "https://storematehq.com/products",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Storemate CRM",
-          item: canonicalUrl,
-        },
+        { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", site.url).toString() },
+        { "@type": "ListItem", position: 2, name: "Products", item: new URL("/products", site.url).toString() },
+        { "@type": "ListItem", position: 3, name: "Storemate CRM", item: canonicalUrl },
       ],
     })}
   />
 
-  <link rel="canonical" href={canonicalUrl} slot="head" />
-
-  <nav class="breadcrumb container" aria-label="Breadcrumb">
-    <ol>
-      <li><a href="/">Home</a></li>
-      <li><a href="/products">Products</a></li>
-      <li aria-current="page">Storemate CRM</li>
-    </ol>
-  </nav>
-
-  <PageHero
-    eyebrow="Storemate CRM"
+  <ProductHero
     tone="crm"
-    title="Run your jewellery business from one place."
+    name="Storemate CRM"
+    badge="Live"
+    title="Run your jewellery business"
+    accent="from one place."
     lede="Inventory, customer history, orders, and billing — built around how jewellery is actually bought and sold, not bent from generic retail software."
+    primary={{ label: "Open Storemate CRM", href: site.products.crm.url }}
+    secondary={{ label: "See what's inside", href: "#features" }}
+    checks={["Free trial", "Works on phone & desktop", "Automatic backups"]}
   >
-    <div class="hero__actions">
-      <a href={site.products.crm.url} class="btn btn--primary btn--magnetic"
-        ><span>Open Storemate CRM</span></a
-      >
-      <a href="#features" class="btn btn--ghost btn--magnetic"
-        ><span>See what's inside</span></a
-      >
-    </div>
-  </PageHero>
-
-  <section class="section" id="features" aria-labelledby="features-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow">What's inside</span>
-        <h2 id="features-heading" class="h3">
-          Everything the counter and the back office need.
-        </h2>
+    <div slot="visual" class="crm-visual" aria-hidden="true">
+      <div class="crm-visual__screen">
+        <img src="/images/home/crm-dashboard.svg" alt="" width="960" height="620" fetchpriority="high" />
       </div>
-
-      <div class="feature-grid">
-        {
-          features.map((f, i) => (
-            <div
-              class="feature-card corner-frame reveal reveal--scale tilt-card"
-              style={`--reveal-delay: ${i * 70}ms;`}
-            >
-              <CornerMarks />
-              <span
-                class="facet-item__mark feature-card__mark"
-                aria-hidden="true"
-              />
-              <h3>{f.title}</h3>
-              <p>{f.body}</p>
-            </div>
-          ))
-        }
+      <img class="crm-visual__invoice" src="/images/home/gst-invoice.svg" alt="" width="320" height="300" />
+      <div class="crm-visual__chip">
+        <span class="crm-visual__chip-icon">
+          <svg viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17" /><path d="M16 7h6v6" /></svg>
+        </span>
+        <span>
+          <strong>Today's rate updated</strong>
+          <small>Every quote follows automatically</small>
+        </span>
       </div>
     </div>
-  </section>
+  </ProductHero>
 
-  <section class="section section--alt" aria-labelledby="breakdown-heading">
-    <div class="container">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow">The full picture</span>
-        <h2 id="breakdown-heading" class="h3">Every feature, by category.</h2>
-        <p class="lede">
-          A closer look at what's inside Storemate CRM — organized the way you'd
-          actually use it.
-        </p>
-      </div>
+  <FeatureCards
+    tone="crm"
+    id="features"
+    eyebrow="What's inside"
+    title="Everything the counter and the back office need."
+    intro="Six building blocks that replace the register, the spreadsheet and the separate billing tool."
+    items={features}
+  />
 
-      <div class="breakdown-grid">
-        {
-          featureGroups.map((group, i) => (
-            <div
-              class="breakdown-card corner-frame reveal reveal--scale tilt-card"
-              style={`--reveal-delay: ${(i % 4) * 70}ms;`}
-            >
-              <CornerMarks />
-              <span class="breakdown-card__index">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3>{group.title}</h3>
-              <ul class="breakdown-card__list">
-                {group.items.map((item) => (
-                  <li>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M2.5 7.5L5.5 10.5L11.5 3.5"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <FeatureTabs
+    tone="crm"
+    id="breakdown"
+    eyebrow="The full picture"
+    title="Every feature, by category."
+    lede="A closer look at what's inside Storemate CRM — organized the way you'd actually use it."
+    groups={featureGroups}
+  />
 
-  <section class="section" aria-labelledby="pair-heading">
-    <div class="container">
-      <div class="pair corner-frame reveal reveal--scale">
-        <CornerMarks />
-        <div class="pair__text">
-          <span class="eyebrow">Works better together</span>
-          <h2 id="pair-heading" class="h3">Pair it with Storemate Connect</h2>
-          <p class="lede">
-            When a customer asks about a piece on Instagram, Storemate Connect
-            can reply instantly — and once they walk in, Storemate CRM already
-            has their conversation on record.
-          </p>
-          <a href="/storemate-connect" class="btn btn--ghost btn--magnetic"
-            ><span>Explore Storemate Connect</span></a
-          >
-        </div>
-      </div>
-    </div>
-  </section>
+  <PairCard
+    tone="connect"
+    name="Storemate Connect"
+    title="Pair it with Storemate Connect"
+    text="When a customer asks about a piece on Instagram, Storemate Connect can reply instantly — and once they walk in, Storemate CRM already has their conversation on record."
+    href="/storemate-connect"
+    image={{ src: "/images/home/connect-phone.svg", width: 340, height: 690, kind: "phone" }}
+    points={["Instant Instagram comment & DM replies", "Story replies turned into conversations", "One customer record across both"]}
+  />
 
-  <section class="section" aria-labelledby="faq-heading">
-    <div class="container container--narrow">
-      <div class="section-head reveal reveal--left">
-        <span class="eyebrow">Common questions</span>
-        <h2 id="faq-heading" class="h3">Frequently asked</h2>
-      </div>
+  <ProductFaq tone="crm" name="Storemate CRM" faqs={faqs} />
 
-      <div class="faq-list">
-        {
-          faqs.map((item, i) => (
-            <details
-              class="faq-item reveal reveal--left"
-              style={`--reveal-delay: ${i * 50}ms;`}
-            >
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
-            </details>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-banner grid-bg grid-bg--dark grid-bg--full">
-    <div class="container cta-banner__inner reveal">
-      <h2 class="h3">Ready to bring your store onto Storemate?</h2>
-      <p class="lede">
-        Start a free trial — your inventory and billing, organised in an
-        afternoon.
-      </p>
-      <div class="hero__actions">
-        <a href={site.products.crm.url} class="btn btn--on-dark"
-          >Open Storemate CRM</a
-        >
-        <a
-          href="/contact"
-          class="btn"
-          style="border: 1.5px solid rgba(255,255,255,0.35); color: #fff;"
-          >Talk to us first</a
-        >
-      </div>
-    </div>
-  </section>
+  <ProductCta
+    tone="crm"
+    title="Ready to bring your store onto Storemate?"
+    text="Start a free trial — your inventory and billing, organised in an afternoon."
+    primary={{ label: "Open Storemate CRM", href: site.products.crm.url }}
+    secondary={{ label: "Talk to us first", href: "/contact" }}
+  />
 </BaseLayout>
 
 <style lang="scss">
   @use "../styles/tokens" as *;
 
-  // ---- Breadcrumb -----------------------------------------------------------
-  .breadcrumb {
-    padding-top: $space-5;
+  .crm-visual {
+    position: relative;
+    padding: 0 $space-6 $space-8 0;
 
-    ol {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: $space-2;
-      list-style: none;
-      font-size: 0.8125rem;
-      color: $muted;
-    }
+    @media (max-width: 640px) { padding: 0 $space-4 $space-7 0; }
+  }
 
-    li {
-      display: flex;
-      align-items: center;
-      gap: $space-2;
+  .crm-visual__screen {
+    position: relative;
+    border-radius: 18px;
+    box-shadow:
+      0 2px 4px rgba($ink, 0.04),
+      0 40px 80px -32px rgba($primary-dark, 0.4);
+    animation: crmFloat 9s ease-in-out infinite;
 
-      &:not(:last-child)::after {
-        content: "/";
-        color: $line;
-      }
-    }
+    img { width: 100%; height: auto; border-radius: 18px; }
 
-    a {
-      color: $muted;
-      transition: color $dur-base $ease-out;
-      &:hover {
-        color: $primary;
-      }
-    }
-
-    li[aria-current="page"] {
-      color: $ink-soft;
-      font-weight: $fw-semibold;
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -18px auto auto -18px;
+      width: 50%;
+      height: 60%;
+      border-radius: 24px;
+      background: $primary-tint;
+      z-index: -1;
     }
   }
 
-  .hero__actions {
+  .crm-visual__invoice {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    height: auto;
+    filter: drop-shadow(0 26px 40px rgba($ink, 0.24));
+    animation: crmBob 7s ease-in-out infinite;
+  }
+
+  .crm-visual__chip {
+    position: absolute;
+    left: -4%;
+    bottom: 10%;
     display: flex;
-    flex-wrap: wrap;
-    gap: $space-4;
-    margin-top: $space-6;
-  }
-
-  .section-head {
-    max-width: 560px;
-    margin-bottom: $space-7;
-
-    .h3 {
-      margin-top: $space-3;
-    }
-    .lede {
-      margin-top: $space-4;
-      color: $ink-soft;
-    }
-  }
-
-  // ---- Feature grid -----------------------------------------------------------
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-6;
-
-    @media (max-width: 960px) {
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width: 640px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .feature-card {
-    padding: $space-6;
-    transition: box-shadow $dur-base $ease-out;
-
-    &:hover {
-      box-shadow: $shadow-soft;
-    }
-
-    h3 {
-      margin-top: $space-4;
-      font-size: $fs-h6;
-    }
-    p {
-      margin-top: $space-3;
-      color: $ink-soft;
-      line-height: 1.55;
-    }
-  }
-
-  .feature-card__mark {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  // ---- Breakdown grid -----------------------------------------------------------
-  .breakdown-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: $space-5;
-
-    @media (max-width: 780px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .breakdown-card {
-    padding: $space-6;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px 10px 10px;
+    border-radius: 16px;
+    background: rgba(#fff, 0.94);
     border: 1px solid $line;
-    border-radius: $radius-md;
-    box-shadow: none;
-    transition: box-shadow $dur-base $ease-out;
+    box-shadow: 0 18px 40px -16px rgba($ink, 0.28);
+    white-space: nowrap;
+    animation: crmBob 6s ease-in-out infinite -2s;
 
-    &:hover {
-      box-shadow: $shadow-soft;
-    }
+    strong { display: block; font-size: 0.8125rem; color: $ink; }
+    small { display: block; font-size: 0.72rem; color: $muted; }
 
-    h3 {
-      margin-top: $space-2;
-      font-size: $fs-h6;
+    @media (max-width: 640px) {
+      left: 0;
+      bottom: 4%;
+      small { display: none; }
     }
   }
 
-  .breakdown-card__index {
-    font-weight: $fw-black;
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
-    color: $primary;
-  }
-
-  .breakdown-card__list {
-    margin-top: $space-4;
-    display: flex;
-    flex-direction: column;
-    gap: $space-3;
-
-    li {
-      display: flex;
-      align-items: flex-start;
-      gap: $space-3;
-      color: $ink-soft;
-      font-size: 0.9375rem;
-      line-height: 1.55;
-    }
+  .crm-visual__chip-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #F5B54A, #E2832F);
+    color: #fff;
 
     svg {
-      flex-shrink: 0;
-      margin-top: 4px;
-      color: $primary;
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
   }
 
-  // ---- Pair (cross-sell) section -----------------------------------------------
-  .pair {
-    display: flex;
-    justify-content: center;
-    padding: $space-8 $space-7;
-    border: 1px solid $line;
-    border-radius: $radius-lg;
-    background: linear-gradient(
-      180deg,
-      rgba($secondary, 0.05),
-      transparent 60%
-    );
+  @keyframes crmFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
 
-  .pair__text {
-    max-width: 620px;
-    text-align: center;
-
-    .h3 {
-      margin-top: $space-3;
-    }
-    .lede {
-      margin: $space-4 auto $space-6;
-      color: $ink-soft;
-    }
+  @keyframes crmBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
   }
 
-  // ---- FAQ -----------------------------------------------------------------
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: $space-3;
-  }
-
-  .faq-item {
-    border: 1px solid $line;
-    border-radius: $radius-md;
-    padding: $space-5;
-    transition: border-color $dur-base $ease-out;
-
-    &[open] {
-      border-color: rgba($primary, 0.35);
-    }
-
-    summary {
-      cursor: pointer;
-      font-weight: $fw-semibold;
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: $space-4;
-
-      &::-webkit-details-marker {
-        display: none;
-      }
-
-      &::after {
-        content: "+";
-        font-size: 1.25rem;
-        color: $primary;
-        flex-shrink: 0;
-        transition: transform $dur-base $ease-out;
-      }
-    }
-
-    &[open] summary::after {
-      content: "+";
-      transform: rotate(45deg);
-    }
-
-    p {
-      margin-top: $space-4;
-      color: $ink-soft;
-      line-height: 1.6;
-      animation: faqReveal 0.3s $ease-out;
-    }
-  }
-
-  @keyframes faqReveal {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  // ---- Tilt cards / magnetic buttons (shared interaction hooks) ------------
-  .tilt-card {
-    transform-style: preserve-3d;
-    will-change: transform;
-    transition:
-      transform 0.35s $ease-out,
-      box-shadow $dur-base $ease-out;
-  }
-
-  .btn--magnetic {
-    position: relative;
-    display: inline-flex;
-    transition: transform 0.25s $ease-out;
-
-    span {
-      display: inline-block;
-      pointer-events: none;
-    }
-  }
-
-  // ---- CTA banner ----------------------------------------------------------
-  .cta-banner {
-    background: $ink;
-    color: $paper;
-  }
-
-  .cta-banner__inner {
-    text-align: center;
-    max-width: 620px;
-    margin-inline: auto;
-    position: relative;
-    z-index: 1;
-
-    .lede {
-      color: rgba($paper, 0.7);
-      margin-inline: auto;
-      margin-top: $space-4;
-    }
-    .hero__actions {
-      justify-content: center;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .crm-visual__screen,
+    .crm-visual__invoice,
+    .crm-visual__chip { animation: none; }
   }
 </style>
-
-<script>
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-  const canHover = window.matchMedia("(hover: hover)").matches;
-
-  if (!prefersReducedMotion && canHover) {
-    document.querySelectorAll<HTMLElement>(".btn--magnetic").forEach((btn) => {
-      const strength = 12;
-      btn.addEventListener("mousemove", (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate3d(${(x / rect.width) * strength}px, ${(y / rect.height) * strength}px, 0)`;
-      });
-      btn.addEventListener("mouseleave", () => {
-        btn.style.transform = "translate3d(0, 0, 0)";
-      });
-    });
-
-    document.querySelectorAll<HTMLElement>(".tilt-card").forEach((card) => {
-      const maxTilt = 5;
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const px = (e.clientX - rect.left) / rect.width - 0.5;
-        const py = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(900px) rotateX(${(-py * maxTilt).toFixed(2)}deg) rotateY(${(px * maxTilt).toFixed(2)}deg) translateY(-4px)`;
-      });
-      card.addEventListener("mouseleave", () => {
-        card.style.transform =
-          "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)";
-      });
-    });
-  }
-</script>

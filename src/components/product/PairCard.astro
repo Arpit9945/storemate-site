@@ -1,0 +1,184 @@
+---
+/** Cross-sell to the other product: copy on the left, a preview of it on the right. */
+interface Props {
+  tone: 'crm' | 'connect'; // tone of the product being recommended
+  name: string;
+  title: string;
+  text: string;
+  href: string;
+  image: { src: string; width: number; height: number; kind: 'screen' | 'phone' };
+  points: string[];
+}
+const { tone, name, title, text, href, image, points } = Astro.props;
+---
+
+<section class:list={['section', 'pair', `tone-${tone}`]} aria-labelledby="pair-heading">
+  <div class="container">
+    <a href={href} class:list={['pair__card', `pair__card--${image.kind}`, 'reveal', 'reveal--scale']}>
+      <div class="pair__copy">
+        <span class="pair__eyebrow">Works better together</span>
+        <h2 id="pair-heading" class="pair__title">{title}</h2>
+        <p>{text}</p>
+        <ul class="pair__points">
+          {points.map((p) => <li>{p}</li>)}
+        </ul>
+        <span class="pair__link">
+          Explore {name}
+          <span class="pair__arrow" aria-hidden="true">
+            <svg viewBox="0 0 12 12"><path d="M3 9 9 3M9 3H4M9 3v5"></path></svg>
+          </span>
+        </span>
+      </div>
+      <div class="pair__media" aria-hidden="true">
+        <img src={image.src} alt="" width={image.width} height={image.height} loading="lazy" />
+      </div>
+    </a>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '../../styles/tokens' as *;
+
+  .pair__card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: $space-6;
+    min-height: 420px;
+    padding: $space-7 0 0 $space-7;
+    border-radius: 32px;
+    overflow: hidden;
+    background: linear-gradient(140deg, var(--accent-tint), #fff 70%);
+    border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+    transition: box-shadow 0.5s $ease-out;
+
+    &:hover {
+      box-shadow: 0 34px 70px -40px color-mix(in srgb, var(--accent-dark) 60%, transparent);
+
+      .pair__arrow { background: var(--accent); color: #fff; transform: rotate(45deg); }
+      .pair__media img { transform: translate(-8px, -8px); }
+    }
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      padding: $space-6 0 0 $space-5;
+    }
+  }
+
+  .pair__copy {
+    align-self: start;
+    padding-bottom: $space-7;
+    padding-right: $space-4;
+
+    p { margin-top: $space-3; color: $ink-soft; font-size: 1.05rem; max-width: 46ch; }
+
+    @media (max-width: 860px) { padding-bottom: 0; padding-right: $space-5; }
+  }
+
+  .pair__eyebrow {
+    font-size: $fs-eyebrow;
+    font-weight: $fw-semibold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .pair__title {
+    margin-top: $space-3;
+    font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.6rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .pair__points {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    margin-top: $space-5;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: $fw-semibold;
+      font-size: 0.95rem;
+
+      &::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+    }
+  }
+
+  .pair__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: $space-6;
+    padding: 6px 6px 6px 20px;
+    border-radius: $radius-pill;
+    background: $ink;
+    color: #fff;
+    font-weight: $fw-bold;
+  }
+
+  .pair__arrow {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    color: $ink;
+    transition: transform 0.5s $ease-out, background $dur-base $ease-out, color $dur-base $ease-out;
+
+    svg {
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .pair__media {
+    align-self: end;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+
+    img { transition: transform 0.6s $ease-out; }
+  }
+
+  .pair__card--screen .pair__media img {
+    width: 125%;
+    max-width: none;
+    height: auto;
+    border-radius: 16px 0 0 0;
+    box-shadow: 0 -16px 50px -20px rgba($ink, 0.35);
+
+    @media (max-width: 860px) { width: 140%; }
+  }
+
+  .pair__card--phone .pair__media {
+    justify-content: center;
+    overflow: hidden;
+    max-height: 400px;
+
+    img {
+      width: 56%;
+      max-width: 300px;
+      height: auto;
+      margin-bottom: -38%;
+      filter: drop-shadow(0 30px 40px rgba($ink, 0.3));
+    }
+  }
+</style>
