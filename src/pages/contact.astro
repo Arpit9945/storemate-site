@@ -1,134 +1,251 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import CornerMarks from '../components/CornerMarks.astro';
 import { site } from '../config/site';
 
 const whatsappNumber = site.contact.whatsapp.replace(/[^0-9]/g, '');
 
+const whatsappPath =
+  'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.1-1.127l-.29-.174-3.01.79.8-2.927-.19-.301A8 8 0 1112 20z';
+
 const channels = [
-  {
-    label: 'Email',
-    value: site.contact.email,
-    href: `mailto:${site.contact.email}`,
-    note: 'For questions about Storemate CRM, Connect, or a custom service enquiry.',
-    icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-  },
   {
     label: 'WhatsApp',
     value: site.contact.whatsapp,
     href: `https://wa.me/${whatsappNumber}`,
-    note: 'Message us for the fastest reply during business hours.',
-    icon: 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z',
+    note: 'Fastest way to reach us during business hours.',
+    icon: whatsappPath,
+    filled: true,
+    external: true,
+  },
+  {
+    label: 'Email',
+    value: site.contact.email,
+    href: `mailto:${site.contact.email}`,
+    note: 'Product questions, support or a detailed brief.',
+    icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
   },
   {
     label: 'Call',
     value: site.contact.phone,
     href: `tel:${site.contact.phone.replace(/[^0-9+]/g, '')}`,
-    note: 'Prefer to talk it through? Give us a call directly.',
+    note: 'Prefer to talk it through? Give us a ring.',
     icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
   },
+];
+
+const interests = [
+  { value: 'Storemate CRM', label: 'Storemate CRM' },
+  { value: 'Storemate Connect', label: 'Storemate Connect' },
+  { value: 'Website / e-commerce', label: 'Website / e-commerce' },
+  { value: 'Custom software', label: 'Custom software' },
+  { value: 'General enquiry', label: 'Something else' },
+];
+
+const nextSteps = [
+  { title: 'Your message reaches us', body: 'It goes straight to the Storemate team on WhatsApp.' },
+  { title: 'We get in touch', body: 'On WhatsApp or a quick call, to understand what you need.' },
+  { title: 'You get a clear answer', body: 'A product walkthrough, or a scoped plan with timeline and cost.' },
+];
+
+const socials = [
+  { label: 'Instagram', href: site.socials.instagram, icon: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>' },
+  { label: 'LinkedIn', href: site.socials.linkedin, icon: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>' },
+  { label: 'X (Twitter)', href: site.socials.twitter, icon: '<path d="M4 4l16 16M20 4 4 20"/>' },
 ];
 ---
 
 <BaseLayout
   title="Contact Storemate | Get a Custom Software Quote"
-  description="Contact the Storemate StoremateCRM and ConnStorematert, or dStoremateur custom software development requirements with us."
+  description="Contact Storemate about Storemate CRM, Storemate Connect, or your custom website and software development requirements."
   active="contact"
 >
-  <PageHero
-    eyebrow="Contact"
-    title="We're happy to help you choose."
-    lede="Whether you're deciding between Storemate CRM and Connect, or already using one and have a question — reach us directly below."
-  />
+  <!-- ================= HERO ================= -->
+  <section class="c-hero grid-bg" aria-labelledby="contact-heading">
+    <span class="c-hero__wash" aria-hidden="true"></span>
+    <div class="container c-hero__inner">
+      <p class="c-hero__kicker reveal">
+        <span class="c-hero__mark" aria-hidden="true"></span>
+        Contact
+      </p>
+      <h1 id="contact-heading" class="c-hero__title reveal" style="--reveal-delay: 80ms;">
+        Let's talk about
+        <span class="c-hero__accent">
+          your project.
+          <svg class="c-hero__scribble" viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 13 C 62 4, 132 3, 190 7 S 268 12, 297 5" />
+          </svg>
+        </span>
+      </h1>
+      <p class="c-hero__lede reveal" style="--reveal-delay: 160ms;">
+        Choosing between Storemate CRM and Connect, already a customer with a question,
+        or planning something custom — tell us and we'll take it from there.
+      </p>
 
-  <section class="section">
-    <div class="container">
-      <div class="channels-grid">
+      <ul class="c-hero__quick reveal" style="--reveal-delay: 240ms;">
         {channels.map((c) => (
-          <a href={c.href} class="channel-card corner-frame reveal">
-            <CornerMarks />
-            <span class="channel-card__icon" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <li>
+            <a
+              href={c.href}
+              target={c.external ? '_blank' : undefined}
+              rel={c.external ? 'noopener' : undefined}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" class:list={[{ 'is-filled': c.filled }]}>
                 <path d={c.icon}></path>
               </svg>
-            </span>
-            <span class="channel-card__label">{c.label}</span>
-            <span class="channel-card__value">{c.value}</span>
-            <span class="channel-card__note">{c.note}</span>
-          </a>
+              {c.value}
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
-  <!-- CONTACT FORM -->
-  <section class="section section--alt contact-form-section" id="contact-form">
-    <div class="contact-form-glow" aria-hidden="true"></div>
-    <div class="container">
-      <div class="contact-form-wrapper reveal">
-        <div class="contact-form-header">
-          <span class="eyebrow">Send a message</span>
-          <h2 class="h3" style="margin-top: 0.75rem;">Tell us what you need.</h2>
-          <p class="lede" style="margin-top: 0.75rem;">
-            Fill in the form and we'll get back to you on WhatsApp — quick and personal.
-          </p>
+  <!-- ================= FORM + DETAILS ================= -->
+  <section class="section contact" id="contact-form" aria-label="Send us a message">
+    <div class="container contact__grid">
+      <!-- form -->
+      <div class="form-card reveal reveal--scale">
+        <div class="form-card__head">
+          <span class="form-card__step">Send a message</span>
+          <h2 class="form-card__title">Tell us what you need.</h2>
+          <p class="form-card__sub">Takes under a minute. Your message opens in WhatsApp, ready to send.</p>
         </div>
 
         <form id="contactForm" class="contact-form" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="cf-name" class="form-label">Your name</label>
-              <input type="text" id="cf-name" name="name" class="form-input" placeholder="e.g. Arpit Pattani" required />
+          <fieldset class="form-group form-group--chips" id="cf-interest">
+            <legend class="form-label">I'm interested in</legend>
+            <div class="chip-options">
+              {interests.map((opt, i) => (
+                <label class="chip-option">
+                  <input type="radio" name="interest" value={opt.value} required={i === 0} />
+                  <span>{opt.label}</span>
+                </label>
+              ))}
             </div>
-            <div class="form-group">
-              <label for="cf-business" class="form-label">Business name <span class="form-optional">(optional)</span></label>
-              <input type="text" id="cf-business" name="business" class="form-input" placeholder="e.g. NS Jewellers" />
-            </div>
-          </div>
+            <span class="form-error" data-error-for="interest">Please pick one option.</span>
+          </fieldset>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="cf-phone" class="form-label">Phone / WhatsApp number</label>
-              <input type="tel" id="cf-phone" name="phone" class="form-input" placeholder="e.g. +91 99092 83562" required />
+              <label for="cf-name" class="form-label">Your name</label>
+              <input type="text" id="cf-name" name="name" class="form-input" autocomplete="name" placeholder="Full name" required />
+              <span class="form-error">Please enter your name.</span>
             </div>
             <div class="form-group">
-              <label for="cf-interest" class="form-label">Interested in</label>
-              <select id="cf-interest" name="interest" class="form-input form-select" required>
-                <option value="" disabled selected>Choose one…</option>
-                <option value="Storemate CRM">Storemate CRM</option>
-                <option value="Storemate Connect">Storemate Connect</option>
-                <option value="Custom Software">Custom software / services</option>
-                <option value="General Enquiry">General enquiry</option>
-              </select>
+              <label for="cf-business" class="form-label">Business name <span class="form-optional">Optional</span></label>
+              <input type="text" id="cf-business" name="business" class="form-input" autocomplete="organization" placeholder="Your store or company" />
             </div>
           </div>
 
           <div class="form-group">
-            <label for="cf-message" class="form-label">Your message</label>
-            <textarea id="cf-message" name="message" class="form-input form-textarea" rows="4" placeholder="Tell us briefly what you're looking for…" required></textarea>
+            <label for="cf-phone" class="form-label">Phone / WhatsApp number</label>
+            <div class="form-input-wrap">
+              <span class="form-input-prefix" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d={channels[2].icon}></path></svg>
+              </span>
+              <input type="tel" id="cf-phone" name="phone" class="form-input form-input--icon" autocomplete="tel" placeholder="+91 98765 43210" required />
+            </div>
+            <span class="form-error">Please enter a number we can reach you on.</span>
           </div>
 
-          <button type="submit" id="cf-submit" class="btn btn--primary contact-form__submit">
-            <svg class="wa-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.1-1.127l-.29-.174-3.01.79.8-2.927-.19-.301A8 8 0 1112 20z"/>
-            </svg>
-            Send via WhatsApp
-          </button>
+          <div class="form-group">
+            <label for="cf-message" class="form-label">Your message</label>
+            <textarea id="cf-message" name="message" class="form-input form-textarea" rows="5" maxlength="1000" placeholder="A few lines about your store, project or question…" required></textarea>
+            <div class="form-meta">
+              <span class="form-error">Please add a short message.</span>
+              <span class="form-count" id="cf-count">0 / 1000</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="cf-submit" class="form-submit">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={whatsappPath}></path></svg>
+              Send via WhatsApp
+              <span class="form-submit__arrow" aria-hidden="true">&rarr;</span>
+            </button>
+            <p class="form-privacy">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              Nothing is stored on this site — the form simply opens WhatsApp with your message.
+            </p>
+          </div>
         </form>
       </div>
+
+      <!-- details -->
+      <aside class="contact__aside">
+        <div class="aside-block reveal">
+          <h2 class="aside-block__title">Reach us directly</h2>
+          <ul class="channel-list">
+            {channels.map((c) => (
+              <li>
+                <a
+                  href={c.href}
+                  class="channel"
+                  target={c.external ? '_blank' : undefined}
+                  rel={c.external ? 'noopener' : undefined}
+                >
+                  <span class:list={['channel__icon', `channel__icon--${c.label.toLowerCase()}`]} aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class:list={[{ 'is-filled': c.filled }]}><path d={c.icon}></path></svg>
+                  </span>
+                  <span class="channel__body">
+                    <span class="channel__label">{c.label}</span>
+                    <span class="channel__value">{c.value}</span>
+                    <span class="channel__note">{c.note}</span>
+                  </span>
+                  <span class="channel__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 12 12"><path d="M3 9 9 3M9 3H4M9 3v5" /></svg>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="aside-block aside-block--dark reveal" style="--reveal-delay: 100ms;">
+          <h2 class="aside-block__title">What happens next</h2>
+          <ol class="next-steps">
+            {nextSteps.map((s, i) => (
+              <li>
+                <span class="next-steps__num">{i + 1}</span>
+                <span>
+                  <strong>{s.title}</strong>
+                  {s.body}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="aside-block aside-block--plain reveal" style="--reveal-delay: 160ms;">
+          <h2 class="aside-block__title">Follow along</h2>
+          <ul class="socials">
+            {socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" set:html={s.icon}></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container container--narrow" style="text-align: center;">
-      <span class="eyebrow">Before you write in</span>
-      <h2 class="h3" style="margin-top: 0.75rem;">Have a quick question?</h2>
-      <p class="lede contact-faq-note" style="margin: 1rem auto 2rem;">
-        Check our <a href="/faq">FAQ page</a> — it covers the most common questions about both products.
-      </p>
-      <a href="/faq" class="btn btn--ghost">Visit the FAQ</a>
+  <!-- ================= FAQ NUDGE ================= -->
+  <section class="section faq-nudge">
+    <div class="container">
+      <div class="faq-nudge__panel reveal reveal--scale">
+        <div>
+          <span class="eyebrow">Before you write in</span>
+          <h2 class="faq-nudge__title">Have a quick question?</h2>
+          <p>Our FAQ covers pricing, free trials, data backups and how both products work.</p>
+        </div>
+        <div class="faq-nudge__actions">
+          <a href="/faq" class="btn btn--primary">Visit the FAQ</a>
+          <a href="/products" class="btn btn--ghost">See our products</a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -136,112 +253,191 @@ const channels = [
 <style lang="scss">
   @use '../styles/tokens' as *;
 
-  .channels-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-6;
-
-    @media (max-width: 860px) { grid-template-columns: 1fr; }
-  }
-
-  .channel-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $space-2;
-    padding: $space-7;
-    border: 1px solid $line;
-    border-radius: $radius-lg;
-    transition: border-color $dur-base $ease-out, transform $dur-base $ease-out, box-shadow $dur-base $ease-out;
-
-    &:hover {
-      border-color: $primary;
-      transform: translateY(-4px);
-      box-shadow: $shadow-soft;
-    }
-  }
-
-  .channel-card__icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    background: $primary-tint;
-    color: $primary;
-    margin-bottom: $space-2;
-    transition: background $dur-base $ease-out, color $dur-base $ease-out;
-
-    .channel-card:hover & {
-      background: $primary;
-      color: $paper;
-    }
-  }
-
-  .channel-card__label {
-    font-size: $fs-eyebrow;
-    font-weight: $fw-semibold;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: $muted;
-  }
-
-  .channel-card__value {
-    font-size: 1.15rem;
-    font-weight: $fw-semibold;
-    color: $ink;
-  }
-
-  .channel-card__note {
-    color: $ink-soft;
-    font-size: 0.9375rem;
-  }
-
-  // ---- Contact form section -------------------------------------------------
-  .contact-form-section {
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .c-hero {
     position: relative;
     overflow: hidden;
+    padding-block: $space-8 $space-7;
+
+    @media (max-width: 640px) { padding-block: $space-6 $space-5; }
   }
 
-  .contact-form-glow {
+  .c-hero__wash {
     position: absolute;
-    width: 420px;
-    height: 420px;
+    top: -40%;
+    left: 50%;
+    width: min(1100px, 120vw);
+    aspect-ratio: 2 / 1;
+    transform: translateX(-50%);
     border-radius: 50%;
-    background: radial-gradient(circle, rgba($primary, 0.08) 0%, transparent 70%);
-    top: -80px;
-    right: -100px;
-    animation: glowPulse 6s ease-in-out infinite;
+    background: radial-gradient(closest-side, rgba($primary, 0.09), rgba($secondary, 0.05) 55%, transparent);
     pointer-events: none;
+    z-index: -1;
+  }
 
-    &::after {
-      content: '';
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba($secondary, 0.06) 0%, transparent 70%);
-      bottom: -120px;
-      left: -160px;
-      animation: glowPulse 8s ease-in-out infinite 3s;
+  .c-hero__inner { text-align: center; }
+
+  .c-hero__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.875rem;
+    font-weight: $fw-semibold;
+    color: $ink-soft;
+  }
+
+  .c-hero__mark {
+    width: 14px;
+    height: 14px;
+    background: $primary;
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+  }
+
+  .c-hero__title {
+    margin: $space-4 auto 0;
+    max-width: 20ch;
+    font-size: clamp(2.4rem, 1.5rem + 3.2vw, 4.25rem);
+    font-weight: $fw-black;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .c-hero__accent {
+    position: relative;
+    display: inline-block;
+    color: $primary;
+    white-space: nowrap;
+  }
+
+  .c-hero__scribble {
+    position: absolute;
+    left: -2%;
+    bottom: -0.16em;
+    width: 104%;
+    height: 0.28em;
+    overflow: visible;
+
+    path {
+      fill: none;
+      stroke: $primary;
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: 0.35;
+      stroke-dasharray: 340;
+      stroke-dashoffset: 340;
+      animation: scribbleDraw 1.1s $ease-out 0.6s forwards;
     }
   }
 
-  @keyframes glowPulse {
-    0%, 100% { transform: scale(1); opacity: 0.7; }
-    50%      { transform: scale(1.15); opacity: 1; }
+  @keyframes scribbleDraw { to { stroke-dashoffset: 0; } }
+
+  .c-hero__lede {
+    margin: $space-5 auto 0;
+    max-width: 56ch;
+    font-size: $fs-body-lg;
+    color: $ink-soft;
   }
 
-  .contact-form-wrapper {
-    max-width: 720px;
-    margin-inline: auto;
-    position: relative;
-    z-index: 1;
+  .c-hero__quick {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $space-3;
+    margin-top: $space-6;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px 9px 12px;
+      border-radius: $radius-pill;
+      border: 1px solid $line;
+      background: rgba(#fff, 0.8);
+      font-size: 0.9rem;
+      font-weight: $fw-semibold;
+      color: $ink;
+      transition: border-color $dur-base $ease-out, color $dur-base $ease-out, transform $dur-base $ease-out;
+
+      &:hover {
+        border-color: rgba($primary, 0.4);
+        color: $primary;
+        transform: translateY(-2px);
+      }
+    }
+
+    svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      &.is-filled { fill: #1FA855; stroke: none; }
+    }
   }
 
-  .contact-form-header {
-    margin-bottom: $space-7;
+  /* ============================================================
+     FORM + ASIDE
+     ============================================================ */
+  .contact {
+    padding-top: $space-6;
+    background: linear-gradient(180deg, transparent, $paper-alt 30%);
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: $space-6;
+    align-items: start;
+
+    @media (max-width: 960px) { grid-template-columns: 1fr; }
+  }
+
+  /* ---- form card ---- */
+  .form-card {
+    padding: $space-7;
+    border-radius: 28px;
+    background: #fff;
+    border: 1px solid $line;
+    box-shadow:
+      0 1px 2px rgba($ink, 0.04),
+      0 30px 70px -40px rgba($primary-dark, 0.35);
+
+    @media (max-width: 640px) {
+      padding: $space-6 $space-5;
+      border-radius: 22px;
+    }
+  }
+
+  .form-card__head {
+    padding-bottom: $space-5;
+    margin-bottom: $space-6;
+    border-bottom: 1px dashed $line;
+  }
+
+  .form-card__step {
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $primary;
+  }
+
+  .form-card__title {
+    margin-top: $space-2;
+    font-size: clamp(1.6rem, 1.3rem + 1vw, 2rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.025em;
+  }
+
+  .form-card__sub {
+    margin-top: $space-2;
+    color: $ink-soft;
+    font-size: 0.98rem;
   }
 
   .contact-form {
@@ -255,115 +451,546 @@ const channels = [
     grid-template-columns: 1fr 1fr;
     gap: $space-5;
 
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
+    @media (max-width: 600px) { grid-template-columns: 1fr; }
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
     gap: $space-2;
+    min-width: 0;
+  }
+
+  fieldset.form-group {
+    border: 0;
+    padding: 0;
+    margin: 0;
   }
 
   .form-label {
-    font-size: 0.9375rem;
-    font-weight: $fw-semibold;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: $space-2;
+    padding: 0;
+    font-size: 0.9rem;
+    font-weight: $fw-bold;
     color: $ink;
   }
 
   .form-optional {
-    font-weight: $fw-regular;
+    font-size: 0.75rem;
+    font-weight: $fw-semibold;
     color: $muted;
-    font-size: 0.8125rem;
   }
 
   .form-input {
     width: 100%;
     padding: 0.85rem 1rem;
     border: 1.5px solid $line;
-    border-radius: $radius-sm;
+    border-radius: 14px;
     background: $paper;
     color: $ink;
     font-size: 1rem;
-    transition: border-color $dur-fast $ease-out, box-shadow $dur-fast $ease-out;
+    transition: border-color $dur-fast $ease-out, box-shadow $dur-fast $ease-out, background $dur-fast $ease-out;
 
-    &::placeholder {
-      color: $muted;
-    }
+    &::placeholder { color: rgba($muted, 0.85); }
+
+    &:hover { border-color: #E2D2D7; }
 
     &:focus {
       outline: none;
+      background: #fff;
       border-color: $primary;
-      box-shadow: 0 0 0 3px rgba($primary, 0.1);
-    }
-
-    &.is-invalid {
-      border-color: #e53e3e;
-      box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+      box-shadow: 0 0 0 4px rgba($primary, 0.1);
     }
   }
 
-  .form-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238A7A82' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    padding-right: 2.5rem;
-    cursor: pointer;
+  .form-input-wrap { position: relative; }
+
+  .form-input-prefix {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: $muted;
+    pointer-events: none;
+
+    svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
   }
+
+  .form-input--icon { padding-left: 2.75rem; }
 
   .form-textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 130px;
+    line-height: 1.55;
   }
 
-  .contact-form__submit {
-    align-self: flex-start;
-    gap: $space-2;
-    margin-top: $space-3;
+  .form-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: $space-3;
+  }
 
-    @media (max-width: 600px) {
-      width: 100%;
+  .form-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: $muted;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* chips (interest) */
+  .chip-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+    margin-top: 2px;
+  }
+
+  .chip-option {
+    position: relative;
+    cursor: pointer;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: $radius-pill;
+      border: 1.5px solid $line;
+      background: $paper;
+      font-size: 0.9rem;
+      font-weight: $fw-semibold;
+      color: $ink-soft;
+      transition: all $dur-fast $ease-out;
+
+      &::before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 1.5px solid currentColor;
+        opacity: 0.45;
+        transition: all $dur-fast $ease-out;
+      }
+    }
+
+    &:hover span { border-color: rgba($primary, 0.4); color: $ink; }
+
+    input:focus-visible + span {
+      outline: 2.5px solid $secondary;
+      outline-offset: 2px;
+    }
+
+    input:checked + span {
+      border-color: $primary;
+      background: $primary-tint;
+      color: $primary;
+
+      &::before {
+        opacity: 1;
+        border-width: 4px;
+        border-color: $primary;
+        background: #fff;
+      }
     }
   }
 
-  .wa-icon {
-    flex-shrink: 0;
+  /* validation */
+  .form-error {
+    display: none;
+    font-size: 0.8rem;
+    font-weight: $fw-semibold;
+    color: #D93636;
   }
 
-  .contact-faq-note a {
+  .form-group.is-invalid {
+    .form-error { display: block; }
+    .form-input { border-color: #E04848; box-shadow: 0 0 0 4px rgba(#E04848, 0.1); }
+    .chip-option span { border-color: rgba(#E04848, 0.5); }
+  }
+
+  /* submit */
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    margin-top: $space-2;
+    padding-top: $space-5;
+    border-top: 1px dashed $line;
+  }
+
+  .form-submit {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.95rem 1.4rem;
+    border-radius: $radius-pill;
+    background: #1FA855;
+    color: #fff;
+    font-weight: $fw-bold;
+    font-size: 1rem;
+    box-shadow: 0 14px 30px -14px rgba(#1FA855, 0.8);
+    transition: transform $dur-base $ease-out, box-shadow $dur-base $ease-out, background $dur-base $ease-out;
+
+    &:hover {
+      background: #1A9449;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px -14px rgba(#1FA855, 0.9);
+
+      .form-submit__arrow { transform: translateX(4px); }
+    }
+
+    @media (max-width: 600px) {
+      align-self: stretch;
+      justify-content: center;
+    }
+  }
+
+  .form-submit__arrow { transition: transform $dur-base $ease-out; }
+
+  .form-privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: $muted;
+    line-height: 1.5;
+
+    svg {
+      flex-shrink: 0;
+      width: 15px;
+      height: 15px;
+      margin-top: 2px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* ---- aside ---- */
+  .contact__aside {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+
+    @media (min-width: 961px) {
+      position: sticky;
+      top: 110px;
+    }
+  }
+
+  .aside-block {
+    padding: $space-5;
+    border-radius: 24px;
+    background: #fff;
+    border: 1px solid $line;
+  }
+
+  .aside-block__title {
+    margin-bottom: $space-4;
+    font-size: 0.8125rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $muted;
+  }
+
+  .channel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .channel {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+    padding: 12px;
+    margin-inline: -12px;
+    border-radius: 16px;
+    transition: background $dur-base $ease-out;
+
+    &:hover {
+      background: $paper-alt;
+
+      .channel__arrow { background: $ink; color: #fff; transform: rotate(45deg); }
+    }
+  }
+
+  .channel__icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: $primary-tint;
     color: $primary;
-    text-decoration: underline;
-    text-underline-offset: 2px;
+
+    svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      &.is-filled { fill: currentColor; stroke: none; }
+    }
+  }
+
+  .channel__icon--whatsapp { background: rgba(#1FA855, 0.1); color: #1FA855; }
+  .channel__icon--call { background: $secondary-tint; color: $secondary; }
+
+  .channel__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .channel__label {
+    font-size: 0.75rem;
+    font-weight: $fw-bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: $muted;
+  }
+
+  .channel__value {
+    font-size: 1.02rem;
+    font-weight: $fw-bold;
+    color: $ink;
+    overflow-wrap: anywhere;
+  }
+
+  .channel__note {
+    font-size: 0.82rem;
+    color: $ink-soft;
+    line-height: 1.45;
+  }
+
+  .channel__arrow {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: $paper-alt;
+    color: $ink;
+    transition: background $dur-base $ease-out, color $dur-base $ease-out, transform 0.5s $ease-out;
+
+    svg {
+      width: 11px;
+      height: 11px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .aside-block--dark {
+    position: relative;
+    overflow: hidden;
+    background: $ink;
+    border-color: $ink;
+    color: #fff;
+
+    &::before {
+      content: '';
+      position: absolute;
+      right: -70px;
+      bottom: -90px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba($secondary, 0.5), rgba($primary, 0.2) 45%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .aside-block__title { color: rgba(#fff, 0.55); }
+  }
+
+  .next-steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+
+    li {
+      display: flex;
+      gap: $space-3;
+      font-size: 0.9rem;
+      color: rgba(#fff, 0.65);
+      line-height: 1.5;
+    }
+
+    strong {
+      display: block;
+      color: #fff;
+      font-size: 0.98rem;
+    }
+  }
+
+  .next-steps__num {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(#fff, 0.1);
+    border: 1px solid rgba(#fff, 0.16);
+    font-size: 0.8rem;
+    font-weight: $fw-bold;
+    color: #FF8FA6;
+  }
+
+  .aside-block--plain {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-4;
+
+    .aside-block__title { margin: 0; }
+  }
+
+  .socials {
+    display: flex;
+    gap: $space-2;
+
+    a {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $paper-alt;
+      color: $ink-soft;
+      transition: background $dur-base $ease-out, color $dur-base $ease-out;
+
+      &:hover { background: $primary; color: #fff; }
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  /* ============================================================
+     FAQ NUDGE
+     ============================================================ */
+  .faq-nudge { background: $paper-alt; padding-top: 0; }
+
+  .faq-nudge__panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-6;
+    padding: $space-6 $space-7;
+    border-radius: 28px;
+    background: #fff;
+    border: 1px solid $line;
+
+    p { margin-top: $space-2; color: $ink-soft; }
+
+    @media (max-width: 860px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: $space-6 $space-5;
+    }
+  }
+
+  .faq-nudge__title {
+    margin-top: $space-2;
+    font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem);
+    font-weight: $fw-black;
+    letter-spacing: -0.02em;
+  }
+
+  .faq-nudge__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+    flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      .btn { width: 100%; }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .c-hero__scribble path { animation: none; stroke-dashoffset: 0; }
   }
 </style>
 
 <script define:vars={{ whatsappNumber }}>
   const form = document.getElementById('contactForm');
+  const name = document.getElementById('cf-name');
+  const business = document.getElementById('cf-business');
+  const phone = document.getElementById('cf-phone');
+  const message = document.getElementById('cf-message');
+  const interestGroup = document.getElementById('cf-interest');
+  const count = document.getElementById('cf-count');
+
+  const groupOf = (el) => el?.closest('.form-group');
+  const selectedInterest = () => form?.querySelector('input[name="interest"]:checked');
+
+  message?.addEventListener('input', () => {
+    if (count) count.textContent = `${message.value.length} / 1000`;
+  });
 
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('cf-name');
-    const phone = document.getElementById('cf-phone');
-    const interest = document.getElementById('cf-interest');
-    const message = document.getElementById('cf-message');
-    const business = document.getElementById('cf-business');
+    const checks = [
+      [interestGroup, !!selectedInterest()],
+      [groupOf(name), !!name?.value.trim()],
+      [groupOf(phone), !!phone?.value.trim()],
+      [groupOf(message), !!message?.value.trim()],
+    ];
 
-    // Reset validation
-    [name, phone, interest, message].forEach((el) => el?.classList.remove('is-invalid'));
-
-    // Validate required fields
-    let valid = true;
-    [name, phone, interest, message].forEach((el) => {
-      if (!el?.value?.trim()) {
-        el?.classList.add('is-invalid');
-        valid = false;
-      }
+    let firstInvalid = null;
+    checks.forEach(([group, ok]) => {
+      group?.classList.toggle('is-invalid', !ok);
+      if (!ok && !firstInvalid) firstInvalid = group;
     });
 
-    if (!valid) return;
+    if (firstInvalid) {
+      firstInvalid.querySelector('input, textarea')?.focus();
+      return;
+    }
 
     // Build WhatsApp message
     const lines = [
@@ -371,18 +998,16 @@ const channels = [
       business?.value?.trim() ? `from *${business.value.trim()}*` : '',
       ``,
       `📞 Phone: ${phone.value.trim()}`,
-      `📌 Interested in: ${interest.value}`,
+      `📌 Interested in: ${selectedInterest().value}`,
       ``,
       `💬 ${message.value.trim()}`,
-    ].filter(Boolean);
+    ].filter((line, i) => line !== '' || i !== 1);
 
     const text = encodeURIComponent(lines.join('\n'));
     window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
   });
 
-  // Remove invalid state on input
-  document.querySelectorAll('.form-input').forEach((input) => {
-    input.addEventListener('input', () => input.classList.remove('is-invalid'));
-    input.addEventListener('change', () => input.classList.remove('is-invalid'));
-  });
+  // Clear the error state as soon as the visitor fixes a field
+  form?.addEventListener('input', (e) => groupOf(e.target)?.classList.remove('is-invalid'));
+  form?.addEventListener('change', (e) => groupOf(e.target)?.classList.remove('is-invalid'));
 </script>
