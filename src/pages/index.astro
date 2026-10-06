@@ -136,7 +136,7 @@ const faqs = [
 
       <h1 id="hero-heading" class="hero__title reveal" style="--reveal-delay: 80ms;">
         Software for your business.<br />
-        Ready-made, or
+        <span class="hero__nowrap">Ready-made,</span> or
         <span class="hero__accent">
           made for you.
           <svg class="hero__scribble" viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true">
@@ -610,7 +610,7 @@ const faqs = [
 
   .hero__title {
     margin: $space-5 auto 0;
-    max-width: 18ch;
+    max-width: 24ch;
     font-size: clamp(2.5rem, 1.5rem + 3.6vw, 4.75rem);
     font-weight: $fw-black;
     line-height: 1.04;
@@ -621,6 +621,8 @@ const faqs = [
       br { display: none; }
     }
   }
+
+  .hero__nowrap { white-space: nowrap; }
 
   .hero__accent {
     position: relative;
@@ -1882,34 +1884,14 @@ const faqs = [
     .marquee-strip__track {
       animation: none !important;
     }
+
+    .hero__scribble path { stroke-dashoffset: 0; }
   }
 </style>
 
 <script>
   // Respect reduced-motion preference before wiring any pointer-driven effects.
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ---- Parallax on hero glows -----------------------------------------------
-  if (!prefersReducedMotion) {
-    const parallaxEls = document.querySelectorAll<HTMLElement>('[data-parallax]');
-    let ticking = false;
-
-    const updateParallax = () => {
-      const scrollY = window.scrollY;
-      parallaxEls.forEach((el) => {
-        const speed = parseFloat(el.dataset.parallax || '0');
-        el.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
-      });
-      ticking = false;
-    };
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(updateParallax);
-        ticking = true;
-      }
-    }, { passive: true });
-  }
 
   // ---- Magnetic buttons -------------------------------------------------------
   if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
