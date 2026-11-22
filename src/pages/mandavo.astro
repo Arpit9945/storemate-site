@@ -1,0 +1,1961 @@
+---
+// ───────────────────────── mandavo.astro ─────────────────────────
+// Single-file page: HTML + CSS + JS sab isi file me.
+// Mataji ni photo dalni ho to niche ke 2 paths bharo (e.g. "/images/ambaji.jpg" — file public/ folder me rakho)
+const ambajiImg = "";
+const bahucharImg = "";
+
+// Background music: default me page apna ORIGINAL aarti-style instrumental (tanpura + harmonium + dholak + manjira)
+// khud bajata hai — koi file nahi chahiye. Apni mp3 lagani ho to path likho, e.g. "/audio/aarti.mp3" (public/audio/ me rakho).
+const bgSong = "";
+
+const pageTitle = "આમંત્રણ પત્રિકા | શ્રી અંબાજીમાં નો નવરંગો માંડવો";
+const mapUrl =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent("સોની જ્ઞાતિની વાડી, દાળમીલ રોડ, સુરેન્દ્રનગર");
+
+const events = [
+    {
+        title: "માંડવો રોપવાનું",
+        date: "તા. ૨-૧૨-૨૦૨૬",
+        day: "બુધવાર",
+        time: "સવારે ૮:૦૦ કલાકે",
+    },
+    {
+        title: "મહા પ્રસાદ",
+        date: "તા. ૨-૧૨-૨૦૨૬",
+        day: "બુધવાર",
+        time: "સાંજે ૭:૩૦ કલાકે",
+    },
+    {
+        title: "માંડવો વધાવવાનું",
+        date: "તા. ૩-૧૨-૨૦૨૬",
+        day: "ગુરૂવાર",
+        time: "સવારે ૭:૩૦ કલાકે",
+    },
+];
+
+const bhuvaLeft = [
+    ["વીરજીબાપુ", "શ્રી વેરાઈ માતાજી"],
+    ["જશવંતલાલ", "શ્રી મોમાઈ માતાજી"],
+    ["ધીરૂભાઈ", "શ્રી શક્તિ માતાજી"],
+    ["મનસુખભાઈ", "શ્રી બ્રહ્માણી માતાજી"],
+    ["ચંદુભા ઝાલા", "શ્રી શક્તિ માતાજી"],
+    ["જયેન્દ્રસિંહ જાડેજા", "શ્રી મોમાઈ માતાજી"],
+];
+const bhuvaRight = [
+    ["ચકુભાઈ", "શ્રી ચામુંડા માતાજી"],
+    ["જામભા", "શ્રી મેલડી માતાજી"],
+    ["ઘનશ્યામસિંહ", "શ્રી મોમાઈ માતાજી"],
+    ["અશોકભાઈ", "શ્રી મેલડી માતાજી"],
+    ["કાળુભાઈ", "શ્રી ચામુંડા માતાજી"],
+];
+
+const nimantrak = [
+    ["સ્વ. સોની શાંતીલાલ સુંદરજીભાઈ", "સ્વ. ઘેલીબેન શાંતીલાલ"],
+    ["સોની નરેન્દ્રકુમાર શાંતીલાલ", "અ.સૌ. ઇલાબેન નરેન્દ્રકુમાર"],
+    ["સોની જુગલકુમાર નરેન્દ્રકુમાર", "અ.સૌ. મનીષાબેન જુગલકુમાર"],
+    ["સોની અર્પિતકુમાર જુગલકુમાર", "અ.સૌ. અભિજ્ઞા અર્પિતકુમાર"],
+];
+
+const flame =
+    "M0,0 C-26,-2 -34,-36 -18,-66 C-14,-52 -8,-48 -6,-42 C-8,-70 4,-98 0,-124 C22,-98 36,-56 28,-24 C24,-8 12,0 0,0Z";
+---
+
+<!doctype html>
+<html lang="gu">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <meta name="theme-color" content="#2e0710" />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>{pageTitle}</title>
+        <meta property="og:title" content={pageTitle} />
+        <meta
+            property="og:description"
+            content="સોની જ્ઞાતિની વાડી, સુરેન્દ્રનગર — તા. ૨ અને ૩ ડિસેમ્બર ૨૦૨૬"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@600;700;800&family=Hind+Vadodara:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <noscript>
+            <style>
+                .cover {
+                    display: none !important;
+                }
+                body.locked {
+                    overflow: auto !important;
+                }
+                .fire {
+                    transform: none !important;
+                }
+            </style>
+        </noscript>
+    </head>
+
+    <body class="locked">
+        <!-- ═════════ COVER (wrapper) : click karo to darwaza khule ═════════ -->
+        <div class="cover" id="cover">
+            <div class="door door-l"></div>
+            <div class="door door-r"></div>
+            <p class="cover-top">॥ શ્રી ગણેશાય નમઃ ॥</p>
+            <button
+                class="seal"
+                id="openBtn"
+                type="button"
+                aria-label="આમંત્રણ ખોલો"
+            >
+                <span class="seal-om">ૐ</span>
+                <span class="seal-t1">આમંત્રણ</span>
+                <span class="seal-t2">ખોલવા ટેપ કરો</span>
+            </button>
+            <p class="cover-bot">॥ જયશ્રી અંબાજી માં ॥</p>
+        </div>
+
+        {bgSong && <audio id="bgm" src={bgSong} loop preload="auto" />}
+        <button
+            class="music"
+            id="musicBtn"
+            type="button"
+            aria-label="સંગીત બંધ કરો"
+            aria-pressed="true"
+            hidden
+        >
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"></path>
+                <path
+                    class="w"
+                    d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"></path>
+                <path
+                    class="x"
+                    d="M16 9l6 6M22 9l-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"></path>
+            </svg>
+        </button>
+
+        <!-- ═════════ INVITATION ═════════ -->
+        <main class="patrika">
+            <header class="hero">
+                <svg class="toran" width="100%" height="58" aria-hidden="true">
+                    <defs>
+                        <pattern
+                            id="tp"
+                            width="50"
+                            height="58"
+                            patternUnits="userSpaceOnUse"
+                        >
+                            <path d="M0 0H50V8H0Z" fill="#d9a441"></path>
+                            <path d="M4 8H46L25 50Z" fill="#f2a20c"></path>
+                            <path d="M12 8H38L25 34Z" fill="#9b1c24"></path>
+                            <circle cx="25" cy="53" r="3.6" fill="#ffe9a8"
+                            ></circle>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="58" fill="url(#tp)"></rect>
+                </svg>
+
+                <p class="ganesh">॥ શ્રી ગણેશાય નમઃ ॥</p>
+
+                <div class="matas">
+                    <figure class="mata">
+                        {
+                            ambajiImg && (
+                                <img
+                                    src={ambajiImg}
+                                    alt="શ્રી અંબાજી માતાજી"
+                                    loading="lazy"
+                                />
+                            )
+                        }
+                        <figcaption>॥ જયશ્રી અંબાજી માં ॥</figcaption>
+                    </figure>
+                    <figure class="mata">
+                        {
+                            bahucharImg && (
+                                <img
+                                    src={bahucharImg}
+                                    alt="શ્રી બહુચર માતાજી"
+                                    loading="lazy"
+                                />
+                            )
+                        }
+                        <figcaption>॥ જયશ્રી બહુચર માં ॥</figcaption>
+                    </figure>
+                </div>
+
+                <h1 class="title">આમંત્રણ પત્રિકા</h1>
+
+                <!-- Animated havan -->
+                <div
+                    class="havan"
+                    id="havan"
+                    role="button"
+                    tabindex="0"
+                    aria-label="હવનમાં ઘી અર્પણ કરો"
+                >
+                    <div class="glow" id="glow"></div>
+                    <!-- back layer: kund -->
+                    <svg viewBox="0 0 300 280" aria-hidden="true">
+                        <defs>
+                            <linearGradient
+                                id="brick"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop offset="0" stop-color="#c8662b"></stop>
+                                <stop offset="1" stop-color="#8a3813"></stop>
+                            </linearGradient>
+                        </defs>
+                        <ellipse
+                            cx="150"
+                            cy="240"
+                            rx="130"
+                            ry="12"
+                            fill="rgba(0,0,0,.4)"></ellipse>
+                        <rect
+                            x="42"
+                            y="208"
+                            width="216"
+                            height="28"
+                            rx="3"
+                            fill="url(#brick)"></rect>
+                        <rect
+                            x="62"
+                            y="184"
+                            width="176"
+                            height="26"
+                            rx="3"
+                            fill="url(#brick)"></rect>
+                        <rect
+                            x="82"
+                            y="160"
+                            width="136"
+                            height="26"
+                            rx="3"
+                            fill="url(#brick)"></rect>
+                        <path
+                            d="M42 215H258M62 191H238M82 167H218"
+                            stroke="#f2c14e"
+                            stroke-width="2"
+                            stroke-dasharray="1 7"
+                            stroke-linecap="round"
+                            fill="none"></path>
+                        <ellipse
+                            cx="150"
+                            cy="161"
+                            rx="66"
+                            ry="11"
+                            fill="#1d0606"></ellipse>
+                        <ellipse
+                            class="coals"
+                            cx="150"
+                            cy="162"
+                            rx="56"
+                            ry="7"
+                            fill="#ff6a00"></ellipse>
+                        <ellipse
+                            class="coals"
+                            cx="150"
+                            cy="162"
+                            rx="34"
+                            ry="4"
+                            fill="#ffc34d"
+                            style="animation-delay:-.7s"></ellipse>
+                    </svg>
+                    <!-- middle layer: live fire -->
+                    <canvas id="embers"></canvas>
+                    <!-- front layer: logs, lip, diyas -->
+                    <svg viewBox="0 0 300 280" aria-hidden="true">
+                        <defs>
+                            <linearGradient
+                                id="g-mid"
+                                x1="0"
+                                y1="1"
+                                x2="0"
+                                y2="0"
+                            >
+                                <stop offset="0" stop-color="#fff27a"></stop>
+                                <stop offset="1" stop-color="#ff9d00"></stop>
+                            </linearGradient>
+                            <linearGradient
+                                id="log"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop offset="0" stop-color="#7a3d18"></stop>
+                                <stop offset="1" stop-color="#34160a"></stop>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(150,162)">
+                            <g transform="rotate(-9)">
+                                <rect
+                                    x="-56"
+                                    y="-9"
+                                    width="112"
+                                    height="12"
+                                    rx="6"
+                                    fill="url(#log)"></rect>
+                                <rect
+                                    class="coals"
+                                    x="-50"
+                                    y="-5"
+                                    width="100"
+                                    height="3"
+                                    rx="1.5"
+                                    fill="#ff5a00"
+                                    opacity=".45"></rect>
+                            </g>
+                            <g transform="rotate(9)">
+                                <rect
+                                    x="-56"
+                                    y="-9"
+                                    width="112"
+                                    height="12"
+                                    rx="6"
+                                    fill="url(#log)"></rect>
+                                <rect
+                                    class="coals"
+                                    x="-50"
+                                    y="-5"
+                                    width="100"
+                                    height="3"
+                                    rx="1.5"
+                                    fill="#ff5a00"
+                                    opacity=".45"
+                                    style="animation-delay:-.5s"></rect>
+                            </g>
+                        </g>
+                        <path
+                            d="M82 161 Q150 181 218 161 L218 169 Q150 189 82 169Z"
+                            fill="#b9541f"></path>
+                        <path d="M8 236 Q22 250 36 236Z" fill="#d9a441"></path>
+                        <path d="M264 236 Q278 250 292 236Z" fill="#d9a441"
+                        ></path>
+                        <g transform="translate(22,235) scale(.15)">
+                            <path
+                                class="fl"
+                                d={flame}
+                                fill="url(#g-mid)"
+                                style="--d:.7s"></path>
+                        </g>
+                        <g transform="translate(278,235) scale(.15)">
+                            <path
+                                class="fl"
+                                d={flame}
+                                fill="url(#g-mid)"
+                                style="--d:.8s;animation-delay:-.3s"></path>
+                        </g>
+                    </svg>
+                </div>
+            </header>
+
+            <div class="paper">
+                <p class="greet">
+                    સ્નેહી શ્રી <span class="blank" data-guest></span>
+                </p>
+
+                <p class="lead">
+                    સહર્ષ ખુશાલી સાથ જણાવવાનું કે શ્રી અંબાજી માતાજીની અસીમ
+                    કૃપાથી
+                </p>
+
+                <h2 class="ribbon">શ્રી અંબાજીમાં નો નવરંગો માંડવો</h2>
+
+                <p class="lead">
+                    <strong>સંવત ૨૦૮૩ કારતક વદ-૯ ને બુધવાર તા. ૨-૧૨-૨૦૨૬</strong
+                    >
+                    ના શુભ દિને નિર્ધારેલ છે. તો આ શુભ પ્રસંગે માતાજી ના દર્શને તેમજ
+                    પ્રસાદ નો લાભ લેવા આપશ્રી
+                    <span class="blank inl" data-guest></span> પધારી અમારી શોભામાં
+                    અભિવૃદ્ધિ કરશોજી.
+                </p>
+
+                <div class="tag"><span>માંગલીક પ્રસંગો</span></div>
+
+                <div class="events">
+                    {
+                        events.map((e) => (
+                            <article class="ev">
+                                <h3>{e.title}</h3>
+                                <p class="d">{e.date}</p>
+                                <p class="w">{e.day}</p>
+                                <p class="t">{e.time}</p>
+                            </article>
+                        ))
+                    }
+                </div>
+
+                <p class="venue">
+                    સોની જ્ઞાતિની વાડી, દાળમીલ રોડ, સુરેન્દ્રનગર.
+                </p>
+                <p class="center">
+                    <a
+                        class="btn ghost"
+                        href={mapUrl}
+                        target="_blank"
+                        rel="noopener">નકશામાં જુઓ</a
+                    >
+                </p>
+
+                <div class="tag"><span>ભુવાશ્રી</span></div>
+                <p class="rawal">રાવળદેવ : વિનુભાઈ મુળીવાળા</p>
+                <div class="bhuva">
+                    <ul>
+                        {
+                            bhuvaLeft.map(([n, m]) => (
+                                <li>
+                                    <>
+                                        <b>{n}</b>
+                                        <span>{m}</span>
+                                    </>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    <i class="sep" aria-hidden="true"></i>
+                    <ul>
+                        {
+                            bhuvaRight.map(([n, m]) => (
+                                <li>
+                                    <>
+                                        <b>{n}</b>
+                                        <span>{m}</span>
+                                    </>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+
+                <div class="tag"><span>નિમંત્રક</span></div>
+                <div class="nim">
+                    <p class="devasibhai">સ્વ.  દેવસીભાઈ સુંદરજીભાઈ</p>
+                    {
+                        nimantrak.map(([a, b]) => (
+                            <div class="couple">
+                                <p>{a}</p>
+                                <p>{b}</p>
+                            </div>
+                        ))
+                    }
+                    <p class="kumari">કુ. પ્રગતિ જુગલકુમાર સોની</p>
+                </div>
+
+                <address class="addr">
+                    ૨, જુની કોટન માર્કેટ, પાણીની ટાંકી પાસે, પ્રતિક એપાર્ટમેન્ટ
+                    સામે, સુરેન્દ્રનગર.
+                </address>
+                <div class="calls">
+                    <a class="btn" href="tel:+919427065506"
+                        >નરેન્દ્રભાઈ : મો. ૯૪૨૭૦ ૬૫૫૦૬</a
+                    >
+                    <a class="btn" href="tel:+919909124711"
+                        >જુગલભાઈ : મો. ૯૯૦૯૧ ૨૪૭૧૧</a
+                    >
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
+
+<style is:global>
+    :root {
+        --kum: #9b1c24;
+        --maroon: #4a0e17;
+        --deep: #2e0710;
+        --mari: #f2a20c;
+        --gold: #d9a441;
+        --cream: #fff6dc;
+        --ink: #23296b;
+        --pink: #b0245f;
+        --disp: "Baloo Bhai 2", "Noto Sans Gujarati", sans-serif;
+    }
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+    }
+    body {
+        margin: 0;
+        font-family: "Hind Vadodara", "Noto Sans Gujarati", sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: var(--ink);
+        background-color: var(--deep);
+        background-image: repeating-conic-gradient(
+            from 45deg at 50% 50%,
+            rgba(217, 164, 65, 0.07) 0 25%,
+            transparent 0 50%
+        );
+        background-size: 36px 36px;
+    }
+    body.locked {
+        overflow: hidden;
+    }
+    a {
+        color: inherit;
+    }
+    :focus-visible {
+        outline: 3px solid var(--mari);
+        outline-offset: 3px;
+    }
+
+    /* ───────── COVER ───────── */
+    .cover {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        perspective: 1400px;
+        overflow: hidden;
+    }
+    .cover.open {
+        pointer-events: none;
+    }
+    .door {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50.2%;
+        background:
+            radial-gradient(
+                circle at var(--cx, 100%) 50%,
+                rgba(242, 162, 12, 0.3),
+                transparent 40%
+            ),
+            repeating-linear-gradient(
+                45deg,
+                rgba(217, 164, 65, 0.1) 0 2px,
+                transparent 2px 22px
+            ),
+            repeating-linear-gradient(
+                -45deg,
+                rgba(217, 164, 65, 0.1) 0 2px,
+                transparent 2px 22px
+            ),
+            linear-gradient(#5b1020, #34090f);
+        box-shadow:
+            inset 0 0 0 5px #2e0710,
+            inset 0 0 0 7px var(--gold);
+        transition: transform 1.7s cubic-bezier(0.65, 0, 0.25, 1);
+        backface-visibility: hidden;
+    }
+    .door-l {
+        left: 0;
+        transform-origin: left center;
+        --cx: 100%;
+    }
+    .door-r {
+        right: 0;
+        transform-origin: right center;
+        --cx: 0%;
+    }
+    .door::before {
+        content: "";
+        position: absolute;
+        top: 7vh;
+        bottom: 7vh;
+        left: 5vw;
+        right: 0;
+        border: 3px solid var(--gold);
+        border-right: 0;
+        border-top-left-radius: min(45vw, 60vh);
+    }
+    .door-r::before {
+        left: 0;
+        right: 5vw;
+        border: 3px solid var(--gold);
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-top-right-radius: min(45vw, 60vh);
+    }
+    .door::after {
+        content: "";
+        position: absolute;
+        top: calc(7vh + 12px);
+        bottom: calc(7vh + 12px);
+        left: calc(5vw + 12px);
+        right: 0;
+        border: 1px solid rgba(255, 233, 168, 0.55);
+        border-right: 0;
+        border-top-left-radius: calc(min(45vw, 60vh) - 12px);
+    }
+    .door-r::after {
+        left: 0;
+        right: calc(5vw + 12px);
+        border: 1px solid rgba(255, 233, 168, 0.55);
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-top-right-radius: calc(min(45vw, 60vh) - 12px);
+    }
+    .cover.open .door-l {
+        transform: rotateY(-112deg);
+    }
+    .cover.open .door-r {
+        transform: rotateY(112deg);
+    }
+
+    .cover-top,
+    .cover-bot {
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        margin: 0;
+        text-align: center;
+        font-family: var(--disp);
+        font-weight: 700;
+        color: var(--gold);
+        font-size: clamp(1.1rem, 4.6vw, 1.7rem);
+        transition: opacity 0.4s;
+    }
+    .cover-top {
+        top: calc(env(safe-area-inset-top, 0px) + 11vh);
+    }
+    .cover-bot {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 11vh);
+    }
+    .cover.open .cover-top,
+    .cover.open .cover-bot {
+        opacity: 0;
+    }
+
+    .seal {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 3;
+        width: min(46vw, 190px);
+        aspect-ratio: 1;
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.1rem;
+        font-family: var(--disp);
+        color: var(--maroon);
+        background: radial-gradient(
+            circle at 35% 28%,
+            #ffe9a8,
+            #e2a93a 45%,
+            #a8701a
+        );
+        box-shadow:
+            0 0 0 5px rgba(242, 162, 12, 0.3),
+            0 12px 30px rgba(0, 0, 0, 0.55);
+        transition:
+            transform 0.6s ease-in,
+            opacity 0.5s;
+    }
+    .seal::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        border: 2px dashed rgba(74, 14, 23, 0.6);
+    }
+    .seal::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 3px solid var(--mari);
+        animation: ring 2.2s ease-out infinite;
+    }
+    .seal-om {
+        font-size: 3rem;
+        line-height: 1.05;
+        font-weight: 800;
+    }
+    .seal-t1 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+    .seal-t2 {
+        font-size: 0.8rem;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+    .cover.open .seal {
+        transform: translate(-50%, -50%) scale(0.1) rotate(120deg);
+        opacity: 0;
+    }
+    @keyframes ring {
+        from {
+            transform: scale(1);
+            opacity: 0.8;
+        }
+        to {
+            transform: scale(1.6);
+            opacity: 0;
+        }
+    }
+
+    /* ───────── PATRIKA ───────── */
+    .patrika {
+        max-width: 820px;
+        margin: 0 auto;
+        border-inline: 2px solid var(--gold);
+        background: var(--cream);
+        overflow: hidden;
+    }
+
+    .hero {
+        position: relative;
+        text-align: center;
+        color: var(--cream);
+        padding: 0 clamp(18px, 5vw, 48px) 3.4rem;
+        background: radial-gradient(
+            ellipse at 50% 72%,
+            #8a1a22 0,
+            var(--maroon) 55%,
+            var(--deep) 100%
+        );
+    }
+    .hero::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 30px;
+        background: radial-gradient(
+                circle at 50% 0,
+                transparent 14px,
+                var(--cream) 15px
+            )
+            0 0 / 32px 30px repeat-x;
+    }
+    .toran {
+        display: block;
+        margin: 0 calc(clamp(18px, 5vw, 48px) * -1) 0;
+        width: calc(100% + clamp(18px, 5vw, 48px) * 2);
+    }
+    .ganesh {
+        margin: 1rem 0 0.6rem;
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: var(--gold);
+    }
+    .matas {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.8rem;
+        margin: 0 0 0.4rem;
+    }
+    .mata {
+        margin: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+    }
+    .mata img {
+        width: min(34vw, 150px);
+        aspect-ratio: 3 / 4;
+        object-fit: cover;
+        border: 3px solid var(--gold);
+        border-radius: 10px;
+    }
+    .mata figcaption {
+        font-family: var(--disp);
+        font-weight: 600;
+        font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+        color: #ffd98a;
+        line-height: 1.4;
+    }
+    .title {
+        margin: 0.2rem 0 0;
+        font-family: var(--disp);
+        font-weight: 800;
+        line-height: 1.5;
+        font-size: clamp(2.4rem, 12vw, 4.6rem);
+        padding: 0.1em 0;
+        background: linear-gradient(#ffeebb, #f2a20c 58%, #c9871a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 2px 0 #6e1119);
+    }
+
+    /* havan */
+    .havan {
+        position: relative;
+        width: min(78vw, 360px);
+        aspect-ratio: 300 / 280;
+        margin: 0.4rem auto 0;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .havan svg,
+    .havan canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+    }
+    .havan canvas {
+        pointer-events: none;
+    }
+    .glow {
+        position: absolute;
+        inset: -12% -22% -2%;
+        opacity: 0;
+        pointer-events: none;
+        background: radial-gradient(
+            circle at 50% 56%,
+            rgba(255, 140, 0, 0.6),
+            rgba(255, 90, 0, 0.2) 40%,
+            transparent 68%
+        );
+    }
+    .glow {
+        will-change: opacity;
+    }
+    @keyframes glowIn {
+        to {
+            opacity: 0.95;
+        }
+    }
+    @keyframes pulse {
+        from {
+            opacity: 0.75;
+            transform: scale(0.97);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1.04);
+        }
+    }
+
+    .fl {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+    }
+    .fl {
+        animation: flick var(--d, 1s) ease-in-out infinite;
+    }
+    @keyframes flick {
+        0%,
+        100% {
+            transform: scale(1, 1) skewX(0);
+        }
+        25% {
+            transform: scale(0.93, 1.09) skewX(4deg);
+        }
+        50% {
+            transform: scale(1.05, 0.92) skewX(-4deg);
+        }
+        75% {
+            transform: scale(0.97, 1.06) skewX(2deg);
+        }
+    }
+    .coals {
+        animation: coals 1.6s ease-in-out infinite alternate;
+    }
+    @keyframes coals {
+        from {
+            opacity: 0.6;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    .swaha {
+        position: absolute;
+        left: 50%;
+        top: 34%;
+        z-index: 2;
+        pointer-events: none;
+        font-family: var(--disp);
+        font-weight: 800;
+        font-size: 1.7rem;
+        color: #ffe9a8;
+        text-shadow:
+            0 0 10px #ff8a00,
+            0 0 22px #ff5a00;
+        animation: swaha 1.5s ease-out forwards;
+    }
+    @keyframes swaha {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 10px);
+        }
+        20% {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+            transform: translate(-50%, -70px);
+        }
+    }
+
+    /* ───────── PAPER ───────── */
+    .paper {
+        position: relative;
+        padding: 1.4rem clamp(30px, 7vw, 68px) 2.8rem;
+        background:
+            radial-gradient(circle at 50% 0, #fff, transparent 60%),
+            var(--cream);
+    }
+    .paper::before,
+    .paper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: clamp(14px, 3vw, 26px);
+        background:
+            repeating-linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.18) 0 2px,
+                transparent 2px 14px
+            ),
+            linear-gradient(
+                90deg,
+                #8a5a12,
+                #e2b04a 30%,
+                #ffe9a8 50%,
+                #e2b04a 70%,
+                #8a5a12
+            );
+    }
+    .paper::before {
+        left: 0;
+    }
+    .paper::after {
+        right: 0;
+    }
+
+    .greet {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        margin: 0.4rem 0 1rem;
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--kum);
+    }
+    .blank {
+        flex: 1;
+        min-width: 4em;
+        min-height: 1.5em;
+        border-bottom: 2px dotted var(--kum);
+        color: var(--ink);
+        font-weight: 600;
+        text-align: center;
+    }
+    .blank.inl {
+        display: inline-block;
+        flex: none;
+        min-width: 8em;
+        border-bottom-color: var(--ink);
+        vertical-align: bottom;
+    }
+    .lead {
+        margin: 0;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.08rem;
+    }
+    .lead strong {
+        color: var(--kum);
+        font-weight: 700;
+    }
+
+    .ribbon {
+        margin: 1.2rem -6px 1.2rem;
+        padding: 0.35rem 1.6rem;
+        text-align: center;
+        color: #fff;
+        font-family: var(--disp);
+        font-weight: 800;
+        font-size: clamp(1.3rem, 6vw, 2.1rem);
+        line-height: 1.5;
+        background: linear-gradient(90deg, #8e1b4a, var(--pink) 50%, #8e1b4a);
+        clip-path: polygon(
+            0 0,
+            100% 0,
+            calc(100% - 18px) 50%,
+            100% 100%,
+            0 100%,
+            18px 50%
+        );
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .tag {
+        display: flex;
+        justify-content: center;
+        margin: 2.2rem 0 1.2rem;
+    }
+    .tag span {
+        position: relative;
+        padding: 0.1rem 1.9rem;
+        border-radius: 999px;
+        border: 2px solid var(--gold);
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 1.25rem;
+        line-height: 1.6;
+        color: var(--cream);
+        background: linear-gradient(var(--kum), #7a1219);
+        box-shadow:
+            0 0 0 3px var(--cream),
+            0 0 0 4.5px var(--gold);
+    }
+    .tag span::before,
+    .tag span::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 9px;
+        height: 9px;
+        background: var(--gold);
+        transform: translateY(-50%) rotate(45deg);
+    }
+    .tag span::before {
+        left: -26px;
+    }
+    .tag span::after {
+        right: -26px;
+    }
+
+    .events {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
+    }
+    .ev {
+        position: relative;
+        max-width: 340px;
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 2.8rem 0.8rem 1.3rem;
+        border: 3px solid var(--gold);
+        border-radius: 50% 50% 14px 14px / 78px 78px 14px 14px;
+        background: linear-gradient(#fff, #ffeec2);
+        box-shadow:
+            inset 0 0 0 4px var(--cream),
+            inset 0 0 0 5px rgba(217, 164, 65, 0.7);
+    }
+    .ev::before {
+        content: "";
+        position: absolute;
+        top: 1.1rem;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        margin-left: -6px;
+        background: var(--mari);
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        box-shadow: 0 0 10px 2px rgba(242, 162, 12, 0.7);
+    }
+    .ev h3 {
+        margin: 0 0 0.4rem;
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: 1.35rem;
+        line-height: 1.5;
+        color: var(--kum);
+    }
+    .ev p {
+        margin: 0;
+        line-height: 1.6;
+    }
+    .ev .d {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .ev .w {
+        font-weight: 600;
+    }
+    .ev .t {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.1rem 0.9rem;
+        border-radius: 999px;
+        background: var(--mari);
+        color: var(--deep);
+        font-weight: 700;
+    }
+
+    .venue {
+        margin: 1.4rem 0 0.8rem;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .center {
+        text-align: center;
+        margin: 0;
+    }
+
+    .rawal {
+        margin: 0 0 1rem;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--kum);
+    }
+    .bhuva {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 0 1.1rem;
+    }
+    .bhuva ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .bhuva li {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.6rem;
+        padding: 0.3rem 0;
+        border-bottom: 1px dotted rgba(35, 41, 107, 0.35);
+        line-height: 1.55;
+    }
+    .bhuva b {
+        font-weight: 600;
+    }
+    .bhuva span {
+        color: var(--kum);
+        font-weight: 500;
+        text-align: right;
+    }
+    .sep {
+        width: 2px;
+        background: linear-gradient(transparent, var(--gold), transparent);
+    }
+
+    .nim {
+        display: grid;
+        gap: 0.2rem;
+    }
+    .couple {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 1.2rem;
+        padding: 0.35rem 0;
+        text-align: center;
+        font-weight: 600;
+    }
+    .couple p,
+    .kumari {
+        margin: 0;
+    }
+    .devasibhai {
+        margin: 0;
+    }
+    .kumari {
+        margin-top: 0.6rem;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.12rem;
+        color: var(--kum);
+    }
+    .devasibhai {
+        margin-top: 0.6rem;
+        text-align: center;
+        font-weight: 600;
+        /* font-size: 1.12rem; */
+        /* color: var(--kum); */
+    }
+
+    .addr {
+        margin: 1.8rem 0 1rem;
+        padding-top: 1.2rem;
+        text-align: center;
+        font-style: normal;
+        font-weight: 500;
+        border-top: 2px dotted var(--gold);
+    }
+    .calls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.7rem;
+    }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0.4rem 1.4rem;
+        border-radius: 999px;
+        border: 2px solid var(--gold);
+        text-decoration: none;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--cream);
+        background: linear-gradient(var(--kum), #7a1219);
+        transition:
+            transform 0.15s,
+            box-shadow 0.15s;
+    }
+    .btn:active {
+        transform: scale(0.97);
+    }
+    .btn.ghost {
+        background: transparent;
+        color: var(--kum);
+        border-color: var(--kum);
+    }
+
+    /* music button */
+    .music {
+        position: fixed;
+        z-index: 40;
+        right: 14px;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid var(--gold);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        color: var(--cream);
+        background: linear-gradient(var(--kum), #7a1219);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    }
+    .music[hidden] {
+        display: none;
+    }
+    .music .x {
+        display: none;
+    }
+    .music.off .w {
+        display: none;
+    }
+    .music.off .x {
+        display: inline;
+    }
+    .music:not(.off)::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid var(--mari);
+        animation: ring 2.4s ease-out infinite;
+    }
+
+    @media (min-width: 720px) {
+        .events {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .ev {
+            max-width: none;
+        }
+        .ev h3 {
+            font-size: 1.2rem;
+        }
+    }
+    @media (max-width: 640px) {
+        body {
+            font-size: 1rem;
+        }
+        .bhuva {
+            grid-template-columns: 1fr;
+        }
+        .bhuva .sep {
+            display: none;
+        }
+        .bhuva ul + .sep + ul {
+            margin-top: 0.4rem;
+        }
+        .couple {
+            grid-template-columns: 1fr;
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted rgba(35, 41, 107, 0.3);
+        }
+        .tag span::before {
+            left: -22px;
+        }
+        .tag span::after {
+            right: -22px;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .door {
+            transition-duration: 0.01s;
+        }
+        .fire,
+        .opened .fire {
+            animation: none;
+            transform: none;
+        }
+        .fl,
+        .coals,
+        .seal::after,
+        .opened .glow {
+            animation: none;
+        }
+        .opened .glow {
+            opacity: 0.9;
+        }
+    }
+</style>
+
+<script is:inline>
+    (function () {
+        var body = document.body;
+        var cover = document.getElementById("cover");
+        var btn = document.getElementById("openBtn");
+        var havan = document.getElementById("havan");
+        var cv = document.getElementById("embers");
+        var ctx = cv.getContext("2d");
+        var reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        // ?name=Rameshbhai  →  "સ્નેહી શ્રી ____" me naam bhar do
+        try {
+            var n = new URLSearchParams(location.search).get("name");
+            if (n) {
+                document
+                    .querySelectorAll("[data-guest]")
+                    .forEach(function (el) {
+                        el.textContent = n.trim().slice(0, 40);
+                    });
+            }
+        } catch (e) {}
+
+        /* ── realistic fire (canvas, additive particles + smoke + sparks) ── */
+        var W = 300,
+            H = 280;
+        var glow = document.getElementById("glow");
+        var NS = 14,
+            sprites = [],
+            smokeSpr;
+        var ramp = [
+            [255, 252, 225],
+            [255, 226, 110],
+            [255, 160, 30],
+            [245, 92, 12],
+            [175, 30, 14],
+        ];
+        function rampCol(i) {
+            var f = (i / (NS - 1)) * (ramp.length - 1),
+                a = Math.floor(f),
+                b = Math.min(a + 1, ramp.length - 1),
+                t = f - a;
+            return ramp[a].map(function (v, k) {
+                return Math.round(v + (ramp[b][k] - v) * t);
+            });
+        }
+        function makeSprite(c, a1, a2) {
+            var s = document.createElement("canvas");
+            s.width = s.height = 64;
+            var x = s.getContext("2d"),
+                g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+            g.addColorStop(0, "rgba(" + c + "," + a1 + ")");
+            g.addColorStop(0.45, "rgba(" + c + "," + a2 + ")");
+            g.addColorStop(1, "rgba(" + c + ",0)");
+            x.fillStyle = g;
+            x.fillRect(0, 0, 64, 64);
+            return s;
+        }
+        for (var si = 0; si < NS; si++)
+            sprites.push(makeSprite(rampCol(si), 1, 0.5));
+        smokeSpr = makeSprite([205, 195, 195], 0.5, 0.25);
+
+        function fit() {
+            var dpr = Math.min(window.devicePixelRatio || 1, 2),
+                w = cv.clientWidth || 300;
+            cv.width = Math.round(w * dpr);
+            cv.height = Math.round(((w * H) / W) * dpr);
+        }
+        fit();
+        window.addEventListener("resize", fit);
+
+        var fp = [],
+            sp = [],
+            sm = [];
+        var running = false,
+            visible = true,
+            last = 0,
+            litAt = 0,
+            flareUntil = 0,
+            clock = 0;
+        var aF = 0,
+            aS = 0,
+            aM = 0;
+
+        function spawnFire() {
+            var u = (Math.random() + Math.random() + Math.random()) / 1.5 - 1; // bell-shaped: -1..1
+            fp.push({
+                x: 150 + u * 36,
+                y: 165,
+                vy: -(60 + Math.random() * 55),
+                life: 0,
+                max: 0.75 + Math.random() * 0.75,
+                r: 12 + Math.random() * 11,
+                ph: Math.random() * 6.28,
+            });
+        }
+        function spawnSpark(burst) {
+            sp.push({
+                x: 150 + (Math.random() - 0.5) * 50,
+                y: 150 + Math.random() * 10,
+                vx: (Math.random() - 0.5) * (burst ? 60 : 20),
+                vy: -(burst
+                    ? 60 + Math.random() * 90
+                    : 30 + Math.random() * 60),
+                r: 0.6 + Math.random() * 1.5,
+                life: 0,
+                max: 1.4 + Math.random() * 1.8,
+                ph: Math.random() * 6.28,
+            });
+        }
+        function spawnSmoke() {
+            sm.push({
+                x: 150 + (Math.random() - 0.5) * 24,
+                y: 105 + Math.random() * 10,
+                life: 0,
+                max: 3 + Math.random() * 2,
+                r: 12 + Math.random() * 8,
+            });
+        }
+        function sparkBurst() {
+            for (var i = 0; i < 40; i++) spawnSpark(true);
+        }
+
+        function step(dt) {
+            clock += dt;
+            var now = performance.now();
+            var pw = Math.min(1, Math.max(0, (now - litAt) / 2600));
+            pw = pw * pw * (3 - 2 * pw);
+            var boost = now < flareUntil ? 1 : 0;
+            aF += dt * 120 * pw * (1 + boost * 1.7);
+            while (aF >= 1) {
+                spawnFire();
+                aF -= 1;
+            }
+            aS += dt * 14 * pw;
+            while (aS >= 1) {
+                spawnSpark(false);
+                aS -= 1;
+            }
+            aM += dt * 5 * pw;
+            while (aM >= 1) {
+                spawnSmoke();
+                aM -= 1;
+            }
+            var wind = Math.sin(clock * 1.3) * 7 + Math.sin(clock * 3.3) * 3;
+            var i, p, k;
+            for (i = fp.length - 1; i >= 0; i--) {
+                p = fp[i];
+                p.life += dt;
+                if (p.life >= p.max) {
+                    fp.splice(i, 1);
+                    continue;
+                }
+                k = p.life / p.max;
+                p.x +=
+                    (150 - p.x) * dt * (1.4 + k * 2.6) +
+                    (Math.sin(p.life * 9 + p.ph) * 16 + wind * k * 2.5) * dt;
+                p.y += p.vy * dt * (boost ? 1.25 : 1);
+            }
+            for (i = sp.length - 1; i >= 0; i--) {
+                p = sp[i];
+                p.life += dt;
+                if (p.life >= p.max) {
+                    sp.splice(i, 1);
+                    continue;
+                }
+                p.x += (p.vx + Math.sin(p.life * 4 + p.ph) * 14 + wind) * dt;
+                p.y += p.vy * dt;
+                p.vy *= 0.994;
+            }
+            for (i = sm.length - 1; i >= 0; i--) {
+                p = sm[i];
+                p.life += dt;
+                if (p.life >= p.max) {
+                    sm.splice(i, 1);
+                    continue;
+                }
+                p.y -= 16 * dt;
+                p.x += (wind * 1.4 + Math.sin(p.life * 2) * 6) * dt;
+            }
+            return { pw: pw, boost: boost };
+        }
+        function draw(st) {
+            var sc = cv.width / W,
+                i,
+                p,
+                k,
+                size;
+            ctx.setTransform(sc, 0, 0, sc, 0, 0);
+            ctx.clearRect(0, 0, W, H);
+            ctx.globalCompositeOperation = "source-over";
+            for (i = 0; i < sm.length; i++) {
+                p = sm[i];
+                k = p.life / p.max;
+                size = p.r * (1 + k * 1.8);
+                ctx.globalAlpha = Math.sin(k * 3.14) * 0.11 * st.pw;
+                ctx.drawImage(
+                    smokeSpr,
+                    p.x - size,
+                    p.y - size,
+                    size * 2,
+                    size * 2,
+                );
+            }
+            ctx.globalCompositeOperation = "lighter";
+            for (i = 0; i < fp.length; i++) {
+                p = fp[i];
+                k = p.life / p.max;
+                var hot =
+                    0.1 +
+                    k * 0.85 +
+                    Math.min(1, Math.abs(p.x - 150) / 70) * 0.3;
+                size = p.r * (1 - k * 0.75) * (0.7 + 0.3 * st.pw);
+                ctx.globalAlpha = Math.pow(1 - k, 1.1) * 0.62;
+                ctx.drawImage(
+                    sprites[Math.min(NS - 1, Math.floor(hot * NS))],
+                    p.x - size,
+                    p.y - size,
+                    size * 2,
+                    size * 2,
+                );
+            }
+            for (i = 0; i < sp.length; i++) {
+                p = sp[i];
+                k = 1 - p.life / p.max;
+                ctx.globalAlpha = k;
+                ctx.fillStyle =
+                    "rgb(255," +
+                    Math.round(120 + 110 * k) +
+                    "," +
+                    Math.round(40 * k) +
+                    ")";
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r * (0.5 + k * 0.7), 0, 6.283);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+            var flick =
+                0.9 + 0.07 * Math.sin(clock * 11) + 0.05 * Math.sin(clock * 27);
+            glow.style.opacity = (
+                (0.35 + 0.6 * st.pw) *
+                flick *
+                (1 + st.boost * 0.25)
+            ).toFixed(3);
+        }
+        function frame(t) {
+            if (!running) return;
+            var dt = Math.min((t - last) / 1000 || 0.016, 0.05);
+            last = t;
+            if (visible) draw(step(dt));
+            requestAnimationFrame(frame);
+        }
+        function startEmbers() {
+            litAt = performance.now() - (reduce ? 5000 : 0);
+            if (reduce) {
+                // motion kam: ek still jalti aag
+                var st;
+                for (var j = 0; j < 90; j++) st = step(1 / 30);
+                draw(st);
+                return;
+            }
+            if (running) return;
+            running = true;
+            last = performance.now();
+            requestAnimationFrame(frame);
+        }
+        if ("IntersectionObserver" in window) {
+            new IntersectionObserver(function (e) {
+                visible = e[0].isIntersecting;
+            }).observe(havan);
+        }
+
+        /* ── havan tap: ghee ahuti ── */
+        function ahuti() {
+            havan.classList.remove("flare");
+            void havan.offsetWidth;
+            havan.classList.add("flare");
+            flareUntil = performance.now() + 900;
+            if (!reduce) sparkBurst();
+            var s = document.createElement("span");
+            s.className = "swaha";
+            s.textContent = "સ્વાહા";
+            s.addEventListener("animationend", function () {
+                s.remove();
+            });
+            havan.appendChild(s);
+        }
+        havan.addEventListener("click", ahuti);
+        havan.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                ahuti();
+            }
+        });
+
+        /* ── background music ── */
+        var bgm = document.getElementById("bgm");
+        var fileOk = !!bgm;
+        if (!bgm) bgm = new Audio();
+        var mBtn = document.getElementById("musicBtn");
+        var wantMusic = true,
+            started = false,
+            synth = null,
+            fadeIv = null;
+        try {
+            if (localStorage.getItem("mandavoMusic") === "off")
+                wantMusic = false;
+        } catch (e) {}
+        bgm.addEventListener("error", function () {
+            fileOk = false;
+            if (started && wantMusic) startSynth();
+        });
+
+        function updateBtn() {
+            mBtn.classList.toggle("off", !wantMusic);
+            mBtn.setAttribute("aria-pressed", wantMusic ? "true" : "false");
+            mBtn.setAttribute(
+                "aria-label",
+                wantMusic ? "સંગીત બંધ કરો" : "સંગીત ચાલુ કરો",
+            );
+        }
+        function fadeIn(to, ms) {
+            clearInterval(fadeIv);
+            var step = to / (ms / 100);
+            fadeIv = setInterval(function () {
+                bgm.volume = Math.min(to, bgm.volume + step);
+                if (bgm.volume >= to) clearInterval(fadeIv);
+            }, 100);
+        }
+        function playFile() {
+            bgm.volume = 0;
+            var p = bgm.play();
+            if (p && p.then) {
+                p.then(function () {
+                    fadeIn(0.6, 3000);
+                }).catch(function () {
+                    startSynth();
+                });
+            } else {
+                fadeIn(0.6, 3000);
+            }
+        }
+        // Original aarti-style instrumental (Web Audio): tanpura + harmonium + dholak (keherwa) + manjira + ghanti
+        function startSynth() {
+            if (synth || !wantMusic) return;
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            var c = new AC();
+            var master = c.createGain();
+            master.gain.value = 0;
+            var comp = c.createDynamicsCompressor();
+            master.connect(comp);
+            comp.connect(c.destination);
+            master.gain.linearRampToValueAtTime(0.85, c.currentTime + 3);
+
+            // reverb (mandir ki goonj)
+            var len = Math.floor(c.sampleRate * 2.4),
+                ir = c.createBuffer(2, len, c.sampleRate);
+            for (var ch = 0; ch < 2; ch++) {
+                var d = ir.getChannelData(ch);
+                for (var i = 0; i < len; i++)
+                    d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6);
+            }
+            var verb = c.createConvolver();
+            verb.buffer = ir;
+            var wet = c.createGain();
+            wet.gain.value = 0.32;
+            verb.connect(wet);
+            wet.connect(master);
+            var bus = c.createGain();
+            bus.connect(master);
+            bus.connect(verb);
+
+            var noise = c.createBuffer(1, c.sampleRate, c.sampleRate),
+                nd = noise.getChannelData(0);
+            for (var n = 0; n < nd.length; n++) nd[n] = Math.random() * 2 - 1;
+
+            function env(g, t, a, peak, d) {
+                g.gain.setValueAtTime(0.0001, t);
+                g.gain.exponentialRampToValueAtTime(peak, t + a);
+                g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
+            }
+            function tone(type, f, t, peak, a, d, dest) {
+                var o = c.createOscillator();
+                o.type = type;
+                o.frequency.value = f;
+                var g = c.createGain();
+                env(g, t, a, peak, d);
+                o.connect(g);
+                g.connect(dest || bus);
+                o.start(t);
+                o.stop(t + a + d + 0.05);
+            }
+            function bass(t, v) {
+                var o = c.createOscillator();
+                o.frequency.setValueAtTime(150, t);
+                o.frequency.exponentialRampToValueAtTime(62, t + 0.22);
+                var g = c.createGain();
+                env(g, t, 0.005, v, 0.35);
+                o.connect(g);
+                g.connect(bus);
+                o.start(t);
+                o.stop(t + 0.45);
+            }
+            function tap(t, f, v, dur) {
+                var src = c.createBufferSource();
+                src.buffer = noise;
+                var bp = c.createBiquadFilter();
+                bp.type = "bandpass";
+                bp.frequency.value = f * 4;
+                bp.Q.value = 1.2;
+                var g = c.createGain();
+                env(g, t, 0.002, v * 0.8, dur);
+                src.connect(bp);
+                bp.connect(g);
+                g.connect(bus);
+                src.start(t, Math.random() * 0.5);
+                src.stop(t + dur + 0.05);
+                tone("triangle", f, t, v * 0.6, 0.002, dur * 0.8);
+            }
+            function shaker(t, v) {
+                var src = c.createBufferSource();
+                src.buffer = noise;
+                var hp = c.createBiquadFilter();
+                hp.type = "highpass";
+                hp.frequency.value = 6500;
+                var g = c.createGain();
+                env(g, t, 0.003, v, 0.05);
+                src.connect(hp);
+                hp.connect(g);
+                g.connect(bus);
+                src.start(t, Math.random() * 0.5);
+                src.stop(t + 0.1);
+            }
+            function manjira(t, v) {
+                tone("sine", 3150, t, v, 0.001, 0.5);
+                tone("sine", 4180, t, v * 0.7, 0.001, 0.38);
+                tone("sine", 5300, t, v * 0.45, 0.001, 0.25);
+            }
+            function ghanti(t, v) {
+                [880, 1318.5, 1760, 2637].forEach(function (f, i) {
+                    tone("sine", f, t, v / (i + 1), 0.005, 3.2 - i * 0.5);
+                });
+            }
+            function harmonium(t, f, durS) {
+                var lp = c.createBiquadFilter();
+                lp.type = "lowpass";
+                lp.frequency.value = 2200;
+                var g = c.createGain();
+                g.gain.setValueAtTime(0.0001, t);
+                g.gain.linearRampToValueAtTime(0.06, t + 0.04);
+                g.gain.setValueAtTime(0.055, t + durS * 0.85);
+                g.gain.linearRampToValueAtTime(0.0001, t + durS + 0.12);
+                [
+                    [f, -5, "sawtooth"],
+                    [f, 5, "sawtooth"],
+                    [f / 2, 0, "triangle"],
+                ].forEach(function (x) {
+                    var o = c.createOscillator();
+                    o.type = x[2];
+                    o.frequency.value = x[0];
+                    o.detune.value = x[1];
+                    o.connect(lp);
+                    o.start(t);
+                    o.stop(t + durS + 0.2);
+                });
+                lp.connect(g);
+                g.connect(bus);
+            }
+            function tanpura(t, f) {
+                var lp = c.createBiquadFilter();
+                lp.type = "lowpass";
+                lp.frequency.value = 1100;
+                var g = c.createGain();
+                env(g, t, 0.015, 0.06, 3.2);
+                var o = c.createOscillator();
+                o.type = "sawtooth";
+                o.frequency.value = f;
+                o.connect(lp);
+                lp.connect(g);
+                g.connect(bus);
+                o.start(t);
+                o.stop(t + 3.3);
+                tone("triangle", f * 2, t, 0.025, 0.015, 2.4);
+            }
+
+            var SA = 146.83; // D3
+            var BEAT = 0.54; // ~110 bpm
+            var A = [
+                [4, 0, 1],
+                [7, 1, 1],
+                [9, 2, 1.5],
+                [7, 3.5, 0.5],
+                [4, 4, 1],
+                [2, 5, 1],
+                [0, 6, 2],
+                [4, 8, 1],
+                [7, 9, 1],
+                [9, 10, 1],
+                [12, 11, 1],
+                [9, 12, 1],
+                [7, 13, 1],
+                [4, 14, 2],
+            ];
+            var B = [
+                [9, 0, 1],
+                [12, 1, 1],
+                [14, 2, 1],
+                [12, 3, 1],
+                [9, 4, 1],
+                [7, 5, 1],
+                [4, 6, 2],
+                [7, 8, 1],
+                [4, 9, 1],
+                [2, 10, 1],
+                [4, 11, 1],
+                [2, 12, 1],
+                [0, 13, 1],
+                [0, 14, 2],
+            ];
+            var mel = {};
+            A.concat(
+                B.map(function (x) {
+                    return [x[0], x[1] + 16, x[2]];
+                }),
+            ).forEach(function (x) {
+                var key = Math.round(x[1] * 2);
+                (mel[key] = mel[key] || []).push(x);
+            });
+            var tanP = [SA * 0.75, SA, SA, SA / 2];
+
+            function playStep(s, t) {
+                var half = s % 2,
+                    beat = s >> 1,
+                    m = beat % 8,
+                    key = (beat % 32) * 2 + half;
+                if (!half) {
+                    // dholak: keherwa (Dha Ge Na Ti Na Ka Dhi Na)
+                    if (m === 0) {
+                        bass(t, 0.55);
+                        tap(t, 330, 0.35, 0.12);
+                    } else if (m === 1) bass(t, 0.3);
+                    else if (m === 2 || m === 4 || m === 7)
+                        tap(t, 300, 0.4, 0.1);
+                    else if (m === 3) tap(t, 420, 0.22, 0.07);
+                    else if (m === 5) {
+                        bass(t, 0.22);
+                        tap(t, 520, 0.18, 0.05);
+                    } else if (m === 6) {
+                        bass(t, 0.5);
+                        tap(t, 330, 0.35, 0.12);
+                    }
+                    if (m === 0 || m === 4) manjira(t, m === 0 ? 0.05 : 0.035);
+                    if (m === 0 && beat % 16 === 0) ghanti(t, 0.07);
+                    if (m % 2 === 0) tanpura(t, tanP[(m / 2) % 4]);
+                } else {
+                    shaker(t, 0.02);
+                }
+                (mel[key] || []).forEach(function (x) {
+                    harmonium(
+                        t,
+                        SA * 2 * Math.pow(2, x[0] / 12),
+                        x[2] * BEAT * 0.95,
+                    );
+                });
+            }
+
+            var step = 0,
+                next = c.currentTime + 0.25;
+            function schedule() {
+                while (next < c.currentTime + 0.35) {
+                    playStep(step, next);
+                    next += BEAT / 2;
+                    step++;
+                }
+            }
+            schedule();
+            synth = { c: c, iv: setInterval(schedule, 100) };
+        }
+        function startMusic() {
+            // cover tap (user gesture) me call hota hai, isliye autoplay allowed
+            started = true;
+            mBtn.hidden = false;
+            updateBtn();
+            if (!wantMusic) return;
+            if (fileOk) playFile();
+            else startSynth();
+        }
+        function pauseAll() {
+            bgm.pause();
+            if (synth) synth.c.suspend();
+        }
+        function resumeAll() {
+            if (!started || !wantMusic) return;
+            if (synth) synth.c.resume();
+            else if (fileOk) playFile();
+            else startSynth();
+        }
+        mBtn.addEventListener("click", function () {
+            wantMusic = !wantMusic;
+            try {
+                localStorage.setItem("mandavoMusic", wantMusic ? "on" : "off");
+            } catch (e) {}
+            updateBtn();
+            if (wantMusic) resumeAll();
+            else pauseAll();
+        });
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) pauseAll();
+            else resumeAll();
+        });
+
+        /* ── cover open ── */
+        function openCover() {
+            if (cover.classList.contains("open")) return;
+            cover.classList.add("open");
+            body.classList.add("opened");
+            window.scrollTo(0, 0);
+            setTimeout(function () {
+                body.classList.remove("locked");
+            }, 1100);
+            setTimeout(function () {
+                cover.style.display = "none";
+            }, 2300);
+            setTimeout(startEmbers, 800);
+            startMusic();
+        }
+        btn.addEventListener("click", openCover);
+    })();
+</script>
